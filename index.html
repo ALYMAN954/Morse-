@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Morse Fall Scale Trainer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: single-column clinical workbook. Top bar, then one screen at a time: sign-in, scenario hub, case + 6-item form, paper-style report. */
+:root{
+  --bg:#edf2f3; --surface:#ffffff; --ink:#14262d; --muted:#566b74; --line:#d2dde1;
+  --accent:#0e6a65; --accent-ink:#ffffff; --accent-soft:#dcefed;
+  --good:#1d7a4b; --good-soft:#dff3e8; --warn:#9a6200; --warn-soft:#fbefd2; --bad:#b3261e; --bad-soft:#fbe1de;
+  --sv-wall:#e6eef0; --sv-floor:#c9d6da; --sv-win:#cfe6f3; --sv-line:#7f949c; --sv-skin:#e0b48c; --sv-gown:#7fb3c8; --sv-leg:#6f8f9c;
+  --sv-scrub:#1f8a7f; --sv-metal:#8fa2aa; --sv-bed:#f7fafb; --sv-warn:#f2b705; --sv-bubble:#ffffff; --sv-ink:#14262d; --sv-iv:#4aa3d8; --sv-hair:#4a3b32; --sv-pants:#8aa5b0; --sv-slip:#6b7f87; --sv-wood:#b98d62; --sv-blanket:#9ec9d6; --sv-shadow:rgba(20,38,45,.16); --sv-rail:#b5c4ca; --sv-wall2:#dbe6e9; --sv-curtain:#e9c9a8; --sv-scrub2:#17695f;
+  --f-body:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif; --f-ar:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1a1e; --surface:#16262c; --ink:#e5eef0; --muted:#93a9b1; --line:#294048;
+  --accent:#4fc3b8; --accent-ink:#06231f; --accent-soft:#17383a;
+  --good:#6fd4a0; --good-soft:#143427; --warn:#f0b955; --warn-soft:#3a2d12; --bad:#ff8a80; --bad-soft:#3d1c1a;
+  --sv-wall:#1d3036; --sv-floor:#142428; --sv-win:#27485a; --sv-line:#5d7a84; --sv-skin:#c99a74; --sv-gown:#4d8aa3; --sv-leg:#3f6a7a;
+  --sv-scrub:#27a89a; --sv-metal:#6f858d; --sv-bed:#2b434b; --sv-bubble:#223b43; --sv-ink:#e5eef0; --sv-hair:#8b7868; --sv-pants:#4d6975; --sv-slip:#8aa0a8; --sv-wood:#8a6a4a; --sv-blanket:#3d6f80; --sv-shadow:rgba(0,0,0,.38); --sv-rail:#4b6770; --sv-wall2:#183037; --sv-curtain:#7d5a45; --sv-scrub2:#1d7d72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1a1e; --surface:#16262c; --ink:#e5eef0; --muted:#93a9b1; --line:#294048;
+  --accent:#4fc3b8; --accent-ink:#06231f; --accent-soft:#17383a;
+  --good:#6fd4a0; --good-soft:#143427; --warn:#f0b955; --warn-soft:#3a2d12; --bad:#ff8a80; --bad-soft:#3d1c1a;
+  --sv-wall:#1d3036; --sv-floor:#142428; --sv-win:#27485a; --sv-line:#5d7a84; --sv-skin:#c99a74; --sv-gown:#4d8aa3; --sv-leg:#3f6a7a;
+  --sv-scrub:#27a89a; --sv-metal:#6f858d; --sv-bed:#2b434b; --sv-bubble:#223b43; --sv-ink:#e5eef0; --sv-hair:#8b7868; --sv-pants:#4d6975; --sv-slip:#8aa0a8; --sv-wood:#8a6a4a; --sv-blanket:#3d6f80; --sv-shadow:rgba(0,0,0,.38); --sv-rail:#4b6770; --sv-wall2:#183037; --sv-curtain:#7d5a45; --sv-scrub2:#1d7d72; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+#app[dir="rtl"]{font-family:var(--f-ar)}
+.wrap{max-width:880px;margin-inline:auto}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.mark{width:38px;height:38px;border-radius:10px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:15px;flex:none}
+.brand h1{font-size:18px;line-height:1.2;margin:0;font-weight:700}
+.brand small{display:block;color:var(--muted);font-size:12.5px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
+.lang button{border:0;background:none;padding:7px 14px;cursor:pointer;font-weight:600;font-size:14px}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;margin-block-end:16px}
+h2{font-size:22px;margin:0 0 6px;line-height:1.25}
+h3{font-size:16px;margin:0 0 8px}
+.muted{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+label.f{display:block;font-weight:600;font-size:14px;margin-block-end:5px}
+input[type=text]{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);min-width:0}
+input[type=text]:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.btn{border:0;border-radius:10px;padding:12px 20px;font-weight:600;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lvl{border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:14px;text-align:start;cursor:pointer;display:block;width:100%}
+.lvl[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.lvl b{display:block;font-size:17px}
+.lvl span{font-size:13.5px;color:var(--muted)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px}
+.who{display:flex;gap:8px;flex-wrap:wrap;font-size:13.5px}
+.who span{background:var(--accent-soft);color:var(--ink);padding:4px 10px;border-radius:999px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-block:6px 14px}
+.tabs button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:600}
+.tabs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-block:8px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;text-align:start;padding:0;display:block;width:100%}
+.card:hover{border-color:var(--accent)}
+.card .meta{padding:12px 14px}
+.card .meta b{display:block;font-size:15px;line-height:1.3}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;margin-block-start:6px}
+.tag.todo{background:var(--bg);color:var(--muted)}
+.tag.ok{background:var(--good-soft);color:var(--good)}
+.tag.mid{background:var(--warn-soft);color:var(--warn)}
+.tag.no{background:var(--bad-soft);color:var(--bad)}
+svg.sv{display:block;width:100%;height:auto}
+.hero svg.sv{border-radius:12px;border:1px solid var(--line)}
+.item{border-top:1px solid var(--line);padding-block:16px}
+.item h3 .n{font-family:var(--f-mono);color:var(--accent);margin-inline-end:6px}
+.item p.h{margin:0 0 10px;font-size:13.5px;color:var(--muted)}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;margin-block-end:8px;cursor:pointer;background:var(--surface)}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opt input{margin-block-start:4px;accent-color:var(--accent);flex:none}
+.opt .pt{margin-inline-start:auto;font-family:var(--f-mono);font-size:13px;color:var(--muted);flex:none}
+.locked .opt{cursor:default}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.fb{display:flex;gap:6px;flex-wrap:wrap;font-size:13.5px;margin-block-start:4px}
+.badge{font-weight:700}
+.badge.ok{color:var(--good)} .badge.no{color:var(--bad)}
+.result{border-radius:12px;padding:16px;margin-block:12px;border:1.5px solid var(--line)}
+.result .big{font-family:var(--f-mono);font-size:30px;font-weight:600;line-height:1}
+.risk-0{background:var(--good-soft)} .risk-1{background:var(--warn-soft)} .risk-2{background:var(--bad-soft)}
+.note{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:14.5px}
+ul.act{margin:8px 0 0;padding-inline-start:20px}
+.rat{border-top:1px solid var(--line);padding-block:9px;font-size:14.5px}.pt2{font-family:var(--f-mono);color:var(--accent);font-size:13px}
+
+.form{padding-block:10px 20px}
+.frow{display:grid;grid-template-columns:minmax(160px,1fr) 2.2fr;gap:8px 18px;padding-block:13px;border-top:1px solid var(--line);align-items:start}
+.frow:first-child{border-top:0}
+.flabel{font-weight:700;font-size:14.5px;line-height:1.35}
+.req{color:var(--bad);margin-inline-end:3px}
+.fopts{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
+.chk{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:14.5px;padding:3px 8px;border-radius:8px;margin-inline-start:-8px}
+.chk input{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:2px solid var(--muted);border-radius:4px;background:var(--surface);margin:0;flex:none;display:grid;place-content:center;cursor:pointer}
+.chk input:checked{background:var(--accent);border-color:var(--accent)}
+.chk input:checked::after{content:"✓";color:var(--accent-ink);font-size:14px;line-height:1;font-weight:700}
+.locked .chk,.locked .chk input{cursor:default}
+.chk.right{background:var(--good-soft);color:var(--good);font-weight:600}
+.chk.wrong{background:var(--bad-soft);color:var(--bad)}
+details.gl{margin-block-start:4px;font-weight:400}
+details.gl summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:600}
+details.gl p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:10px 28px;border-top:1px solid var(--line);margin-block-start:8px;padding-block-start:14px;font-size:14px}
+ol.act{margin:8px 0 0;padding-inline-start:22px}
+@media (max-width:640px){.frow{grid-template-columns:1fr}.legend{grid-template-columns:1fr}}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:start;vertical-align:top}.tbl th{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.foot{text-align:center;color:var(--muted);font-size:13px;padding-block:20px 6px}
+.paper-wrap{overflow-x:auto}
+/* The report is a printed sheet: fixed light colors so the PDF matches the screen in any theme. */
+.paper{background:#fff;color:#14262d;width:100%;max-width:794px;margin-inline:auto;padding:36px 40px;border:1px solid #cfd9dd;font-family:var(--f-body)}
+.paper[dir="rtl"]{font-family:var(--f-ar)}
+.paper h2{font-size:24px;margin:0}
+.paper .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:3px solid #0e6a65;padding-bottom:12px;margin-bottom:16px}
+.paper .hd small{color:#566b74;display:block}
+.paper dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 16px}
+.paper dt{color:#566b74;font-weight:600} .paper dd{margin:0;font-weight:600}
+.paper table{width:100%;border-collapse:collapse;font-size:13.5px;margin-block:10px}
+.paper th{background:#e8f0f1;text-align:start;padding:7px 8px;border:1px solid #cfd9dd}
+.paper td{padding:7px 8px;border:1px solid #cfd9dd;vertical-align:top}
+.paper .num{font-family:var(--f-mono)}
+.paper .verdict{border:2px solid #0e6a65;border-radius:10px;padding:12px 16px;margin-block:14px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.paper .verdict.fail{border-color:#b3261e}
+.paper .verdict b{font-size:20px}
+.paper .small{font-size:12px;color:#566b74}
+.paper .sig{margin-top:18px;border-top:1px solid #cfd9dd;padding-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#566b74}
+@media (max-width:560px){.paper{padding:22px 16px}.paper table{font-size:12px}}
+@media (prefers-reduced-motion:no-preference){.panel{animation:in .25s ease}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+
+<style>[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<div id="app" dir="ltr"><div class="wrap" id="root"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+"use strict";
+/* ---------- data: hospital Morse Fall Scale form ---------- */
+const ITEMS=[
+{q:['History of falling; immediate or within 3 months','تاريخ السقوط؛ فوري أو خلال 3 أشهر'],
+ g:['Scored 25 if the patient has fallen during the present hospital admission, or has an immediate history of physiological falls (for example seizures or an impaired gait) before admission. A patient who falls for the first time is immediately scored +25.','تُعطى 25 درجة إذا سقط المريض خلال الإقامة الحالية، أو كان لديه تاريخ سقوط فسيولوجي فوري (مثل التشنجات أو اضطراب المشي) قبل الدخول. وإذا سقط المريض لأول مرة تزيد درجته فورًا بمقدار 25.'],
+ o:[['No','لا'],['Yes','نعم']],p:[0,25],disp:[1,0]},
+{q:['Secondary diagnosis','تشخيص ثانوي'],
+ g:['15 if more than one medical diagnosis is listed on the patient chart; if not, 0.','15 إذا كان هناك أكثر من تشخيص طبي مسجل في ملف المريض، وإلا 0.'],
+ o:[['No','لا'],['Yes','نعم']],p:[0,15],disp:[1,0]},
+{q:['Ambulatory aid','وسيلة المشي'],
+ g:['0 if the patient walks without a walking aid (even if assisted by a nurse), uses a wheelchair, or is on bed rest and does not get out of bed at all. 15 if the patient uses crutches, a cane or a walker. 30 if the patient ambulates clutching onto furniture for support.','0 إذا كان المريض يمشي دون وسيلة مساعدة (حتى لو ساعدته الممرضة)، أو يستخدم كرسيًا متحركًا، أو على راحة بالفراش ولا يغادره إطلاقًا. 15 إذا استخدم عكازات أو عصا أو مشاية. 30 إذا كان يمشي متمسكًا بالأثاث للدعم.'],
+ o:[['Unassisted','دون مساعدة'],['Bed rest / Nurse assist','راحة بالفراش / مساعدة التمريض'],['Crutches / Cane / Walker','عكازات / عصا / مشاية'],['Furniture','الأثاث']],p:[0,0,15,30]},
+{q:['IV / Heparin lock','قسطرة وريدية / Heparin lock'],
+ g:['20 if the patient has an intravenous apparatus or a heparin lock inserted; if not, 0.','20 إذا كان لدى المريض جهاز وريدي أو heparin lock مثبت، وإلا 0.'],
+ o:[['No','لا'],['Yes','نعم']],p:[0,20],disp:[1,0]},
+{q:['Gait / Transferring','طريقة المشي / الانتقال'],
+ g:['Normal (0): head erect, arms swinging freely at the sides, striding without hesitation. Weak (10): stooped but able to lift the head while walking without losing balance; steps are short and the patient may shuffle. Impaired (20): difficulty rising from the chair, pushing on the arms or bouncing to rise; head down, watching the ground; poor balance, so the patient grasps furniture, a support person or a walking aid and cannot walk without this assistance.','طبيعية (0): رأس مرفوع، ذراعان تتحركان بحرية، خطوات دون تردد. ضعيفة (10): انحناء مع القدرة على رفع الرأس أثناء المشي دون فقد التوازن؛ خطوات قصيرة وقد يجرّ قدميه. مختلة (20): صعوبة في النهوض من الكرسي بالدفع على الذراعين أو بالارتداد؛ الرأس منخفض والنظر إلى الأرض؛ توازن ضعيف فيتمسك بالأثاث أو بشخص داعم أو بوسيلة مشي ولا يستطيع المشي بدونها.'],
+ o:[['Normal / Bed rest / Immobile','طبيعية / راحة بالفراش / غير متحرك'],['Weak','ضعيفة'],['Impaired','مختلة']],p:[0,10,20]},
+{q:['Mental status','الحالة الذهنية'],
+ g:['Ask the patient: "Are you able to go to the bathroom alone or do you need assistance?" If the reply is consistent with the ambulatory order on the Kardex, the patient is rated normal: 0. If the reply is not consistent with the nursing orders or is unrealistic, the patient overestimates his or her ability and forgets limitations: 15.','اسأل المريض: «هل تستطيع الذهاب إلى الحمام وحدك أم تحتاج إلى مساعدة؟» إذا كان رده متفقًا مع أمر المشي في الكاردكس فهو طبيعي: 0. وإذا لم يتفق مع أوامر التمريض أو كان غير واقعي فهو يبالغ في تقدير قدرته وينسى محدوداته: 15.'],
+ o:[['Oriented to own ability','مدرك لقدرته'],['Forgets limitations','ينسى محدوداته']],p:[0,15]}
+];
+const RISK=[
+ {r:[0,24],n:['Low risk','خطر منخفض'],c:'ok'},
+ {r:[25,50],n:['Moderate risk','خطر متوسط'],c:'mid'},
+ {r:[51,125],n:['High risk','خطر مرتفع'],c:'no'}];
+const ACT=[
+ [['Basic safety: call light in reach, bed low, clear walkway.','سلامة أساسية: جرس النداء في المتناول، السرير منخفض، ممر خالٍ.'],['Orient the patient to the room and bathroom.','تعريف المريض بالغرفة والحمام.'],['Reassess on any change in condition.','إعادة التقييم عند أي تغير في الحالة.']],
+ [['Standard fall precautions and non-slip footwear.','احتياطات السقوط القياسية وحذاء غير قابل للانزلاق.'],['Teach patient and family to call before getting up.','تثقيف المريض والأسرة بطلب المساعدة قبل النهوض.'],['Check IV lines and tubing before mobilizing.','فحص الخطوط الوريدية والأنابيب قبل التحريك.'],['Reassess every shift.','إعادة التقييم كل وردية.']],
+ [['High-risk fall precautions: wristband and door sign per policy.','احتياطات السقوط العالية: سوار وإشارة على الباب حسب السياسة.'],['Bed alarm on, bed in lowest position.','تفعيل منبه السرير وأخفض وضع للسرير.'],['Scheduled toileting and hourly rounding.','جدول لدخول الحمام وجولات كل ساعة.'],['Stay with the patient during transfers and walking.','البقاء مع المريض أثناء الانتقال والمشي.'],['Review medications with the pharmacist; reassess daily.','مراجعة الأدوية مع الصيدلي؛ إعادة التقييم يوميًا.']]];
+
+const SC=[
+{id:'e1',lv:'easy',ti:['Day 1 after appendectomy','اليوم الأول بعد استئصال الزائدة'],
+ st:['Mr. A, 45, is on day 1 after a laparoscopic appendectomy. The chart lists one diagnosis: acute appendicitis. He walks to the bathroom alone with a steady gait and no aid. His IV was removed this morning. He has never fallen. He is alert and follows instructions.','السيد أ، 45 سنة، في اليوم الأول بعد استئصال الزائدة بالمنظار. السجل يذكر تشخيصًا واحدًا: التهاب الزائدة الحاد. يمشي إلى الحمام وحده بخطوات ثابتة ودون وسيلة مساعدة. تم سحب القسطرة الوريدية هذا الصباح. لم يسقط من قبل. واعٍ ويتبع التعليمات.'],
+ a:[0,0,0,0,0,0],nt:['When every item scores 0, the total is 0: low risk. Basic safety care is enough.','عندما تكون كل البنود صفرًا يكون المجموع صفرًا: خطر منخفض. تكفي إجراءات السلامة الأساسية.'],
+ sc:{pose:'stand',props:['bed','nurse']}},
+{id:'e2',lv:'easy',ti:['Heart failure with a walker','قصور القلب مع مشاية'],
+ st:['Mrs. B, 78, is admitted with heart failure. The chart also lists hypertension and type 2 diabetes. Her daughter says she fell in the bathroom last week during a dizzy spell. She walks slowly with a walker, taking short weak steps. A saline lock is in her right forearm. She knows she needs help.','السيدة ب، 78 سنة، دخلت بسبب قصور القلب. السجل يذكر أيضًا ارتفاع ضغط الدم والسكري من النوع الثاني. تقول ابنتها إنها سقطت في الحمام الأسبوع الماضي أثناء نوبة دوخة. تمشي ببطء بمشاية بخطوات قصيرة وضعيفة. يوجد saline lock في الساعد الأيمن. وهي تدرك أنها تحتاج إلى مساعدة.'],
+ a:[1,1,2,1,1,0],nt:['A walker scores 15. A saline lock counts as IV access even when no fluid is running.','المشاية تعطي 15 درجة. وsaline lock يُحسب كقسطرة وريدية حتى لو لم يكن هناك محلول جارٍ.'],
+ sc:{pose:'stand',props:['walker','lock','fallbubble']}},
+{id:'e3',lv:'easy',ti:['Pneumonia on bed rest','التهاب رئوي مع راحة بالفراش'],
+ st:['Mr. C, 60, has pneumonia and COPD in his chart. He is on strict bed rest with IV fluids running. He has never fallen. He is oriented and understands that he must stay in bed.','السيد ج، 60 سنة، لديه التهاب رئوي وانسداد رئوي مزمن في السجل. هو على راحة تامة بالفراش مع محلول وريدي جارٍ. لم يسقط من قبل. مدرك ويفهم أنه يجب أن يبقى في السرير.'],
+ a:[0,1,1,1,0,0],nt:['Bed rest scores 0 for both ambulatory aid and gait.','الراحة بالفراش تعطي صفرًا لوسيلة المشي ولطريقة المشي.'],
+ sc:{pose:'lie',props:['iv']}},
+{id:'e4',lv:'easy',ti:['Cellulitis with a saline lock','التهاب النسيج الخلوي مع saline lock'],
+ st:['Ms. D, 55, is admitted for cellulitis of the leg. It is her only diagnosis. She has a saline lock for IV antibiotics. She has not fallen. She walks without aid, with a normal gait, and is oriented.','الآنسة د، 55 سنة، دخلت بسبب التهاب النسيج الخلوي في الساق وهو تشخيصها الوحيد. لديها saline lock لإعطاء المضاد الحيوي. لم تسقط. تمشي دون وسيلة مساعدة بمشية طبيعية وهي مدركة.'],
+ a:[0,0,0,1,0,0],nt:['Only the IV access scores here: 20, low risk. Do not add points for the leg problem itself.','بند القسطرة الوريدية فقط يحصل على درجة: 20، خطر منخفض. لا تضف درجات لمشكلة الساق نفسها.'],
+ sc:{pose:'stand',props:['lock','nurse']}},
+
+{id:'m1',lv:'medium',ti:['Hip fracture repair, day 1','إصلاح كسر الورك، اليوم الأول'],
+ st:['Mrs. E, 82, is on day 1 after hip fracture repair. The chart lists hip fracture, osteoporosis and hypertension. She fell at home two months ago because her legs gave way. Today she stands with a walker, pushes up with her arms, and is unsteady. A PCA pump runs through her IV. She asks for help every time.','السيدة هـ، 82 سنة، في اليوم الأول بعد إصلاح كسر الورك. السجل يذكر كسر الورك وهشاشة العظام وارتفاع الضغط. سقطت في المنزل قبل شهرين بسبب ضعف في ساقيها. اليوم تقف بمشاية، وتدفع نفسها بذراعيها، وهي غير ثابتة. مضخة PCA موصولة بالقسطرة الوريدية. وتطلب المساعدة في كل مرة.'],
+ a:[1,1,2,1,2,0],nt:['A fall two months ago is inside the 3-month window. Struggling to rise and being unsteady is impaired gait: 20.','السقوط قبل شهرين ضمن فترة الثلاثة أشهر. صعوبة النهوض وعدم الثبات يعني مشية مختلة: 20 درجة.'],
+ sc:{pose:'stand',props:['walker','iv','nurse','fallbubble']}},
+{id:'m2',lv:'medium',ti:['Holding on to the furniture','التمسك بالأثاث'],
+ st:['Mr. F, 68, has heart failure and diabetes. His last fall was eight months ago. He has no cane or walker. He moves by holding the bed rail, the bedside table and the wall. He rises slowly from the chair and is unsteady. IV furosemide is running. He says: "I am fine, I will go to the toilet myself", although the nursing order says to call for help.','السيد ف، 68 سنة، لديه قصور القلب والسكري. آخر سقوط له كان قبل ثمانية أشهر. ليس لديه عصا أو مشاية. يتنقل ممسكًا بحاجز السرير والطاولة الجانبية والحائط. ينهض ببطء من الكرسي وهو غير ثابت. يُعطى فوروسيمايد وريديًا. يقول: «أنا بخير، سأذهب إلى الحمام بنفسي» رغم أن أمر التمريض هو أن ينادي طلبًا للمساعدة.'],
+ a:[0,1,3,1,2,1],nt:['Eight months ago is outside the window. Holding furniture is 30, the highest aid score. Refusing to call for help shows he forgets his limits.','ثمانية أشهر خارج الفترة. التمسك بالأثاث 30 درجة وهي أعلى درجة لوسيلة المشي. ورفضه طلب المساعدة يدل على أنه ينسى محدوداته.'],
+ sc:{pose:'stand',props:['furn','iv','bubbleX']}},
+{id:'m3',lv:'medium',ti:['Wheelchair after bariatric surgery','كرسي متحرك بعد جراحة السمنة'],
+ st:['Ms. G, 50, is on day 2 after gastric sleeve surgery. Morbid obesity is the only active diagnosis in the chart. She moves by wheelchair and a nurse assists every transfer. IV fluids are running. She has never fallen and is oriented.','الآنسة غ، 50 سنة، في اليوم الثاني بعد عملية تكميم المعدة. السمنة المفرطة هي التشخيص الفعّال الوحيد في السجل. تتنقل بكرسي متحرك وتساعدها الممرضة في كل انتقال. المحلول الوريدي جارٍ. لم تسقط من قبل وهي مدركة.'],
+ a:[0,0,1,1,0,0],nt:['A wheelchair with nurse assistance scores 0 for aid and 0 for gait. It is not "furniture".','الكرسي المتحرك مع مساعدة التمريض يعطي صفرًا لوسيلة المشي وصفرًا لطريقة المشي. وهو ليس «أثاثًا».'],
+ sc:{pose:'wc',props:['iv','nurse']}},
+{id:'m4',lv:'medium',ti:['Fall in the emergency room','سقوط في الطوارئ'],
+ st:['Mr. H, 74, has pneumonia and COPD. He slipped on a wet floor in the ER last night on the way to the toilet. He now walks without aid with a steady gait. IV antibiotics are running. He is oriented and careful.','السيد ح، 74 سنة، لديه التهاب رئوي وانسداد رئوي مزمن. انزلق على أرضية مبللة في الطوارئ الليلة الماضية وهو في طريقه إلى الحمام. يمشي الآن دون وسيلة مساعدة بمشية ثابتة. المضاد الحيوي يُعطى وريديًا. هو مدرك وحذر.'],
+ a:[1,1,0,1,0,0],nt:['A fall during the current episode of care counts as a history of falling: 25.','السقوط أثناء نفس فترة الرعاية الحالية يُحسب كتاريخ سقوط: 25 درجة.'],
+ sc:{pose:'stand',props:['iv','wet','fallbubble']}},
+
+{id:'h1',lv:'hard',ti:['Stroke with confusion','سكتة دماغية مع ارتباك'],
+ st:['Mr. I, 88, has an ischemic stroke, atrial fibrillation and diabetes. He fell on the ward at 06:00 today. He has left-sided weakness, uses a cane in his right hand, drags his left foot and loses balance when turning. A heparin infusion runs through his IV. He is confused and keeps trying to leave the bed "to go to work".','السيد ع، 88 سنة، لديه سكتة دماغية إقفارية ورجفان أذيني وسكري. سقط في القسم الساعة 06:00 اليوم. لديه ضعف في الجانب الأيسر، ويستخدم عصا في يده اليمنى، ويجر قدمه اليسرى ويفقد توازنه عند الالتفاف. يُعطى هيبارين عبر القسطرة الوريدية. هو مرتبك ويحاول مرارًا مغادرة السرير «ليذهب إلى العمل».'],
+ a:[1,1,2,1,2,1],nt:['Every positive answer applies: 110 of 125. Confusion about his limits is the key driver of this risk.','كل الإجابات الإيجابية تنطبق: 110 من 125. الارتباك بشأن محدوداته هو المحرك الرئيسي لهذا الخطر.'],
+ sc:{pose:'stand',props:['cane','iv','bubbleQ','fallbubble']}},
+{id:'h2',lv:'hard',ti:['One point below the cut-off','قبل حد الخطر المرتفع بدرجة واحدة'],
+ st:['Mrs. J, 66, is admitted with cellulitis. Her chart also lists type 2 diabetes. She fell at home six weeks ago when her legs gave way. Her IV antibiotics are finished and the line was removed. She walks only with a nurse holding her arm. Her steps are short and weak but steady. She is oriented and understands her limits.','السيدة ي، 66 سنة، دخلت بسبب التهاب النسيج الخلوي. السجل يذكر أيضًا السكري من النوع الثاني. سقطت في المنزل قبل ستة أسابيع عندما خانتها ساقاها. انتهى المضاد الحيوي الوريدي وتم سحب القسطرة. تمشي فقط والممرضة تمسك بذراعها. خطواتها قصيرة وضعيفة لكنها ثابتة. هي مدركة وتفهم حدود قدرتها.'],
+ a:[1,1,1,0,1,0],nt:['The total is 50. High risk starts at 51, so this patient is moderate risk by one point. Nurse assist and the removed IV both score 0.','المجموع 50. الخطر المرتفع يبدأ من 51 فهذه المريضة خطر متوسط بفارق درجة واحدة. مساعدة التمريض والقسطرة المسحوبة تعطيان صفرًا.'],
+ sc:{pose:'stand',props:['nurse','fallbubble']}},
+{id:'h3',lv:'hard',ti:['IV removed this morning','سحب القسطرة هذا الصباح'],
+ st:['Mrs. K, 62, has COPD, hypertension and osteoarthritis in her chart. She has never fallen. She walks with a cane, taking short weak steps, but she is steady. Her IV was removed at 08:00 and no access remains. She is oriented and follows instructions.','السيدة ك، 62 سنة، لديها انسداد رئوي مزمن وارتفاع ضغط وخشونة مفاصل في السجل. لم تسقط من قبل. تمشي بعصا بخطوات قصيرة وضعيفة لكنها ثابتة. تم سحب القسطرة الوريدية الساعة 08:00 ولا توجد أي قسطرة الآن. هي مدركة وتتبع التعليمات.'],
+ a:[0,1,2,0,1,0],nt:['Score only what is present now. No IV access means 0 for item 4. Total 40 is moderate risk.','احسب فقط ما هو موجود الآن. لا توجد قسطرة وريدية فالبند الرابع صفر. المجموع 40 خطر متوسط.'],
+ sc:{pose:'stand',props:['cane']}},
+{id:'h4',lv:'hard',ti:['Night wandering with dementia','التجوال الليلي مع الخرف'],
+ st:['Mrs. L, 79, has advanced dementia, hypertension and a urinary infection. She fell in her nursing home two days ago. At night she walks the corridor without any aid, with a normal steady gait. She does not realise she is in hospital and looks for her home. IV antibiotics are running.','السيدة ل، 79 سنة، لديها خرف متقدم وارتفاع ضغط والتهاب بولي. سقطت في دار الرعاية قبل يومين. في الليل تمشي في الممر دون أي وسيلة مساعدة بمشية طبيعية وثابتة. لا تدرك أنها في المستشفى وتبحث عن بيتها. المضاد الحيوي يُعطى وريديًا.'],
+ a:[1,1,0,1,0,1],nt:['A steady gait scores 0, yet the total is 75. Mental status adds 15 and she needs constant supervision.','المشية الثابتة تعطي صفرًا ومع ذلك المجموع 75. الحالة الذهنية تضيف 15 وتحتاج إلى إشراف مستمر.'],
+ sc:{pose:'stand',props:['iv','bubbleQ','fallbubble','wet']}}
+];
+
+const TXT={
+ title:['Morse Fall Scale Trainer','مدرّب مقياس موريس للسقوط'],
+ sub:['Medical-surgical ward competency simulation','محاكاة كفاءة لأقسام الباطنة والجراحة'],
+ name:['Full name','الاسم الكامل'],hid:['Employee ID','الرقم الوظيفي'],unit:['Unit / ward','الوحدة / القسم'],
+ unitPh:['e.g. Medical-Surgical Ward 5A','مثال: جناح الباطنة والجراحة 5A'],
+ start:['Start training','ابدأ التدريب'],need:['Enter your name, employee ID and unit to begin.','أدخل الاسم والرقم الوظيفي والوحدة للبدء.'],
+ iTitle:['Why accurate fall-risk scoring matters','لماذا يهم تقييم خطر السقوط بدقة'],
+ iP:['Falls are one of the most common safety events on a medical-surgical ward, and many of them can be prevented. The Morse Fall Scale (MFS) is a rapid and simple method of assessing an adult patient\'s likelihood of falling. It has six items and a score from 0 to 125.','السقوط من أكثر حوادث السلامة شيوعًا في أقسام الباطنة والجراحة، وكثير منها يمكن منعه. مقياس موريس للسقوط (MFS) طريقة سريعة وبسيطة لتقدير احتمال سقوط المريض البالغ. يتكون من ستة بنود ومجموع من 0 إلى 125.'],
+ iGain:['What a correct score gives your patient','ماذا تعطي الدرجة الصحيحة لمريضك'],
+ iHow:['How this training works','كيف يعمل هذا التدريب'],
+ iCal:['The Morse Fall Scale should be calibrated for each healthcare setting or unit, so cut-off scores may differ between an acute care hospital, a nursing home and a rehabilitation facility. This training uses the cut-offs of our hospital form.','يجب معايرة مقياس موريس لكل بيئة رعاية أو وحدة، لذلك قد تختلف درجات الفصل بين مستشفى الرعاية الحادة ودار الرعاية ومركز التأهيل. يستخدم هذا التدريب درجات الفصل في نموذج مستشفانا.'],
+ todo:['Not started','لم يبدأ'],back:['Back to scenarios','العودة إلى السيناريوهات'],
+ submit:['Submit answers','إرسال الإجابات'],answerAll:['Answer all 6 items to submit.','أجب عن البنود الستة لتتمكن من الإرسال.'],
+ yourTotal:['Your total','مجموعك'],trueTotal:['Correct total','المجموع الصحيح'],
+ acts:['Recommended actions','الإجراءات الموصى بها'],items:['items correct','بنود صحيحة'],
+ finish:['Finish and get my results','إنهاء والحصول على نتائجي'],
+ report:['Competency result','نتيجة الكفاءة'],xlsBtn:['Save results as Excel','حفظ النتائج كملف Excel'],pdfBtn:['Save as PDF','حفظ كملف PDF'],
+ date:['Date','التاريخ'],scen:['Scenario','السيناريو'],yS:['Your score','درجتك'],cS:['Correct score','الدرجة الصحيحة'],match:['Risk level','مستوى الخطر'],
+ overall:['Overall accuracy','الدقة الإجمالية'],comp:['PASS','ناجح'],rev:['NOT YET PASSED','لم تجتز بعد'],
+ passTxt:['Pass mark: 80% of items correct across at least 3 scenarios.','حد النجاح: 80% من البنود صحيحة في 3 سيناريوهات على الأقل.'],
+ moreTxt:['You have not reached 80% yet. Go back and complete more cases; new ones are unlimited.','لم تصل إلى 80% بعد. ارجع وأكمل حالات أكثر، فالحالات الجديدة غير محدودة.'],
+ guide:['Scoring guide: 0–24 low risk, 25–50 moderate risk, 51 and above high risk.','دليل التفسير: 0–24 خطر منخفض، 25–50 خطر متوسط، 51 فأكثر خطر مرتفع.'],
+ disc:['Training tool. Follow your hospital fall policy for exact cut-off values.','أداة تدريبية. اتبع سياسة السقوط في مستشفاك لتحديد القيم الدقيقة.'],
+ by:['Created by Abdallah Elaydi','إعداد: Abdallah Elaydi'],
+ prep:['Preparing file…','جاري تجهيز الملف…'],saved:['File saved.','تم حفظ الملف.'],declined:['Save was cancelled. You can try again.','تم إلغاء الحفظ. يمكنك المحاولة مرة أخرى.'],
+ noDl:['Saving files is not available in this view. Open the page in the Claude app or website.','حفظ الملفات غير متاح في هذا العرض. افتح الصفحة في تطبيق Claude أو موقعه.'],
+ err:['The file could not be created. Please try again.','تعذر إنشاء الملف. حاول مرة أخرى.'],
+ sign:['Staff signature','توقيع الموظف'],lang:['Language','اللغة'],
+ back2:['Back to scenarios','العودة إلى السيناريوهات'],newCase:['New case','حالة جديدة'],newAnother:['Another new case','حالة جديدة أخرى'],rat:['Rationale','التعليل'],
+ reqLv:['Complete at least 3 different scenarios to get your results. You can generate as many new cases as you like.','أكمل 3 سيناريوهات مختلفة على الأقل للحصول على نتائجك. يمكنك توليد عدد غير محدود من الحالات الجديدة.'],
+ prog:['scenarios completed','سيناريوهات مكتملة'],guideline:['Guideline','الإرشادات'],reqNote:['required','مطلوب'],
+ formNote:['The Morse Fall Scale (MFS) is a rapid and simple method of assessing an adult patient\'s likelihood of falling.','مقياس موريس للسقوط (MFS) طريقة سريعة وبسيطة لتقدير احتمال سقوط المريض البالغ.'],
+ result:['Result','النتيجة'],cases:['Scenarios completed','السيناريوهات المكتملة'],yourAns:['Your answer','إجابتك'],corrAns:['Correct answer','الإجابة الصحيحة'],pts:['Points','الدرجة'],ok:['Correct','صحيح'],
+ sSum:['Summary','الملخص'],sSc:['Scenarios','السيناريوهات'],sAn:['Answers','الإجابات'],item:['Item','البند'],
+ admin:['Admin results','نتائج المشرف'],admTitle:['Staff results (visible only to you)','نتائج الموظفين (ظاهرة لك فقط)'],search:['Search name, ID or unit','ابحث بالاسم أو الرقم أو الوحدة'],
+ noRows:['No results recorded yet.','لا توجد نتائج مسجلة بعد.'],recOk:['Your result was recorded for your supervisor.','تم تسجيل نتيجتك لدى المشرف.'],
+ recNo:['Your result could not be recorded for your supervisor. Save your Excel file and send it instead.','تعذر تسجيل نتيجتك لدى المشرف. احفظ ملف Excel وأرسله بدلًا من ذلك.'],
+ recWait:['Recording your result…','جاري تسجيل نتيجتك…'],attempts:['Attempts','المحاولات'],last:['Last update','آخر تحديث'],exportAll:['Export all to Excel','تصدير الكل إلى Excel'],
+ loading:['Loading…','جاري التحميل…'],admErr:['Could not load results.','تعذر تحميل النتائج.'],refresh:['Refresh','تحديث'],staff:['Staff','الموظفون']
+};
+const INTRO={
+ gain:[
+  ['The right patient gets the right precautions: bed alarm, scheduled toileting and close supervision go to the patients who need them.','المريض المناسب يحصل على الاحتياطات المناسبة: منبه السرير وجدول الحمام والإشراف القريب لمن يحتاجها.'],
+  ['Fewer injuries, less fear and shorter hospital stays for your patients.','إصابات أقل وخوف أقل وإقامة أقصر لمرضاك.'],
+  ['No missed high-risk patient (under-scoring) and no wasted effort on patients who are safe (over-scoring).','لا يفوتك مريض عالي الخطورة (تقييم أقل من الحقيقة) ولا يضيع الجهد على مرضى آمنين (تقييم أعلى من الحقيقة).'],
+  ['One shared language at handover, so the next nurse knows the risk at once.','لغة موحدة عند التسليم، فتعرف الممرضة التالية الخطر فورًا.']],
+ how:[
+  ['Enter your name, employee ID and unit.','أدخل اسمك ورقمك الوظيفي ووحدتك.'],
+  ['Read each patient case and fill in the six items of the hospital form.','اقرأ كل حالة واملأ البنود الستة في نموذج المستشفى.'],
+  ['After each case, read the short rationale for the correct score. Complete at least 3 different cases.','بعد كل حالة اقرأ التعليل المختصر للدرجة الصحيحة. أكمل 3 حالات مختلفة على الأقل.'],
+  ['Download your results as an Excel file with your pass or fail result.','نزّل نتائجك كملف Excel مع نتيجة النجاح أو عدمه.']]
+};
+
+/* ---------- scene images ---------- */
+function headSvg(x,y,hair,face=true,dir=0){
+  let o=`<circle cx="${x}" cy="${y}" r="13" fill="var(--sv-skin)"/><path d="M${x-14} ${y-1}a14 14 0 0 1 28 0q-5-7-14-7t-14 7z" fill="${hair}"/>`;
+  if(face)o+=`<circle cx="${x-4+dir}" cy="${y+2}" r="1.5" fill="var(--sv-ink)"/><circle cx="${x+4+dir}" cy="${y+2}" r="1.5" fill="var(--sv-ink)"/><path d="M${x-3+dir} ${y+7}q3 2 6 0" stroke="var(--sv-ink)" stroke-width="1.3" fill="none" stroke-linecap="round"/>`;
+  return o;
+}
+function hand(x,y){return `<circle cx="${x}" cy="${y}" r="4.5" fill="var(--sv-skin)"/>`;}
+function arm(x1,y1,x2,y2,col){return `<path d="M${x1} ${y1}L${x2} ${y2}" stroke="${col}" stroke-width="9" stroke-linecap="round"/>${hand(x2,y2)}`;}
+function ivPole(x,base,tx,ty){
+  // pole, bag with fluid, drip chamber and pump; tube ends at (tx,ty)
+  let o=`<path d="M${x-18} ${base}H${x+18}M${x} ${base}V48M${x-9} 48H${x+9}" stroke="var(--sv-metal)" stroke-width="4" stroke-linecap="round" fill="none"/><circle cx="${x-18}" cy="${base+3}" r="3.5" fill="var(--sv-ink)"/><circle cx="${x+18}" cy="${base+3}" r="3.5" fill="var(--sv-ink)"/>`;
+  o+=`<path d="M${x-9} 48V54" stroke="var(--sv-metal)" stroke-width="2"/><rect x="${x-13}" y="54" width="26" height="38" rx="7" fill="var(--sv-bubble)" stroke="var(--sv-iv)" stroke-width="3"/><rect x="${x-10}" y="68" width="20" height="21" rx="5" fill="var(--sv-iv)" opacity=".55"/><path d="M${x-8} 76h6M${x-8} 82h6" stroke="var(--sv-bubble)" stroke-width="1.5"/>`;
+  o+=`<rect x="${x-3}" y="92" width="6" height="12" rx="2" fill="var(--sv-bubble)" stroke="var(--sv-iv)" stroke-width="1.5"/><rect x="${x-10}" y="112" width="20" height="16" rx="3" fill="var(--sv-metal)"/><rect x="${x-7}" y="115" width="14" height="6" rx="1" fill="#3ddc97"/>`;
+  o+=`<path d="M${x} 104V112M${x} 128C${x} ${ty-10} ${tx+25} ${ty+10} ${tx} ${ty}" fill="none" stroke="var(--sv-iv)" stroke-width="2.2"/>`;
+  return o;
+}
+function lockAt(x,y){return `<rect x="${x-9}" y="${y-3}" width="14" height="7" rx="2" fill="var(--sv-bubble)" stroke="var(--sv-line)" stroke-width="1" transform="rotate(-20 ${x} ${y})"/><circle cx="${x}" cy="${y-1}" r="3.5" fill="var(--sv-iv)" stroke="var(--sv-ink)" stroke-width="1"/><path d="M${x} ${y-4}l-4 -9" stroke="var(--sv-iv)" stroke-width="2"/>`;}
+function bubble(x,y,ch){return `<circle cx="${x-20}" cy="${y+34}" r="3" fill="var(--sv-bubble)" stroke="var(--sv-ink)" stroke-width="1.5"/><circle cx="${x-10}" cy="${y+24}" r="5" fill="var(--sv-bubble)" stroke="var(--sv-ink)" stroke-width="1.5"/><ellipse cx="${x}" cy="${y}" rx="24" ry="20" fill="var(--sv-bubble)" stroke="var(--sv-ink)" stroke-width="2"/><text x="${x}" y="${y+9}" text-anchor="middle" font-size="26" font-weight="700" fill="var(--sv-ink)" font-family="sans-serif">${ch}</text>`;}
+function nurseSvg(nx,pose){
+  let o=`<ellipse cx="${nx}" cy="182" rx="22" ry="4" fill="var(--sv-shadow)"/>`;
+  o+=`<path d="M${nx-6} 150L${nx-7} 176M${nx+6} 150L${nx+7} 176" stroke="var(--sv-scrub2)" stroke-width="10" stroke-linecap="round"/><ellipse cx="${nx-8}" cy="179" rx="8" ry="3.5" fill="var(--sv-ink)"/><ellipse cx="${nx+8}" cy="179" rx="8" ry="3.5" fill="var(--sv-ink)"/>`;
+  o+=`<path d="M${nx-15} 108Q${nx-17} 152 ${nx-13} 156H${nx+13}Q${nx+17} 152 ${nx+15} 108Q${nx} 102 ${nx-15} 108Z" fill="var(--sv-scrub)"/><path d="M${nx-5} 105l5 9 5-9" fill="var(--sv-skin)"/>`;
+  o+=`<rect x="${nx+5}" y="120" width="8" height="10" rx="1.5" fill="var(--sv-bubble)" stroke="var(--sv-ink)" stroke-width="1"/>`;
+  o+=`<path d="M${nx+13} 114L${nx+19} 140" stroke="var(--sv-scrub)" stroke-width="9" stroke-linecap="round"/>${hand(nx+19,141)}`;
+  o+=`<path d="M${nx-13} 114L${nx-24} 132" stroke="var(--sv-scrub)" stroke-width="9" stroke-linecap="round"/>${hand(nx-25,134)}<rect x="${nx-38}" y="124" width="17" height="23" rx="2" fill="var(--sv-bubble)" stroke="var(--sv-ink)" stroke-width="1.6" transform="rotate(-8 ${nx-30} 135)"/><path d="M${nx-35} 131h10M${nx-35} 136h10M${nx-35} 141h7" stroke="var(--sv-line)" stroke-width="1.2" transform="rotate(-8 ${nx-30} 135)"/>`;
+  o+=headSvg(nx,92,'var(--sv-hair)')+`<circle cx="${nx}" cy="76" r="5" fill="var(--sv-hair)"/>`;
+  return o;
+}
+function scene(s,label){
+  const pr=s.props,has=k=>pr.includes(k),pose=s.pose;
+  const gown='var(--sv-gown)',pants='var(--sv-pants)',hair='var(--sv-hair)';
+  let o=`<svg class="sv" viewBox="0 0 400 240" role="img" aria-label="${esc(label)}">`;
+  // room
+  o+=`<rect width="400" height="240" fill="var(--sv-wall)"/><rect y="136" width="400" height="46" fill="var(--sv-wall2)"/><path d="M0 138H400" stroke="var(--sv-rail)" stroke-width="5"/>`;
+  o+=`<rect y="182" width="400" height="58" fill="var(--sv-floor)"/><path d="M0 200H400M0 220H400" stroke="var(--sv-wall)" stroke-width="1.5" opacity=".7"/><path d="M60 182L20 240M150 182L135 240M250 182L260 240M340 182L380 240" stroke="var(--sv-wall)" stroke-width="1.2" opacity=".5"/>`;
+  o+=`<rect x="160" y="26" width="76" height="64" rx="3" fill="var(--sv-win)" stroke="var(--sv-line)" stroke-width="3"/><path d="M198 26V90M160 58H236" stroke="var(--sv-line)" stroke-width="2"/><path d="M152 22h20v76h-20zM226 22h20v76h-20z" fill="var(--sv-curtain)" opacity=".85"/>`;
+  o+=`<rect x="338" y="56" width="50" height="126" rx="3" fill="var(--sv-wood)" stroke="var(--sv-line)" stroke-width="2"/><circle cx="348" cy="124" r="3" fill="var(--sv-metal)"/><rect x="351" y="68" width="24" height="14" rx="3" fill="var(--sv-bubble)" stroke="var(--sv-line)" stroke-width="1.5"/><text x="363" y="79" text-anchor="middle" font-size="9" font-weight="700" fill="var(--sv-ink)" font-family="sans-serif">WC</text>`;
+  const px=has('furn')?150:190;
+  // background bed (standing scenes)
+  if(has('bed')&&pose!=='lie'){
+    o+=`<rect x="6" y="108" width="9" height="74" rx="3" fill="var(--sv-wood)"/><rect x="12" y="148" width="98" height="18" rx="5" fill="var(--sv-bed)" stroke="var(--sv-line)" stroke-width="2"/><rect x="14" y="140" width="30" height="10" rx="5" fill="var(--sv-bed)" stroke="var(--sv-line)" stroke-width="1.5"/><rect x="50" y="144" width="60" height="12" rx="4" fill="var(--sv-blanket)"/><rect x="12" y="166" width="98" height="6" fill="var(--sv-metal)"/><rect x="100" y="166" width="6" height="16" fill="var(--sv-metal)"/>`;
+  }
+  if(has('wet')){
+    o+=`<ellipse cx="${px+62}" cy="196" rx="46" ry="7" fill="var(--sv-win)" opacity=".85"/>`;
+    const wx=px+98;
+    o+=`<path d="M${wx-18} 184L${wx-9} 148H${wx+9}L${wx+18} 184Z" fill="var(--sv-warn)" stroke="var(--sv-ink)" stroke-width="2" stroke-linejoin="round"/><circle cx="${wx-2}" cy="157" r="3.2" fill="var(--sv-ink)"/><path d="M${wx-2} 160l5 9-4 7M${wx-2} 162l-6 6M${wx+3} 169l7 2" stroke="var(--sv-ink)" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  }
+  const hasNurse=has('nurse');
+  const nx=pose==='lie'?352:pose==='wc'?290:has('wet')?345:has('furn')?300:310;
+  if(pose==='lie'){
+    // bed
+    o+=`<rect x="34" y="96" width="10" height="86" rx="3" fill="var(--sv-wood)"/><rect x="300" y="128" width="9" height="54" rx="3" fill="var(--sv-wood)"/>`;
+    o+=`<rect x="40" y="144" width="264" height="18" rx="6" fill="var(--sv-bed)" stroke="var(--sv-line)" stroke-width="2"/><rect x="40" y="162" width="264" height="7" fill="var(--sv-metal)"/><circle cx="62" cy="176" r="6" fill="var(--sv-ink)"/><circle cx="282" cy="176" r="6" fill="var(--sv-ink)"/>`;
+    o+=`<ellipse cx="74" cy="136" rx="30" ry="9" fill="var(--sv-bed)" stroke="var(--sv-line)" stroke-width="1.5"/>`;
+    o+=`<path d="M102 138Q102 130 120 130H284Q298 130 298 140V146H102Z" fill="var(--sv-blanket)"/><path d="M130 132V146M150 132V146" stroke="var(--sv-bed)" stroke-width="1.5" opacity=".6"/>`;
+    o+=`<path d="M92 142L148 134" stroke="${gown}" stroke-width="12" stroke-linecap="round"/><path d="M148 134L172 132" stroke="var(--sv-skin)" stroke-width="7" stroke-linecap="round"/>${hand(174,132)}`;
+    o+=headSvg(74,126,hair,true,0);
+    o+=`<rect x="52" y="112" width="152" height="3" rx="1.5" fill="var(--sv-rail)" opacity="0"/>`;
+    // bed rail
+    o+=`<path d="M108 118H236M108 118V144M236 118V144M132 118V144M156 118V144M180 118V144M204 118V144" stroke="var(--sv-metal)" stroke-width="3" fill="none" opacity=".85"/>`;
+    if(has('iv'))o+=ivPole(322,182,174,132);
+    if(has('lock'))o+=lockAt(174,128);
+    if(has('bubbleQ'))o+=bubble(120,60,'?');
+    if(has('bubbleX'))o+=bubble(120,60,'!');
+  }else if(pose==='wc'){
+    const x=190;
+    o+=`<ellipse cx="${x+4}" cy="183" rx="46" ry="4" fill="var(--sv-shadow)"/>`;
+    // chair
+    o+=`<circle cx="${x-18}" cy="158" r="25" fill="none" stroke="var(--sv-ink)" stroke-width="5"/><circle cx="${x-18}" cy="158" r="19" fill="none" stroke="var(--sv-metal)" stroke-width="2"/><path d="M${x-18} 139V177M${x-37} 158H${x+1}M${x-31} 145L${x-5} 171M${x-5} 145L${x-31} 171" stroke="var(--sv-metal)" stroke-width="1.3"/><circle cx="${x-18}" cy="158" r="3.5" fill="var(--sv-metal)"/>`;
+    o+=`<circle cx="${x+40}" cy="175" r="7" fill="var(--sv-ink)"/><path d="M${x-30} 100L${x-26} 146H${x+30}L${x+42} 172M${x-30} 100H${x-42}" fill="none" stroke="var(--sv-metal)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="${x+36}" y="170" width="14" height="4" rx="2" fill="var(--sv-metal)"/>`;
+    // patient
+    o+=`<path d="M${x-10} 144H${x+24}L${x+32} 172" fill="none" stroke="${pants}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${x+36}" cy="174" rx="8" ry="3.5" fill="var(--sv-slip)"/>`;
+    o+=`<path d="M${x-22} 108Q${x-24} 144 ${x-18} 148H${x+6}Q${x+10} 144 ${x+8} 108Q${x-7} 102 ${x-22} 108Z" fill="${gown}"/>`;
+    o+=arm(x-4,114,x+20,132,gown);
+    o+=headSvg(x-7,92,hair,true,1);
+    if(has('iv'))o+=ivPole(120,182,x+20,132);
+    if(has('lock'))o+=lockAt(x+20,128);
+    if(has('bubbleQ'))o+=bubble(x+40,48,'?');
+    if(has('bubbleX'))o+=bubble(x+40,48,'!');
+  }else{
+    const x=px;
+    o+=`<ellipse cx="${x}" cy="183" rx="24" ry="4" fill="var(--sv-shadow)"/>`;
+    let aL=[x-19,146],aR=[x+19,146];
+    if(has('walker')){aL=[x-33,134];aR=[x+33,134];
+      o+=`<path d="M${x-34} 134V180M${x-28} 134V178M${x+34} 134V180M${x+28} 134V178M${x-34} 158H${x+34}" stroke="var(--sv-metal)" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M${x-36} 134H${x+36}" stroke="var(--sv-metal)" stroke-width="5" stroke-linecap="round"/><rect x="${x-40}" y="130" width="12" height="8" rx="3" fill="var(--sv-ink)"/><rect x="${x+28}" y="130" width="12" height="8" rx="3" fill="var(--sv-ink)"/><circle cx="${x-34}" cy="181" r="3.5" fill="var(--sv-warn)"/><circle cx="${x+34}" cy="181" r="3.5" fill="var(--sv-warn)"/>`;}
+    if(has('cane')){aR=[x+32,136];
+      o+=`<path d="M${x+32} 181V140Q${x+32} 128 ${x+43} 131" stroke="var(--sv-metal)" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="${x+32}" cy="181" r="3" fill="var(--sv-ink)"/>`;}
+    if(has('furn')){aR=[x+42,134];
+      o+=`<rect x="${x+34}" y="134" width="96" height="9" rx="3" fill="var(--sv-wood)"/><rect x="${x+40}" y="143" width="84" height="38" rx="3" fill="var(--sv-wood)" opacity=".85"/><rect x="${x+48}" y="150" width="68" height="12" rx="2" fill="none" stroke="var(--sv-line)" stroke-width="1.5"/><circle cx="${x+82}" cy="156" r="2.5" fill="var(--sv-metal)"/>`;}
+    // legs
+    o+=`<path d="M${x-6} 148L${x-7} 175M${x+6} 148L${x+7} 175" stroke="${pants}" stroke-width="10" stroke-linecap="round"/><ellipse cx="${x-9}" cy="179" rx="9" ry="3.8" fill="var(--sv-slip)"/><ellipse cx="${x+9}" cy="179" rx="9" ry="3.8" fill="var(--sv-slip)"/>`;
+    // gown
+    o+=`<path d="M${x-15} 108Q${x-18} 152 ${x-13} 158H${x+13}Q${x+18} 152 ${x+15} 108Q${x} 102 ${x-15} 108Z" fill="${gown}"/><path d="M${x-5} 104l5 9 5-9" fill="var(--sv-skin)"/><circle cx="${x-5}" cy="128" r="1.6" fill="var(--sv-bed)" opacity=".7"/><circle cx="${x+5}" cy="138" r="1.6" fill="var(--sv-bed)" opacity=".7"/><circle cx="${x-4}" cy="146" r="1.6" fill="var(--sv-bed)" opacity=".7"/>`;
+    o+=arm(x-13,114,aL[0],aL[1],gown)+arm(x+13,114,aR[0],aR[1],gown);
+    o+=headSvg(x,92,hair);
+    if(has('iv'))o+=ivPole(has('bed')?124:112,182,aL[0],aL[1]);
+    if(has('lock'))o+=lockAt(aL[0]+(has('walker')?0:2),aL[1]-3);
+    if(has('bubbleQ'))o+=bubble(x+44,50,'?');
+    if(has('bubbleX'))o+=bubble(x+44,50,'!');
+  }
+  if(hasNurse)o+=nurseSvg(nx,pose);
+  if(has('fallbubble')){
+    const bx=pose==='lie'?330:62,by=has('bed')&&pose!=='lie'?52:58;
+    o+=`<path d="M${bx-42} ${by-28}h84a10 10 0 0 1 10 10v36a10 10 0 0 1-10 10h-44l-12 14v-14h-28a10 10 0 0 1-10-10v-36a10 10 0 0 1 10-10z" fill="var(--sv-bubble)" stroke="var(--sv-ink)" stroke-width="2"/>`;
+    o+=`<path d="M${bx-36} ${by+14}h72" stroke="var(--sv-line)" stroke-width="2"/><circle cx="${bx+22}" cy="${by+4}" r="6.5" fill="var(--sv-skin)"/><path d="M${bx-22} ${by+10}L${bx+14} ${by+7}M${bx-8} ${by+8}L${bx-16} ${by-8}M${bx-8} ${by+9}L${bx-2} ${by-3}" stroke="var(--sv-ink)" stroke-width="4.5" stroke-linecap="round"/><path d="M${bx-30} ${by-14}l6 5M${bx-34} ${by-4}l8 0" stroke="var(--sv-warn)" stroke-width="3" stroke-linecap="round"/>`;
+  }
+  return o+'</svg>';
+}
+
+/* generic rationale per item and option */
+const GR=[
+ [['No fall during this admission and no recent physiological fall (seizure, dizziness, impaired gait). Older falls do not count: 0.','لا سقوط خلال هذه الإقامة ولا سقوط فسيولوجي حديث (تشنج، دوخة، اضطراب مشي). السقوط الأقدم لا يُحسب: 0.'],['A fall during this admission, or an immediate or within-3-months physiological fall (for example seizure or impaired gait): 25.','سقوط خلال هذه الإقامة، أو سقوط فسيولوجي حديث أو خلال 3 أشهر (مثل التشنج أو اضطراب المشي): 25.']],
+ [['Only one medical diagnosis is listed on the chart: 0.','تشخيص طبي واحد فقط مسجل في الملف: 0.'],['More than one medical diagnosis is listed on the chart: 15.','أكثر من تشخيص طبي مسجل في الملف: 15.']],
+ [['The patient walks without a walking aid, even if a nurse assists: 0.','المريض يمشي دون وسيلة مساعدة حتى لو ساعدته الممرضة: 0.'],['Bed rest without leaving the bed, wheelchair, or nurse assist scores 0.','الراحة بالفراش دون مغادرته، أو الكرسي المتحرك، أو مساعدة التمريض: 0.'],['A cane, crutches or a walker scores 15.','العصا أو العكازات أو المشاية: 15.'],['Clutching onto furniture for support scores 30, the highest aid score.','التمسك بالأثاث للدعم: 30 وهي أعلى درجة لوسيلة المشي.']],
+ [['No IV apparatus or heparin lock is in place now. Score only what is present: 0.','لا توجد قسطرة وريدية أو heparin lock الآن. احسب فقط ما هو موجود: 0.'],['An IV apparatus or a heparin lock is inserted: 20.','وجود جهاز وريدي أو heparin lock مثبت: 20.']],
+ [['Normal gait (head erect, arms swinging, striding freely), bed rest or immobile scores 0.','مشية طبيعية (رأس مرفوع، ذراعان تتحركان بحرية، خطوات واثقة) أو راحة بالفراش أو عدم الحركة: 0.'],['Stooped but able to lift the head without losing balance, with short steps: 10.','انحناء مع القدرة على رفع الرأس دون فقد التوازن وخطوات قصيرة: 10.'],['Difficulty rising, head down, poor balance and grasping furniture or a support: 20.','صعوبة النهوض، رأس منخفض، توازن ضعيف وتمسك بالأثاث أو بالدعم: 20.']],
+ [['The answer matches the ambulatory order on the Kardex, so the patient is rated normal: 0.','الإجابة تتفق مع أمر المشي في الكاردكس فيُعدّ المريض طبيعيًا: 0.'],['The answer does not match the nursing order or is unrealistic: the patient overestimates his or her ability: 15.','الإجابة لا تتفق مع أوامر التمريض أو غير واقعية: المريض يبالغ في تقدير قدرته: 15.']]
+];
+/* unlimited case generator */
+const NM=[['K','ك'],['M','م'],['A','أ'],['R','ر'],['S','س'],['N','ن'],['T','ت'],['H','ح'],['L','ل'],['D','د'],['Y','ي'],['F','ف']];
+const DX=[['pneumonia','التهاب رئوي'],['COPD','انسداد رئوي مزمن'],['heart failure','قصور القلب'],['type 2 diabetes','السكري من النوع الثاني'],['hypertension','ارتفاع ضغط الدم'],['cellulitis','التهاب النسيج الخلوي'],['acute cholecystitis','التهاب المرارة الحاد'],['urinary tract infection','التهاب المسالك البولية'],['chronic kidney disease','مرض الكلى المزمن'],['knee replacement surgery','جراحة استبدال الركبة'],['bowel obstruction','انسداد الأمعاء'],['pancreatitis','التهاب البنكرياس'],['atrial fibrillation','رجفان أذيني'],['anemia','فقر الدم']];
+let gid=0;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pickW=(v,w)=>{let x=Math.random(),i=0;for(;i<w.length-1;i++){if(x<w[i])break;x-=w[i];}return v[i];};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;};
+function genCase(){
+  const lv=pick(['easy','medium','hard']);
+  for(let k=0;k<400;k++){const c=buildCase(lv);if(c)return c;}
+  return buildCase('easy',true);
+}
+function buildCase(lv,force){
+  const w={easy:.35,medium:.5,hard:.5}[lv],r=()=>Math.random()<w;
+  const a=[r()?1:0,r()?1:0,pickW([0,1,2],[.5,.35,.15]),r()?1:0,pickW([0,1,2],[.5,.3,.2]),Math.random()<.25?1:0];
+  if(a[2]===2)a[4]=2;
+  const tot=a[0]*25+a[1]*15+[0,15,30][a[2]]+a[3]*20+[0,10,20][a[4]]+a[5]*15;
+  if(!force){
+    if(lv==='easy'&&!(tot<=35||tot>=70))return null;
+    if(lv==='medium'&&(tot<20||tot>100))return null;
+    if(lv==='hard'&&![20,25,50,55].includes(tot))return null;
+  }
+  const g=Math.random()<.5?'m':'f',m=g==='m',nm=pick(NM);
+  const age=lv==='easy'?rnd(40,68):lv==='medium'?rnd(55,80):rnd(60,92);
+  const He=m?'He':'She',he=m?'he':'she',his=m?'his':'her',His=m?'His':'Her';
+  const ar=(x,y)=>m?x:y;
+  const pt=lv==='easy'?0:lv==='medium'?.5:.85; // chance of a misleading detail
+  const traps=[],S6=[],R6=[],pcs=[];
+  const props=[];let pose='stand';
+  // 1 fall
+  if(a[0]===1){
+    if(Math.random()<.35){pcs.push([`${He} fell in the ER last night on the way to the toilet because of dizziness.`,`${ar('سقط','سقطت')} في الطوارئ الليلة الماضية ${ar('وهو في طريقه','وهي في طريقها')} إلى الحمام بسبب الدوخة.`]);props.push('wet');}
+    else{const wk=rnd(3,10);const cz=pick([['because of dizziness','بسبب الدوخة'],['during a seizure','أثناء نوبة تشنج'],[`when ${his} legs gave way`,`عندما ${ar('خانته ساقاه','خانتها ساقاها')}`]]);pcs.push([`${He} fell at home ${wk} weeks ago ${cz[0]}.`,`${ar('سقط','سقطت')} في المنزل قبل ${wk} أسابيع ${cz[1]}.`]);}
+    R6.push(GR[0][1]);props.push('fallbubble');
+  }else if(Math.random()<pt){
+    const mo=rnd(4,10);pcs.push([`${His} last fall was ${mo} months ago.`,`آخر سقوط ${ar('له','لها')} كان قبل ${mo} أشهر.`]);
+    R6.push([`The last fall was ${mo} months ago, outside the 3-month window: 0.`,`آخر سقوط كان قبل ${mo} أشهر وهو خارج فترة الثلاثة أشهر: 0.`]);
+    traps.push(['An old fall outside 3 months scores 0.','السقوط القديم خارج 3 أشهر يعطي صفرًا.']);
+  }else{pcs.push([`${He} has never fallen.`,`${ar('لم يسقط','لم تسقط')} من قبل.`]);R6.push(GR[0][0]);}
+  // 2 diagnosis
+  const dxs=shuffle(DX).slice(0,a[1]?rnd(2,3):1);
+  if(a[1]){pcs.push([`The chart lists these diagnoses: ${dxs.map(x=>x[0]).join(', ')}.`,`يذكر السجل التشخيصات التالية: ${dxs.map(x=>x[1]).join('، ')}.`]);R6.push(GR[1][1]);}
+  else{pcs.push([`The chart lists one diagnosis: ${dxs[0][0]}.`,`يذكر السجل تشخيصًا واحدًا: ${dxs[0][1]}.`]);R6.push(GR[1][0]);}
+  // 3 aid and mode
+  let mode='';
+  if(a[2]===0){
+    mode=a[4]===0?pick(lv==='easy'?['none','none','bed']:['none','bed','wc','assist','assist']):pick(['none','assist']);
+    if(mode==='none')pcs.push([`${He} walks without any aid.`,`${ar('يمشي','تمشي')} دون أي وسيلة مساعدة.`]);
+    if(mode==='bed')pcs.push([`${He} is on strict bed rest.`,`${ar('هو','هي')} على راحة تامة بالفراش.`]);
+    if(mode==='wc'){pcs.push([`${He} moves by wheelchair and a nurse assists every transfer.`,`${ar('يتنقل','تتنقل')} بكرسي متحرك وتساعد الممرضة في كل انتقال.`]);traps.push(['A wheelchair or nurse assist scores 0 for aid. It is not furniture.','الكرسي المتحرك أو مساعدة التمريض يعطي صفرًا لوسيلة المشي وليس أثاثًا.']);}
+    if(mode==='assist'){pcs.push([`${He} walks only with a nurse holding ${his} arm.`,`${ar('يمشي','تمشي')} فقط والممرضة ${ar('تمسك بذراعه','تمسك بذراعها')}.`]);traps.push(['Nurse assistance is not an aid device: 0.','مساعدة التمريض ليست وسيلة مساعدة: 0.']);}
+    R6.push(mode==='bed'?[`Bed rest scores 0 for ambulatory aid.`,'الراحة بالفراش تعطي صفرًا لوسيلة المشي.']:mode==='wc'?['Wheelchair with nurse assist scores 0 for aid.','الكرسي المتحرك مع مساعدة التمريض: صفر لوسيلة المشي.']:mode==='assist'?['Walking with a nurse holding the arm is nurse assist: 0.','المشي مع إمساك الممرضة بالذراع هو مساعدة تمريض: 0.']:GR[2][0]);
+    if(mode==='bed')pose='lie';if(mode==='wc')pose='wc';if(mode==='wc'||mode==='assist')props.push('nurse');
+  }else if(a[2]===1){
+    const d=pick([['walker','مشاية','walker'],['cane','عصا','cane'],['crutches','عكازات','cane']]);
+    pcs.push([`${He} walks with ${d[0]==='crutches'?'crutches':'a '+d[0]}.`,`${ar('يمشي','تمشي')} باستخدام ${d[1]}.`]);props.push(d[2]);R6.push(GR[2][2]);
+  }else{
+    pcs.push([`${He} has no cane or walker and holds on to the bed rail, bedside table and wall to move.`,`ليس ${ar('لديه','لديها')} عصا أو مشاية و${ar('يتمسك','تتمسك')} بحاجز السرير والطاولة الجانبية والحائط للتنقل.`]);props.push('furn');R6.push(GR[2][3]);
+  }
+  // 4 IV
+  if(a[3]===1){
+    const v=pick(pose==='lie'?['f','b']:['f','b','s','h']);
+    const T={f:['IV fluids are running.','المحلول الوريدي جارٍ.'],b:['IV antibiotics are running.','المضاد الحيوي يُعطى وريديًا.'],s:[`A capped saline lock is in ${his} forearm.`,`يوجد saline lock مغلق في ${ar('ساعده','ساعدها')}.`],h:[`A heparin lock is in ${his} forearm.`,`يوجد heparin lock في ${ar('ساعده','ساعدها')}.`]}[v];
+    pcs.push(T);props.push(v==='s'||v==='h'?'lock':'iv');
+    R6.push(v==='s'||v==='h'?['A saline or heparin lock counts as IV access even with no fluid running: 20.','الـ saline أو heparin lock يُحسب كقسطرة وريدية حتى بلا محلول جارٍ: 20.']:GR[3][1]);
+    if(v==='s'||v==='h')traps.push(['A capped lock still counts as IV access.','القفل المغلق يُحسب أيضًا كقسطرة وريدية.']);
+    if(pose==='lie'&&v!=='f'&&v!=='b')props.push('iv');
+  }else if(Math.random()<pt){
+    pcs.push(['The IV was removed this morning and no access remains.','تم سحب القسطرة الوريدية هذا الصباح ولا توجد أي قسطرة الآن.']);
+    R6.push(['The IV was removed, so there is no access now: 0.','تم سحب القسطرة فلا توجد قسطرة الآن: 0.']);traps.push(['A removed IV scores 0. Score only what is present now.','القسطرة المسحوبة تعطي صفرًا. احسب فقط ما هو موجود الآن.']);
+  }else{pcs.push([`${He} has no IV line.`,`ليس ${ar('لديه','لديها')} أي قسطرة وريدية.`]);R6.push(GR[3][0]);}
+  // 5 gait
+  if(a[4]===0){
+    if(mode==='none'||mode===''||mode==='assist')pcs.push([`When ${he} walks, the gait is steady and normal.`,`عندما ${ar('يمشي','تمشي')} تكون مشيته${ar('','ا')} ثابتة وطبيعية.`]);
+    R6.push(mode==='bed'?['Bed rest scores 0 for gait.','الراحة بالفراش تعطي صفرًا لطريقة المشي.']:mode==='wc'?['Wheelchair scores 0 for gait.','الكرسي المتحرك يعطي صفرًا لطريقة المشي.']:GR[4][0]);
+  }else if(a[4]===1){
+    pcs.push([`Walking, ${he} takes short, weak steps but stays steady.`,`عند المشي ${ar('يخطو','تخطو')} خطوات قصيرة وضعيفة لكن ${ar('يبقى ثابتًا','تبقى ثابتة')}.`]);R6.push(GR[4][1]);
+  }else{
+    pcs.push([`${He} struggles to rise from the chair, pushes up with ${his} arms and is unsteady.`,`${ar('يجد','تجد')} صعوبة في النهوض من الكرسي و${ar('يدفع','تدفع')} نفسه${ar('','ا')} بذراعيه${ar('','ا')} ${ar('وهو','وهي')} غير ${ar('ثابت','ثابتة')}.`]);R6.push(GR[4][2]);
+  }
+  // 6 mental
+  const ord=[`Nursing order: call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", ${he}`,`أمر التمريض: طلب المساعدة للذهاب إلى الحمام. عند سؤال${ar('ه','ها')} «هل تستطيع${ar('','ين')} الذهاب إلى الحمام وحدك؟» `];
+  if(a[5]===1){
+    if(Math.random()<.5){pcs.push([`${He} is confused and tries to get up alone, forgetting ${his} weakness.`,`${ar('هو مرتبك و','هي مرتبكة و')}${ar('يحاول','تحاول')} النهوض وحده${ar('','ا')} ${ar('ناسيًا','ناسيةً')} ضعفه${ar('','ا')}.`]);props.push('bubbleQ');}
+    else{pcs.push([`${ord[0]} answers "Yes, I can go alone."`,`${ord[1]}${ar('أجاب','أجابت')}: «نعم، أستطيع وحدي».`]);props.push('bubbleX');}
+    R6.push(GR[5][1]);
+  }else{pcs.push([`${ord[0]} answers "No, I need help." This matches the order.`,`${ord[1]}${ar('أجاب','أجابت')}: «لا، أحتاج إلى مساعدة». وهذا يتفق مع الأمر.`]);R6.push(GR[5][0]);}
+  // convert internal aid scale (none, aid, furniture) to the 4 form options
+  const aidIdx=[mode==='none'||mode===''?0:1,2,3][a[2]];
+  a[2]=aidIdx;
+  const n=++gid,title=m?`Mr. ${nm[0]}`:`Ms. ${nm[0]}`,titleAr=m?`السيد ${nm[1]}`:`السيدة ${nm[1]}`;
+  const intro=[`${title}, ${age}, is admitted to the medical-surgical ward.`,`${titleAr}، ${age} سنة، ${ar('منوّم','منوّمة')} في قسم الباطنة والجراحة.`];
+  const body=lv==='easy'?pcs:shuffle(pcs);
+  const nt=traps.length?[traps.map(x=>x[0]).join(' '),traps.map(x=>x[1]).join(' ')]:['Score each item only from what the case states now.','قيّم كل بند فقط بحسب ما تذكره الحالة الآن.'];
+  return {id:'g'+n,lv,gen:true,ti:[`Case ${n}: ${dxs[0][0]}`,`حالة ${n}: ${dxs[0][1]}`],
+    st:[[intro[0]].concat(body.map(x=>x[0])).join(' '),[intro[1]].concat(body.map(x=>x[1])).join(' ')],
+    a,nt,rat:R6,sc:{pose,props}};
+}
+
+/* ---------- state ---------- */
+const S={lang:'en',view:'start',name:'',hid:'',unit:'',cur:null,draft:[],res:{},msg:''};
+const L=()=>S.lang==='ar'?1:0;
+const t=k=>TXT[k][L()];
+const p=a=>a[L()];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const riskIdx=n=>n>=51?2:n>=25?1:0;
+const num=n=>S.lang==='ar'?String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]):String(n);
+const $=id=>document.getElementById(id);
+const scoreOf=a=>a.reduce((s,v,i)=>s+ITEMS[i].p[v],0);
+const same=(i,x,y)=>ITEMS[i].p[x]===ITEMS[i].p[y];
+const doneCount=()=>Object.keys(S.res).length;
+const canReport=()=>doneCount()>=3;
+function submitCur(){
+  const sc=SC.find(x=>x.id===S.cur),ans=S.draft.slice();
+  const ok=ans.filter((v,i)=>same(i,v,sc.a[i])).length,us=scoreOf(ans),ts=scoreOf(sc.a);
+  S.res[sc.id]={ans,ok,us,ts,riskOk:riskIdx(us)===riskIdx(ts)};
+}
+function stats(){
+  const rows=SC.filter(s=>S.res[s.id]),tot=rows.length*6,ok=rows.reduce((a,s)=>a+S.res[s.id].ok,0);
+  const pct=tot?Math.round(ok/tot*100):0;
+  return {rows,tot,ok,pct,pass:rows.length>=3&&pct>=80};
+}
+const fmtDate=()=>new Date().toLocaleDateString(S.lang==='ar'?'ar-SA-u-nu-latn':'en-GB',{year:'numeric',month:'long',day:'numeric'});
+function ratHtml(sc,r){
+  const rows=ITEMS.map((it,i)=>{const j=sc.a[i],why=sc.rat?sc.rat[i]:GR[i][j],good=same(i,r.ans[i],j);
+    return `<div class="rat"><div><span class="badge ${good?'ok':'no'}">${good?'✓':'✗'}</span> <b>${num(i+1)}. ${esc(p(it.q))}: ${esc(p(it.o[j]))}</b> <span class="pt2">+${num(it.p[j])}</span></div><div class="muted">${esc(p(why))}</div></div>`;}).join('');
+  const sum=sc.a.map((j,i)=>num(ITEMS[i].p[j])).join(' + ');
+  return `<h3 style="margin-block-start:16px">${esc(t('rat'))}</h3>${rows}<div class="note" style="margin-block-start:10px"><b><bdi dir="ltr">${sum} = ${num(r.ts)}</bdi></b> → ${esc(p(RISK[riskIdx(r.ts)].n))}</div>`;
+}
+
+/* ---------- views ---------- */
+function topBar(){
+  return `<header class="top"><div class="brand"><div class="mark">MFS</div><div><h1>${esc(t('title'))}</h1><small>${esc(t('sub'))}</small></div></div>
+  <div class="row">${IS_OWNER?`<button class="btn ghost" data-act="admin">${esc(t('admin'))}</button>`:''}<div class="lang" role="group" aria-label="${esc(t('lang'))}"><button data-act="lang" data-v="en" aria-pressed="${S.lang==='en'}">English</button><button data-act="lang" data-v="ar" aria-pressed="${S.lang==='ar'}">العربية</button></div></div></header>`;
+}
+const foot=()=>`<footer class="foot">${esc(t('by'))}<br>${esc(t('disc'))}</footer>`;
+const who=()=>`<div class="who"><span>${esc(S.name)}</span><span>ID ${esc(S.hid)}</span><span>${esc(S.unit)}</span></div>`;
+const legend=()=>`<div class="legend"><div>${RISK.map(r=>`<div>${r.r[0]===51?'≥51':r.r[0]+' - '+r.r[1]}: ${esc(p(r.n))}</div>`).join('')}</div><div class="muted">${esc(t('formNote'))}</div></div>`;
+
+function vStart(){
+  const ready=S.name.trim()&&S.hid.trim()&&S.unit.trim();
+  return `<section class="panel intro"><h2>${esc(t('iTitle'))}</h2><p>${esc(t('iP'))}</p>
+  <div class="grid2"><div><h3>${esc(t('iGain'))}</h3><ul class="act">${INTRO.gain.map(x=>`<li>${esc(p(x))}</li>`).join('')}</ul></div>
+  <div><h3>${esc(t('iHow'))}</h3><ol class="act">${INTRO.how.map(x=>`<li>${esc(p(x))}</li>`).join('')}</ol></div></div>
+  <div class="note" style="margin-block-start:14px">${esc(t('iCal'))}</div></section>
+  <section class="panel"><p class="muted" style="margin:0 0 14px">${esc(t('need'))}</p>
+  <div class="grid3" style="margin-block-end:18px">
+   <div><label class="f" for="in-name">${esc(t('name'))}</label><input id="in-name" type="text" autocomplete="off" value="${esc(S.name)}"></div>
+   <div><label class="f" for="in-hid">${esc(t('hid'))}</label><input id="in-hid" type="text" inputmode="numeric" dir="ltr" autocomplete="off" value="${esc(S.hid)}"></div>
+   <div><label class="f" for="in-unit">${esc(t('unit'))}</label><input id="in-unit" type="text" autocomplete="off" placeholder="${esc(t('unitPh'))}" value="${esc(S.unit)}"></div>
+  </div>
+  <button class="btn" id="go" data-act="go" ${ready?'':'disabled'}>${esc(t('start'))}</button></section>
+  <section class="panel"><h3>${esc(t('guide'))}</h3>${legend()}</section>`;
+}
+function vHub(){
+  const n=doneCount(),ok=canReport();
+  return `<section class="panel"><div class="row" style="justify-content:space-between">${who()}</div>
+  <div class="bar" aria-hidden="true"><i style="width:${Math.min(100,n/3*100)}%"></i></div>
+  <p style="margin:0 0 4px"><b>${num(n)}</b> ${esc(t('prog'))}</p>
+  ${ok?'':`<p class="muted" style="margin:0 0 6px">${esc(t('reqLv'))}</p>`}
+  <div class="row" style="margin-block-start:10px"><button class="btn" data-act="gen">+ ${esc(t('newCase'))}</button><button class="btn ghost" data-act="report" ${ok?'':'disabled'}>${esc(t('finish'))}</button></div></section>
+  <div class="grid2">${SC.map((s,i)=>{const r=S.res[s.id];
+   return `<button class="card" data-act="open" data-v="${s.id}">${scene(s.sc,p(s.ti))}<div class="meta"><b>${num(i+1)}. ${esc(p(s.ti))}</b>
+   ${r?`<span class="tag ${r.ok===6?'ok':r.ok>=4?'mid':'no'}">${num(r.ok)}/6 ${esc(t('items'))}</span>`:`<span class="tag todo">${esc(t('todo'))}</span>`}</div></button>`}).join('')}</div>`;
+}
+function vPlay(){
+  const sc=SC.find(x=>x.id===S.cur),r=S.res[sc.id],lock=!!r,idx=SC.indexOf(sc);
+  let h=`<section class="panel"><button class="btn ghost" data-act="hub" style="margin-block-end:14px">${esc(t('back'))}</button>
+  <div class="hero">${scene(sc.sc,p(sc.ti))}</div>
+  <p class="muted" style="margin:14px 0 2px;font-size:13.5px">${esc(t('scen'))} ${num(idx+1)}</p>
+  <h2>${esc(p(sc.ti))}</h2><p style="margin:0">${esc(p(sc.st))}</p></section>
+  <section class="panel form ${lock?'locked':''}">`;
+  ITEMS.forEach((it,i)=>{
+    const order=it.disp||it.o.map((_,k)=>k);
+    h+=`<div class="frow"><div class="flabel"><span class="req">*</span>${esc(p(it.q))}<details class="gl"><summary>${esc(t('guideline'))}</summary><p>${esc(p(it.g))}</p></details></div><div class="fopts">`;
+    order.forEach(j=>{
+      let cls='chk';
+      if(lock){const mine=r.ans[i]===j;if(j===sc.a[i]||(mine&&same(i,j,sc.a[i])))cls+=' right';else if(mine)cls+=' wrong';}
+      h+=`<label class="${cls}"><input type="radio" name="q${i}" value="${j}" data-q="${i}" ${lock?'disabled':''} ${(lock?r.ans[i]:S.draft[i])===j?'checked':''}><span>${esc(p(it.o[j]))}${lock?` <small class="pt2">(${num(it.p[j])})</small>`:''}</span></label>`;
+    });
+    h+=`</div></div>`;
+  });
+  h+=legend();
+  if(!lock){h+=`<div class="row" style="margin-block-start:16px"><button class="btn" id="sub" data-act="submit" disabled>${esc(t('submit'))}</button><span class="muted" id="subhint" style="font-size:14px">${esc(t('answerAll'))}</span></div>`;}
+  h+=`</section>`;
+  if(lock){
+    const rk=RISK[riskIdx(r.ts)],uk=RISK[riskIdx(r.us)];
+    h+=`<section class="panel" id="fbk"><div class="grid2"><div class="result risk-${riskIdx(r.us)}"><small>${esc(t('yourTotal'))}</small><div class="big">${num(r.us)} / 125</div><b>${esc(p(uk.n))}</b></div>
+    <div class="result risk-${riskIdx(r.ts)}"><small>${esc(t('trueTotal'))}</small><div class="big">${num(r.ts)} / 125</div><b>${esc(p(rk.n))}</b></div></div>
+    <p><b>${num(r.ok)}/6</b> ${esc(t('items'))}</p><div class="note">${esc(p(sc.nt))}</div>${ratHtml(sc,r)}
+    <h3 style="margin-block-start:16px">${esc(t('acts'))} (${esc(p(rk.n))})</h3><ul class="act">${ACT[riskIdx(r.ts)].map(a=>`<li>${esc(p(a))}</li>`).join('')}</ul>
+    <div class="row" style="margin-block-start:18px"><button class="btn" data-act="gen">+ ${esc(t('newAnother'))}</button><button class="btn ghost" data-act="hub">${esc(t('back2'))}</button>${canReport()?`<button class="btn ghost" data-act="report">${esc(t('finish'))}</button>`:`<span class="muted">${num(doneCount())}/3</span>`}</div></section>`;
+  }
+  return h;
+}
+function vReport(){
+  const st=stats(),rows=st.rows;
+  return `<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('report'))}</h2><button class="btn ghost" data-act="hub">${esc(t('back2'))}</button></div>
+  <div class="row" style="margin-block-start:12px"><button class="btn" id="xls" data-act="xlsx">${esc(t('xlsBtn'))}</button><button class="btn ghost" id="pdf" data-act="pdf">${esc(t('pdfBtn'))}</button></div>
+  ${st.pass?'':`<p class="note" style="margin:12px 0 0">${esc(t('moreTxt'))}</p>`}
+  <p id="msg" class="muted" role="status" style="margin:10px 0 0">${esc(S.msg)}</p><p id="rec" class="muted" style="margin:6px 0 0">${esc(recMsg())}</p></section>
+  <div class="paper-wrap"><div class="paper" id="paper" dir="${S.lang==='ar'?'rtl':'ltr'}">
+   <div class="hd"><div><h2>${esc(t('title'))}</h2><small>${esc(t('report'))} · ${esc(t('sub'))}</small></div><div class="num" style="font-weight:600;color:#0e6a65">MFS</div></div>
+   <dl><dt>${esc(t('name'))}</dt><dd>${esc(S.name)}</dd><dt>${esc(t('hid'))}</dt><dd class="num" dir="ltr" style="text-align:start">${esc(S.hid)}</dd><dt>${esc(t('unit'))}</dt><dd>${esc(S.unit)}</dd><dt>${esc(t('date'))}</dt><dd>${esc(fmtDate())}</dd></dl>
+   <div class="verdict ${st.pass?'':'fail'}"><div><small class="small">${esc(t('overall'))}</small><br><b class="num">${num(st.ok)}/${num(st.tot)} · ${num(st.pct)}%</b></div><b style="color:${st.pass?'#1d7a4b':'#b3261e'}">${esc(st.pass?t('comp'):t('rev'))}</b></div>
+   <table><thead><tr><th>#</th><th>${esc(t('scen'))}</th><th>${esc(t('items'))}</th><th>${esc(t('yS'))}</th><th>${esc(t('cS'))}</th><th>${esc(t('match'))}</th></tr></thead><tbody>
+   ${rows.map((s,i)=>{const r=S.res[s.id];return `<tr><td class="num">${num(i+1)}</td><td>${esc(p(s.ti))}</td><td class="num">${num(r.ok)}/6</td><td class="num">${num(r.us)}</td><td class="num">${num(r.ts)}</td><td>${esc(p(RISK[riskIdx(r.ts)].n))} ${r.riskOk?'✓':'✗'}</td></tr>`}).join('')}</tbody></table>
+   <p class="small">${esc(t('guide'))} ${esc(t('passTxt'))}</p>
+   <div class="sig"><span>${esc(t('sign'))}: ____________________</span><span>${esc(t('by'))}</span></div>
+  </div></div>`;
+}
+
+/* ---------- supervisor records (owner only can read) ---------- */
+let DB=null,USER=null,IS_OWNER=false,MYID=null;
+(async()=>{
+  try{USER=await window.claude?.use?.('user');}catch(e){}
+  try{DB=await window.claude?.use?.('db');}catch(e){}
+  try{if(USER){IS_OWNER=await USER.isOwner();MYID=await USER.id();}}catch(e){}
+  if(IS_OWNER)render();
+})();
+const recMsg=()=>S.rec==='ok'?t('recOk'):S.rec==='no'?t('recNo'):S.rec==='pending'?t('recWait'):'';
+function showRec(){const e=$('rec');if(e)e.textContent=recMsg();}
+async function recordResult(){
+  if(S.recN===doneCount()&&S.rec==='ok'){showRec();return;}
+  S.rec='pending';showRec();
+  try{
+    if(!DB||!MYID)throw new Error('nodb');
+    const st=stats(),ref=DB.doc('results/'+MYID),snap=await ref.get();
+    const old=snap.exists&&Array.isArray(snap.data().attempts)?snap.data().attempts:[];
+    const at=new Date().toISOString();
+    const att={at,cases:st.rows.length,ok:st.ok,total:st.tot,pct:st.pct,pass:st.pass,
+      list:st.rows.slice(0,25).map(s=>({t:String(s.ti[0]).slice(0,60),us:S.res[s.id].us,ts:S.res[s.id].ts,ok:S.res[s.id].ok}))};
+    await ref.set({name:S.name,hid:S.hid,unit:S.unit,updated:at,cases:att.cases,ok:att.ok,total:att.total,pct:att.pct,pass:att.pass,attempts:old.concat([att]).slice(-30)});
+    S.rec='ok';S.recN=doneCount();
+  }catch(e){S.rec='no';}
+  showRec();
+}
+async function loadAdmin(){
+  S.adm={state:'loading',rows:[]};render();
+  try{
+    if(!DB)throw new Error('nodb');
+    const q=await DB.collection('results').get();
+    const rows=q.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
+    S.adm={state:'ok',rows};
+  }catch(e){S.adm={state:'err',rows:[]};}
+  if(S.view==='admin')render();
+}
+const fmtAt=iso=>{try{return new Date(iso).toLocaleString(S.lang==='ar'?'ar-SA-u-nu-latn':'en-GB',{dateStyle:'medium',timeStyle:'short'});}catch(e){return iso||'';}};
+function admList(){
+  const q=(S.admQ||'').trim().toLowerCase(),rows=(S.adm?S.adm.rows:[]).filter(r=>!q||[r.name,r.hid,r.unit].join(' ').toLowerCase().includes(q));
+  if(!rows.length)return `<p class="muted">${esc(t('noRows'))}</p>`;
+  return `<div class="paper-wrap"><table class="tbl"><thead><tr><th>${esc(t('name'))}</th><th>${esc(t('hid'))}</th><th>${esc(t('unit'))}</th><th>${esc(t('last'))}</th><th>${esc(t('cases'))}</th><th>${esc(t('overall'))}</th><th>${esc(t('result'))}</th><th>${esc(t('attempts'))}</th></tr></thead><tbody>`+
+  rows.map(r=>`<tr><td>${esc(r.name||'')}</td><td dir="ltr" style="text-align:start">${esc(r.hid||'')}</td><td>${esc(r.unit||'')}</td><td>${esc(fmtAt(r.updated))}</td><td>${num(r.cases||0)}</td><td><b>${num(r.pct||0)}%</b> <small class="muted">(${num(r.ok||0)}/${num(r.total||0)})</small></td><td><span class="tag ${r.pass?'ok':'no'}">${esc(r.pass?t('comp'):t('rev'))}</span></td>
+   <td><details class="gl"><summary>${num((r.attempts||[]).length)}</summary>${(r.attempts||[]).slice().reverse().map(a=>`<p><b>${esc(fmtAt(a.at))}</b>: ${num(a.pct)}% · ${num(a.cases)} ${esc(t('scen'))}<br><small class="muted">${(a.list||[]).map(x=>esc(x.t)+' ('+num(x.us)+'/'+num(x.ts)+')').join(' · ')}</small></p>`).join('')}</details></td></tr>`).join('')+`</tbody></table></div>`;
+}
+function vAdmin(){
+  const A=S.adm||{state:'loading',rows:[]};
+  return `<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('admTitle'))}</h2><button class="btn ghost" data-act="${S.name?'hub':'home'}">${esc(t('back2'))}</button></div>
+  <div class="row" style="margin-block:12px"><input id="adm-q" type="text" style="max-width:320px" placeholder="${esc(t('search'))}" value="${esc(S.admQ||'')}"><button class="btn ghost" data-act="refresh">${esc(t('refresh'))}</button><button class="btn" id="axl" data-act="axl" ${A.rows.length?'':'disabled'}>${esc(t('exportAll'))}</button></div>
+  <p id="msg" class="muted" role="status" style="margin:0 0 8px">${esc(S.msg)}</p>
+  <div id="adm-list">${A.state==='loading'?`<p class="muted">${esc(t('loading'))}</p>`:A.state==='err'?`<p class="muted">${esc(t('admErr'))}</p>`:admList()}</div></section>`;
+}
+async function saveAdmin(){
+  const btn=$('axl'),msg=$('msg'),say=m=>{S.msg=m;if(msg)msg.textContent=m;};
+  btn.disabled=true;say(t('prep'));
+  try{
+    const dl=await getSaver();
+    const X=window.XLSX,wb=X.utils.book_new(),rows=S.adm.rows;
+    const a1=[[t('name'),t('hid'),t('unit'),t('last'),t('cases'),t('overall'),t('result'),t('attempts')]].concat(rows.map(r=>[r.name,r.hid,r.unit,fmtAt(r.updated),r.cases,r.pct+'%',r.pass?'PASS':'NOT YET PASSED',(r.attempts||[]).length]));
+    const w1=X.utils.aoa_to_sheet(a1);w1['!cols']=[{wch:28},{wch:14},{wch:26},{wch:22},{wch:12},{wch:12},{wch:18},{wch:10}];
+    const a2=[[t('name'),t('hid'),t('unit'),t('date'),t('cases'),t('overall'),t('result'),t('scen')]];
+    rows.forEach(r=>(r.attempts||[]).forEach(a=>a2.push([r.name,r.hid,r.unit,fmtAt(a.at),a.cases,a.pct+'%',a.pass?'PASS':'NOT YET PASSED',(a.list||[]).map(x=>x.t+' ('+x.us+'/'+x.ts+')').join(' | ')])));
+    const w2=X.utils.aoa_to_sheet(a2);w2['!cols']=[{wch:28},{wch:14},{wch:26},{wch:22},{wch:12},{wch:12},{wch:18},{wch:80}];
+    X.utils.book_append_sheet(wb,w1,t('staff'));X.utils.book_append_sheet(wb,w2,t('attempts'));
+    if(S.lang==='ar')wb.Workbook={Views:[{RTL:true}]};
+    await dl.save({filename:'MorseFall_All_Staff_Results.xlsx',data:X.write(wb,{bookType:'xlsx',type:'array'})});
+    say(t('saved'));
+  }catch(err){say(err&&err.code==='declined'?t('declined'):t('err'));}
+  const b=$('axl');if(b)b.disabled=false;
+}
+
+/* ---------- render + events ---------- */
+function render(){
+  $('app').dir=S.lang==='ar'?'rtl':'ltr';
+  document.documentElement.lang=S.lang;
+  const v=S.view==='start'?vStart():S.view==='hub'?vHub():S.view==='play'?vPlay():S.view==='admin'?vAdmin():vReport();
+  $('root').innerHTML=topBar()+v+foot();
+  if(S.view==='play'&&!S.res[S.cur])syncSubmit();
+}
+function syncSubmit(){
+  const b=$('sub');if(!b)return;
+  const full=ITEMS.every((_,i)=>S.draft[i]!==undefined);
+  b.disabled=!full;const h=$('subhint');if(h)h.hidden=full;
+}
+function go(v){S.view=v;S.msg='';render();window.scrollTo(0,0);}
+document.addEventListener('input',e=>{
+  const id=e.target.id;
+  if(id==='adm-q'){S.admQ=e.target.value;const l=$('adm-list');if(l)l.innerHTML=admList();return;}
+  if(id==='in-name')S.name=e.target.value;else if(id==='in-hid')S.hid=e.target.value;else if(id==='in-unit')S.unit=e.target.value;else return;
+  const b=$('go');if(b)b.disabled=!(S.name.trim()&&S.hid.trim()&&S.unit.trim());
+});
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[type=radio][data-q]')){S.draft[+e.target.dataset.q]=+e.target.value;syncSubmit();}
+});
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const a=b.dataset.act,v=b.dataset.v;
+  if(a==='lang'){S.lang=v;render();}
+  else if(a==='go'){if(S.name.trim()&&S.hid.trim()&&S.unit.trim())go('hub');}
+  else if(a==='hub')go('hub');
+  else if(a==='home')go('start');
+  else if(a==='open'){S.cur=v;S.draft=S.res[v]?S.res[v].ans.slice():[];go('play');}
+  else if(a==='gen'){const c=genCase();SC.push(c);S.cur=c.id;S.draft=[];go('play');}
+  else if(a==='submit'){if(ITEMS.every((_,i)=>S.draft[i]!==undefined)){submitCur();render();const f=$('fbk');if(f)f.scrollIntoView({behavior:'smooth',block:'start'});}}
+  else if(a==='report'){if(canReport()){go('report');recordResult();}}
+  else if(a==='admin'){S.view='admin';loadAdmin();}
+  else if(a==='refresh')loadAdmin();
+  else if(a==='axl')saveAdmin();
+  else if(a==='xlsx')saveFile('xlsx');
+  else if(a==='pdf')saveFile('pdf');
+});
+
+/* ---------- Excel + PDF ---------- */
+function buildXlsx(){
+  const st=stats(),X=window.XLSX,wb=X.utils.book_new(),ar=S.lang==='ar';
+  const sum=[[t('title')],[t('by')],[],
+   [t('name'),S.name],[t('hid'),S.hid],[t('unit'),S.unit],[t('date'),fmtDate()],[],
+   [t('cases'),st.rows.length],[t('items'),st.ok+' / '+st.tot],[t('overall'),st.pct+'%'],[t('passTxt')],[t('result'),st.pass?'PASS - '+t('comp'):'NOT YET PASSED - '+t('rev')]];
+  const w1=X.utils.aoa_to_sheet(sum);w1['!cols']=[{wch:28},{wch:46}];
+  const h2=['#',t('scen'),t('items'),t('yS'),t('cS'),t('match')+' ('+t('yS')+')',t('match')+' ('+t('cS')+')','Risk match'];
+  const r2=st.rows.map((s,i)=>{const r=S.res[s.id];return [i+1,p(s.ti),r.ok+'/6',r.us,r.ts,p(RISK[riskIdx(r.us)].n),p(RISK[riskIdx(r.ts)].n),r.riskOk?'✓':'✗'];});
+  const w2=X.utils.aoa_to_sheet([h2].concat(r2));w2['!cols']=[{wch:5},{wch:38},{wch:12},{wch:12},{wch:16},{wch:22},{wch:22},{wch:12}];
+  const h3=['#',t('scen'),t('item'),t('yourAns'),t('corrAns'),t('pts'),t('ok')];
+  const r3=[];st.rows.forEach((s,i)=>{const r=S.res[s.id];ITEMS.forEach((it,k)=>{r3.push([i+1,p(s.ti),p(it.q),p(it.o[r.ans[k]]),p(it.o[s.a[k]]),it.p[r.ans[k]],same(k,r.ans[k],s.a[k])?'✓':'✗']);});});
+  const w3=X.utils.aoa_to_sheet([h3].concat(r3));w3['!cols']=[{wch:5},{wch:36},{wch:34},{wch:30},{wch:30},{wch:9},{wch:9}];
+  X.utils.book_append_sheet(wb,w1,t('sSum'));X.utils.book_append_sheet(wb,w2,t('sSc'));X.utils.book_append_sheet(wb,w3,t('sAn'));
+  if(ar)wb.Workbook={Views:[{RTL:true}]};
+  return X.write(wb,{bookType:'xlsx',type:'array'});
+}
+async function buildPdf(){
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  const src=$('paper'),clone=src.cloneNode(true);
+  clone.removeAttribute('id');clone.style.cssText='position:fixed;left:-10000px;top:0;width:794px;max-width:794px';
+  document.body.appendChild(clone);
+  const canvas=await html2canvas(clone,{scale:2,backgroundColor:'#ffffff'});
+  clone.remove();
+  const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:'p'});
+  const W=210,H=297,perPage=Math.floor(canvas.width*H/W);let y=0,pg=0;
+  while(y<canvas.height){
+    const h=Math.min(perPage,canvas.height-y),c=document.createElement('canvas');
+    c.width=canvas.width;c.height=h;c.getContext('2d').drawImage(canvas,0,y,canvas.width,h,0,0,canvas.width,h);
+    if(pg)pdf.addPage();pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,W,h*W/canvas.width);y+=h;pg++;
+  }
+  return pdf.output('arraybuffer');
+}
+async function getSaver(){
+  const dl=await window.claude?.use?.('downloads');
+  if(dl)return dl;
+  return {save:async({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data]));a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);return {status:'saved'};}};
+}
+async function saveFile(kind){
+  const btn=$(kind==='xlsx'?'xls':'pdf'),msg=$('msg');
+  const say=m=>{S.msg=m;if(msg)msg.textContent=m;};
+  btn.disabled=true;say(t('prep'));
+  try{
+    const dl=await getSaver();
+    const safe=String(S.hid).replace(/[^\w-]+/g,'')||'staff';
+    const data=kind==='xlsx'?buildXlsx():await buildPdf();
+    await dl.save({filename:`MorseFall_Results_${safe}.${kind}`,data});
+    say(t('saved'));
+  }catch(err){
+    say(err&&err.code==='declined'?t('declined'):(err&&err.code==='unavailable'?t('noDl'):t('err')));
+  }
+  btn.disabled=false;
+}
+render();
+
+</script>
+
+</body>
+</html>
