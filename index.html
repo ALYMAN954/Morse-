@@ -120,6 +120,7 @@ details.gl p{margin:6px 0 0;font-size:13px;color:var(--muted)}
 ol.act{margin:8px 0 0;padding-inline-start:22px}
 @media (max-width:640px){.frow{grid-template-columns:1fr}.legend{grid-template-columns:1fr}}
 .tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:start;vertical-align:top}.tbl th{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.linkbtn{border:0;background:none;color:var(--muted);font-size:12.5px;text-decoration:underline;cursor:pointer;margin-block-start:8px}
 .foot{text-align:center;color:var(--muted);font-size:13px;padding-block:20px 6px}
 .paper-wrap{overflow-x:auto}
 /* The report is a printed sheet: fixed light colors so the PDF matches the screen in any theme. */
@@ -153,6 +154,8 @@ ol.act{margin:8px 0 0;padding-inline-start:22px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 "use strict";
+/* Paste your Google Apps Script web app URL (ends with /exec) between the quotes to send results to a Google Sheet. */
+let SHEET_URL='';
 /* ---------- data: hospital Morse Fall Scale form ---------- */
 const ITEMS=[
 {q:['History of falling; immediate or within 3 months','تاريخ السقوط؛ فوري أو خلال 3 أشهر'],
@@ -274,7 +277,7 @@ const TXT={
  noRows:['No results recorded yet.','لا توجد نتائج مسجلة بعد.'],recOk:['Your result was recorded for your supervisor.','تم تسجيل نتيجتك لدى المشرف.'],
  recNo:['Your result could not be recorded for your supervisor. Save your Excel file and send it instead.','تعذر تسجيل نتيجتك لدى المشرف. احفظ ملف Excel وأرسله بدلًا من ذلك.'],
  recWait:['Recording your result…','جاري تسجيل نتيجتك…'],attempts:['Attempts','المحاولات'],last:['Last update','آخر تحديث'],exportAll:['Export all to Excel','تصدير الكل إلى Excel'],
- loading:['Loading…','جاري التحميل…'],admErr:['Could not load results.','تعذر تحميل النتائج.'],refresh:['Refresh','تحديث'],staff:['Staff','الموظفون']
+ loading:['Loading…','جاري التحميل…'],admErr:['Could not load results. Check the admin key.','تعذر تحميل النتائج. تحقق من مفتاح المشرف.'],recUnc:['Your result was sent. If your supervisor does not see it, send your Excel file as well.','تم إرسال نتيجتك. إن لم يجدها المشرف فأرسل له ملف Excel أيضًا.'],adminKey:['Admin key','مفتاح المشرف'],openBtn:['Open','فتح'],sup:['Supervisor','المشرف'],refresh:['Refresh','تحديث'],staff:['Staff','الموظفون']
 };
 const INTRO={
  gain:[
@@ -543,7 +546,7 @@ function topBar(){
   return `<header class="top"><div class="brand"><div class="mark">MFS</div><div><h1>${esc(t('title'))}</h1><small>${esc(t('sub'))}</small></div></div>
   <div class="row">${IS_OWNER?`<button class="btn ghost" data-act="admin">${esc(t('admin'))}</button>`:''}<div class="lang" role="group" aria-label="${esc(t('lang'))}"><button data-act="lang" data-v="en" aria-pressed="${S.lang==='en'}">English</button><button data-act="lang" data-v="ar" aria-pressed="${S.lang==='ar'}">العربية</button></div></div></header>`;
 }
-const foot=()=>`<footer class="foot">${esc(t('by'))}<br>${esc(t('disc'))}</footer>`;
+const foot=()=>`<footer class="foot">${esc(t('by'))}<br>${esc(t('disc'))}${SHEET_URL&&!IS_OWNER?`<br><button class="linkbtn" data-act="admin">${esc(t('sup'))}</button>`:''}</footer>`;
 const who=()=>`<div class="who"><span>${esc(S.name)}</span><span>ID ${esc(S.hid)}</span><span>${esc(S.unit)}</span></div>`;
 const legend=()=>`<div class="legend"><div>${RISK.map(r=>`<div>${r.r[0]===51?'≥51':r.r[0]+' - '+r.r[1]}: ${esc(p(r.n))}</div>`).join('')}</div><div class="muted">${esc(t('formNote'))}</div></div>`;
 
@@ -628,31 +631,64 @@ let DB=null,USER=null,IS_OWNER=false,MYID=null;
   try{if(USER){IS_OWNER=await USER.isOwner();MYID=await USER.id();}}catch(e){}
   if(IS_OWNER)render();
 })();
-const recMsg=()=>S.rec==='ok'?t('recOk'):S.rec==='no'?t('recNo'):S.rec==='pending'?t('recWait'):'';
+const recMsg=()=>S.rec==='unc'?t('recUnc'):S.rec==='ok'?t('recOk'):S.rec==='no'?t('recNo'):S.rec==='pending'?t('recWait'):'';
 function showRec(){const e=$('rec');if(e)e.textContent=recMsg();}
-async function recordResult(){
-  if(S.recN===doneCount()&&S.rec==='ok'){showRec();return;}
-  S.rec='pending';showRec();
+async function postSheet(att){
+  const body=JSON.stringify({name:S.name,hid:S.hid,unit:S.unit,cases:att.cases,ok:att.ok,total:att.total,pct:att.pct,pass:att.pass,list:att.list});
   try{
-    if(!DB||!MYID)throw new Error('nodb');
-    const st=stats(),ref=DB.doc('results/'+MYID),snap=await ref.get();
-    const old=snap.exists&&Array.isArray(snap.data().attempts)?snap.data().attempts:[];
-    const at=new Date().toISOString();
-    const att={at,cases:st.rows.length,ok:st.ok,total:st.tot,pct:st.pct,pass:st.pass,
-      list:st.rows.slice(0,25).map(s=>({t:String(s.ti[0]).slice(0,60),us:S.res[s.id].us,ts:S.res[s.id].ts,ok:S.res[s.id].ok}))};
-    await ref.set({name:S.name,hid:S.hid,unit:S.unit,updated:at,cases:att.cases,ok:att.ok,total:att.total,pct:att.pct,pass:att.pass,attempts:old.concat([att]).slice(-30)});
-    S.rec='ok';S.recN=doneCount();
-  }catch(e){S.rec='no';}
+    const r=await fetch(SHEET_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body});
+    const j=await r.json();if(!j.ok)throw new Error(j.error||'rejected');
+    return 'ok';
+  }catch(e){
+    if(e instanceof TypeError)return 'unc'; // sent, but the browser could not read the reply
+    throw e;
+  }
+}
+async function recordResult(){
+  if(S.recN===doneCount()&&(S.rec==='ok'||S.rec==='unc')){showRec();return;}
+  S.rec='pending';showRec();
+  const st=stats(),at=new Date().toISOString();
+  const att={at,cases:st.rows.length,ok:st.ok,total:st.tot,pct:st.pct,pass:st.pass,
+    list:st.rows.slice(0,25).map(s=>({t:String(s.ti[0]).slice(0,60),us:S.res[s.id].us,ts:S.res[s.id].ts,ok:S.res[s.id].ok}))};
+  let res='no';
+  if(DB&&MYID){
+    try{
+      const ref=DB.doc('results/'+MYID),snap=await ref.get();
+      const old=snap.exists&&Array.isArray(snap.data().attempts)?snap.data().attempts:[];
+      await ref.set({name:S.name,hid:S.hid,unit:S.unit,updated:at,cases:att.cases,ok:att.ok,total:att.total,pct:att.pct,pass:att.pass,attempts:old.concat([att]).slice(-30)});
+      res='ok';
+    }catch(e){}
+  }
+  if(SHEET_URL){
+    try{const r=await postSheet(att);if(res!=='ok')res=r;}catch(e){}
+  }
+  S.rec=res;if(res!=='no')S.recN=doneCount();
   showRec();
 }
+function groupRows(rows){
+  const m={};
+  rows.forEach(r=>{
+    const a={at:r.at,cases:r.cases,ok:r.ok,total:r.total,pct:r.pct,pass:r.pass,list:r.list||[]};
+    const g=m[r.hid]=m[r.hid]||{id:r.hid,attempts:[]};
+    g.attempts.push(a);Object.assign(g,{name:r.name,hid:r.hid,unit:r.unit,updated:r.at,cases:r.cases,ok:r.ok,total:r.total,pct:r.pct,pass:r.pass});
+  });
+  return Object.values(m).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
+}
 async function loadAdmin(){
+  const useDb=!!(IS_OWNER&&DB);
+  if(!useDb&&SHEET_URL&&!S.admKey){S.adm={state:'key',rows:[]};render();return;}
   S.adm={state:'loading',rows:[]};render();
   try{
-    if(!DB)throw new Error('nodb');
-    const q=await DB.collection('results').get();
-    const rows=q.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
-    S.adm={state:'ok',rows};
-  }catch(e){S.adm={state:'err',rows:[]};}
+    if(useDb){
+      const q=await DB.collection('results').get();
+      S.adm={state:'ok',rows:q.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)))};
+    }else{
+      if(!SHEET_URL)throw new Error('nosource');
+      const r=await fetch(SHEET_URL+'?key='+encodeURIComponent(S.admKey)),j=await r.json();
+      if(!j.ok)throw new Error(j.error||'unauthorized');
+      S.adm={state:'ok',rows:groupRows(j.rows)};
+    }
+  }catch(e){S.adm={state:'err',rows:[]};if(!useDb)S.admKey='';}
   if(S.view==='admin')render();
 }
 const fmtAt=iso=>{try{return new Date(iso).toLocaleString(S.lang==='ar'?'ar-SA-u-nu-latn':'en-GB',{dateStyle:'medium',timeStyle:'short'});}catch(e){return iso||'';}};
@@ -668,7 +704,8 @@ function vAdmin(){
   return `<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('admTitle'))}</h2><button class="btn ghost" data-act="${S.name?'hub':'home'}">${esc(t('back2'))}</button></div>
   <div class="row" style="margin-block:12px"><input id="adm-q" type="text" style="max-width:320px" placeholder="${esc(t('search'))}" value="${esc(S.admQ||'')}"><button class="btn ghost" data-act="refresh">${esc(t('refresh'))}</button><button class="btn" id="axl" data-act="axl" ${A.rows.length?'':'disabled'}>${esc(t('exportAll'))}</button></div>
   <p id="msg" class="muted" role="status" style="margin:0 0 8px">${esc(S.msg)}</p>
-  <div id="adm-list">${A.state==='loading'?`<p class="muted">${esc(t('loading'))}</p>`:A.state==='err'?`<p class="muted">${esc(t('admErr'))}</p>`:admList()}</div></section>`;
+  ${(A.state==='key'||A.state==='err')&&!(IS_OWNER&&DB)?`<div class="row" style="margin-block-end:10px"><input id="adm-key" type="password" autocomplete="off" style="max-width:260px" placeholder="${esc(t('adminKey'))}"><button class="btn" data-act="admkey">${esc(t('openBtn'))}</button></div>`:''}
+  <div id="adm-list">${A.state==='loading'?`<p class="muted">${esc(t('loading'))}</p>`:A.state==='err'?`<p class="muted">${esc(t('admErr'))}</p>`:A.state==='key'?'':admList()}</div></section>`;
 }
 async function saveAdmin(){
   const btn=$('axl'),msg=$('msg'),say=m=>{S.msg=m;if(msg)msg.textContent=m;};
@@ -725,6 +762,7 @@ document.addEventListener('click',e=>{
   else if(a==='report'){if(canReport()){go('report');recordResult();}}
   else if(a==='admin'){S.view='admin';loadAdmin();}
   else if(a==='refresh')loadAdmin();
+  else if(a==='admkey'){const k=$('adm-key');S.admKey=k?k.value.trim():'';if(S.admKey)loadAdmin();}
   else if(a==='axl')saveAdmin();
   else if(a==='xlsx')saveFile('xlsx');
   else if(a==='pdf')saveFile('pdf');
