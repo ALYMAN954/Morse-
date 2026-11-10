@@ -237,6 +237,7 @@ details.faq{border-top:1px solid var(--line);padding-block:8px}details.faq summa
 .csig{display:flex;justify-content:space-between;gap:80px;width:100%;margin-top:auto;font-size:15px;color:#38505a}.csig>div{flex:1}.csig .ln{border-top:1.5px solid #38505a;margin-bottom:6px}
 .cfoot{font-size:12px;color:#6b7f87;margin-top:14px}
 details.svc{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--surface)}details.svc summary{cursor:pointer;font-size:16px}
+.ivd{margin:4px 0 0;padding-inline-start:18px;font-size:13px;color:var(--muted)}.gatebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;display:grid;gap:8px;box-shadow:0 2px 10px rgba(0,0,0,.12)}.gatebar .btn{width:100%}
 .ivs{display:grid;gap:6px;margin-block-end:8px}.ivs .chk{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
 </style>
 
@@ -345,7 +346,7 @@ const TXT={
  title:['Morse Fall Scale Trainer','مدرّب مقياس موريس للسقوط'],
  sub:['Medical-surgical ward competency simulation','محاكاة كفاءة لأقسام الباطنة والجراحة'],
  name:['Full name','الاسم الكامل'],hid:['Employee ID','الرقم الوظيفي'],unit:['Unit / ward','الوحدة / القسم'],
- unitPh:['Select your unit','اختر قسمك'],
+ unitPh:['Select your unit','اختر قسمك'],signIn:['Sign in','تسجيل الدخول'],howIntro:['The Morse Fall Scale (MFS) rates an adult patient\'s risk of falling with 6 items (0 to 125). Everyone uses the same items, so the same patient gets the same score.','يقيس مقياس موريس للسقوط خطر سقوط المريض البالغ بـ 6 بنود (من 0 إلى 125). الجميع يستخدم البنود نفسها، فيحصل المريض نفسه على الدرجة نفسها.'],
  start:['Start training','ابدأ التدريب'],need:['Enter your name, employee ID and unit to begin.','أدخل الاسم والرقم الوظيفي والوحدة للبدء.'],
  iTitle:['Why accurate fall-risk scoring matters','لماذا يهم تقييم خطر السقوط بدقة'],
  iP:['Falls are one of the most common safety events on a medical-surgical ward, and many of them can be prevented. The Morse Fall Scale (MFS) is a rapid and simple method of assessing an adult patient\'s likelihood of falling. It has six items and a score from 0 to 125.','السقوط من أكثر حوادث السلامة شيوعًا في أقسام الباطنة والجراحة، وكثير منها يمكن منعه. مقياس موريس للسقوط (MFS) طريقة سريعة وبسيطة لتقدير احتمال سقوط المريض البالغ. يتكون من ستة بنود ومجموع من 0 إلى 125.'],
@@ -542,39 +543,31 @@ Object.assign(TXT,{
  yourCases:['Your cases','حالاتك']
 });
 const INTRO={
- sign:[
-  ['Read the chart first: diagnoses, orders and IV lines.','اقرأ ملف المريض أولًا: التشخيصات والأوامر والقسطرة الوريدية.'],
-  ['Look at the patient: how he or she walks, what is used, how he or she gets up.','راقب المريض: كيف يمشي، وماذا يستخدم، وكيف ينهض.'],
-  ['Ask the bathroom question and compare the answer with the nursing order.','اسأل سؤال الحمام وقارن الإجابة بأمر التمريض.'],
-  ['Tick all 6 items, add the points, then check the risk level.','علّم البنود الستة، اجمع الدرجات، ثم راجع مستوى الخطر.']],
  how:[
-  ['Enter your name, employee ID and unit.','أدخل اسمك ورقمك الوظيفي ووحدتك.'],
-  ['Complete 6 patient cases within {A} minutes. The first six are two low, two moderate and two high risk. You can close the page and resume later inside this time.','أكمل 6 حالات مرضى خلال {A} دقيقة. الحالات الست الأولى: اثنتان خطر منخفض، واثنتان متوسط، واثنتان مرتفع. يمكنك إغلاق الصفحة والمتابعة لاحقًا ضمن هذا الوقت.'],
-  ['In some cases the patient\'s condition changes. You will assess the same patient again.','في بعض الحالات تتغير حالة المريض. ستقيّم المريض نفسه مرة ثانية.'],
-  ['After each case, read why the score is correct and what to fix.','بعد كل حالة، اقرأ لماذا كانت الدرجة صحيحة وما الذي يجب تصحيحه.'],
-  ['After 6 cases you may continue up to 13 cases. This is optional and the time extends to {B} minutes in total.','بعد 6 حالات يمكنك المتابعة حتى 13 حالة. هذا اختياري ويمتد الوقت إلى {B} دقيقة في المجموع.'],
-  ['To pass, every item must be correct (100%). If not, you can retake the test.','للنجاح يجب أن تكون كل البنود صحيحة (100%). وإن لم تنجح يمكنك إعادة الاختبار.'],
-  ['When you pass you can download a certificate. Your results are issued as an Excel file and a PDF report.','عند النجاح يمكنك تنزيل شهادة. وتصدر نتائجك كملف Excel وتقرير PDF.']]
+  ['Complete 6 cases within {A} minutes: 2 low, 2 moderate and 2 high risk. You can close the page and resume.','أكمل 6 حالات خلال {A} دقيقة: اثنتان منخفضة واثنتان متوسطة واثنتان مرتفعة. يمكنك إغلاق الصفحة والمتابعة.'],
+  ['In some cases the patient\'s condition changes. Assess the same patient again.','في بعض الحالات تتغير حالة المريض. قيّم المريض نفسه مرة ثانية.'],
+  ['After each case, read the rationale and choose the interventions (not scored).','بعد كل حالة اقرأ التعليل واختر التدخلات (بلا درجات).'],
+  ['Pass = 100% on the 6 cases, then you get a certificate. You may continue up to 13 cases ({B} minutes in total).','النجاح = 100% في الحالات الست، ثم تحصل على شهادة. يمكنك المتابعة حتى 13 حالة ({B} دقيقة في المجموع).']]
 };
 const HOW=[
- {see:['Ask the patient or family, and check the chart: did the patient fall during this admission, or recently before admission?','اسأل المريض أو أهله وراجع الملف: هل سقط المريض خلال هذه الإقامة أو مؤخرًا قبل الدخول؟'],
-  rule:['Yes (25): a fall during this admission, or a recent fall caused by the body, such as a seizure or an unsteady gait (immediate or within 3 months). If a patient falls for the first time in hospital, add 25 at once.','نعم (25): سقوط خلال هذه الإقامة، أو سقوط حديث سببه الجسم مثل التشنج أو عدم ثبات المشي (فوري أو خلال 3 أشهر). وإذا سقط المريض لأول مرة في المستشفى أضف 25 فورًا.'],
-  mist:['Counting an old fall from many months ago. Older than 3 months scores No (0).','احتساب سقوط قديم من أشهر طويلة. الأقدم من 3 أشهر يعني لا (0).']},
- {see:['Open the chart and count the medical diagnoses that are listed.','افتح الملف وعدّ التشخيصات الطبية المسجلة.'],
-  rule:['Two or more diagnoses = Yes (15). One diagnosis = No (0).','تشخيصان أو أكثر = نعم (15). تشخيص واحد = لا (0).'],
-  mist:['Counting something that is not listed in the chart.','احتساب شيء غير مسجل في الملف.']},
- {see:['Watch what the patient actually uses to move.','لاحظ ما يستخدمه المريض فعليًا للتنقل.'],
-  rule:['No aid, bed rest, wheelchair or a nurse helping = 0. Crutches, cane or walker = 15. Holding on to furniture to walk = 30.','لا وسيلة، أو راحة بالفراش، أو كرسي متحرك، أو مساعدة ممرضة = 0. عكازات أو عصا أو مشاية = 15. التمسك بالأثاث أثناء المشي = 30.'],
-  mist:['Scoring a wheelchair or a nurse\'s help as an aid. Both score 0.','احتساب الكرسي المتحرك أو مساعدة الممرضة كوسيلة مشي. كلاهما 0.']},
- {see:['Look at the patient\'s arm and the chart: is there a drip, an IV line or a heparin/saline lock in place right now?','انظر إلى ذراع المريض والملف: هل يوجد محلول أو قسطرة وريدية أو heparin/saline lock الآن؟'],
-  rule:['Yes (20) if any IV line or lock is in place. No (0) if there is none.','نعم (20) إذا وُجدت أي قسطرة وريدية أو قفل. لا (0) إذا لم توجد.'],
-  mist:['Counting an IV that has already been removed.','احتساب قسطرة سُحبت بالفعل.']},
- {see:['Watch the patient walk and stand up from the chair.','راقب المريض وهو يمشي وينهض من الكرسي.'],
-  rule:['Normal (0): head up, arms swing freely, steady steps. Also bed rest or immobile. Weak (10): stooped but able to lift the head, short steps, may shuffle, keeps balance. Impaired (20): struggles to rise, head down, poor balance, grabs furniture or a person.','طبيعية (0): رأس مرفوع، ذراعان تتحركان بحرية، خطوات ثابتة. وكذلك الراحة بالفراش أو عدم الحركة. ضعيفة (10): انحناء مع القدرة على رفع الرأس، خطوات قصيرة، قد يجرّ قدميه، ويحافظ على توازنه. مختلة (20): صعوبة في النهوض، رأس منخفض، توازن ضعيف، يتمسك بالأثاث أو بشخص.'],
-  mist:['Choosing Weak when the patient must hold furniture or a person to walk. That is Impaired.','اختيار ضعيفة عندما يحتاج المريض إلى التمسك بالأثاث أو بشخص ليمشي. هذه مختلة.']},
- {see:['Ask: "Can you go to the bathroom alone, or do you need help?" Then compare the answer with the nursing order on the Kardex.','اسأل: «هل تستطيع الذهاب إلى الحمام وحدك أم تحتاج إلى مساعدة؟» ثم قارن الإجابة بأمر التمريض في الكاردكس.'],
-  rule:['Answer matches the order = Oriented to own ability (0). Answer does not match the order, or is unrealistic = Forgets limitations (15).','الإجابة تتفق مع الأمر = مدرك لقدرته (0). الإجابة لا تتفق مع الأمر أو غير واقعية = ينسى محدوداته (15).'],
-  mist:['Scoring only from how alert the patient looks. Always compare the answer with the order.','التقييم فقط حسب يقظة المريض. قارن الإجابة دائمًا بالأمر.']}
+ {see:['Ask the patient or family and check the chart.','اسأل المريض أو أهله وراجع الملف.'],
+  rule:['Yes (25): fell during this admission or within 3 months (e.g. seizure, unsteady gait). Older = No (0).','نعم (25): سقط خلال هذه الإقامة أو خلال 3 أشهر (مثل تشنج أو عدم ثبات المشي). الأقدم = لا (0).'],
+  mist:['Counting a fall older than 3 months.','احتساب سقوط أقدم من 3 أشهر.']},
+ {see:['Count the diagnoses listed in the chart.','عدّ التشخيصات المسجلة في الملف.'],
+  rule:['Two or more = Yes (15). One = No (0).','تشخيصان أو أكثر = نعم (15). واحد = لا (0).'],
+  mist:['Counting what is not in the chart.','احتساب ما ليس في الملف.']},
+ {see:['Watch what the patient uses to move.','لاحظ ما يستخدمه المريض للتنقل.'],
+  rule:['None, bed rest, wheelchair or nurse help = 0. Crutches, cane or walker = 15. Holds furniture = 30.','لا شيء أو راحة بالفراش أو كرسي متحرك أو مساعدة ممرضة = 0. عكازات أو عصا أو مشاية = 15. التمسك بالأثاث = 30.'],
+  mist:['Wheelchair and nurse help are not aids (0).','الكرسي المتحرك ومساعدة الممرضة ليستا وسيلة مشي (0).']},
+ {see:['Look at the arm and the chart for an IV or lock now.','انظر إلى الذراع والملف: هل توجد قسطرة أو قفل الآن؟'],
+  rule:['Any IV or heparin/saline lock in place = Yes (20). None = No (0).','أي قسطرة وريدية أو heparin/saline lock = نعم (20). لا شيء = لا (0).'],
+  mist:['Counting an IV that was removed.','احتساب قسطرة سُحبت.']},
+ {see:['Watch the patient walk and rise from a chair.','راقب المريض وهو يمشي وينهض من الكرسي.'],
+  rule:['Normal (0): upright and steady, or bed rest. Weak (10): stooped, short steps, keeps balance. Impaired (20): struggles to rise, poor balance, grabs furniture or a person.','طبيعية (0): منتصب وثابت، أو راحة بالفراش. ضعيفة (10): انحناء وخطوات قصيرة مع توازن. مختلة (20): صعوبة في النهوض وتوازن ضعيف ويتمسك بالأثاث أو بشخص.'],
+  mist:['Choosing Weak when the patient holds on. That is Impaired.','اختيار ضعيفة بينما يتمسك المريض. هذه مختلة.']},
+ {see:['Ask: "Can you go to the bathroom alone?" and compare with the nursing order.','اسأل: «هل تستطيع الذهاب إلى الحمام وحدك؟» وقارن بأمر التمريض.'],
+  rule:['Matches the order = Oriented (0). Does not match, or unrealistic = Forgets limitations (15).','تتفق مع الأمر = مدرك (0). لا تتفق أو غير واقعية = ينسى محدوداته (15).'],
+  mist:['Not comparing the answer with the order.','عدم مقارنة الإجابة بأمر التمريض.']}
 ];
 const EXAMPLE={
  ti:['Mr. A, 68 years, pneumonia','السيد أ، 68 سنة، التهاب رئوي'],
@@ -731,7 +724,19 @@ Object.assign(TXT,{
  commonErr:['Most common mistakes','أكثر الأخطاء شيوعًا'],noErrData:['No mistake details yet.','لا توجد تفاصيل أخطاء بعد.'],chose:['chose','اختاروا'],instead:['instead of','بدل'],
  faqT:['Common questions','أسئلة شائعة']
 });
-const IVL=[['i1',0,['Orient the patient to the room, bathroom and call bell','تعريف المريض بالغرفة والحمام وجرس النداء']],['i13',2,['Bed or chair exit alarm on','تفعيل منبه السرير أو الكرسي']],['i7',1,['Assist with walking and toileting','مساعدة المريض في المشي والذهاب إلى الحمام']],['i3',0,['Bed in the lowest position with brakes locked','السرير في أخفض وضع وعجلاته مقفلة']],['i9',1,['Fall-risk wristband and sign according to policy','سوار وإشارة خطر السقوط حسب السياسة']],['i5',0,['Non-slip footwear','حذاء غير قابل للانزلاق']],['i15',2,['Close observation with frequent checks','مراقبة قريبة مع تفقد متكرر']],['i2',0,['Keep the call bell and personal items within reach','إبقاء جرس النداء والأغراض الشخصية في المتناول']],['i11',1,['Secure IV tubing and pole away from the walking path','تثبيت أنبوب المحلول والحامل بعيدًا عن مسار المشي']],['i17',2,['Review medicines with the doctor or pharmacist','مراجعة الأدوية مع الطبيب أو الصيدلي']],['i4',0,['Clear walkway and good lighting','ممر خالٍ وإضاءة جيدة']],['i8',1,['Scheduled toileting and regular rounding','جدول منتظم للحمام وجولات تفقد منتظمة']],['i14',2,['Room close to the nurses station','غرفة قريبة من محطة التمريض']],['i6',0,['Teach patient and family to call before getting up','تثقيف المريض والأسرة بطلب المساعدة قبل النهوض']],['i10',1,['Keep the walking aid within reach','إبقاء وسيلة المشي في المتناول']],['i16',2,['Staff assist with every transfer','مساعدة الطاقم عند كل انتقال']],['i12',1,['Reassess when the condition changes','إعادة التقييم عند تغيّر الحالة']],['i18',2,['Physiotherapy referral for mobility and aids','إحالة إلى العلاج الطبيعي للحركة ووسائل المشي']]];
+const IVL=[['e1',0,['Educate the patient and family','تثقيف المريض والأسرة'],[
+ ['Call the nurse before getting up or moving. Do not move alone.','طلب الممرضة قبل النهوض أو التحرك، وعدم التحرك وحده.'],
+ ['Do not play with the side rails. Keep them up.','عدم العبث بحواجز السرير، وإبقاؤها مرفوعة.'],
+ ['Keep the bed in the lowest position. Do not raise it.','إبقاء السرير في أخفض وضع وعدم رفعه.'],
+ ['Keep the floor dry, never wet.','إبقاء الأرضية جافة وغير مبتلة.'],
+ ['Keep furniture and belongings tidy and within reach.','ترتيب الأثاث والأغراض وإبقاؤها في المتناول.'],
+ ['Keep the room light on if he needs to move after calling us.','إضاءة الغرفة إذا احتاج للتحرك بعد إبلاغنا.']]],
+['e2',0,['Orient the patient to the room, bathroom and call bell','تعريف المريض بالغرفة والحمام وجرس النداء']],
+['e3',0,['Non-slip footwear and a clear, well-lit walkway','حذاء غير قابل للانزلاق وممر خالٍ وجيد الإضاءة']],
+['e4',1,['Assist with walking and toileting; keep the walking aid within reach','مساعدة المريض في المشي والحمام، وإبقاء وسيلة المشي في المتناول']],
+['e5',1,['Secure the IV tubing and keep the pole away from the walking path','تثبيت أنبوب المحلول وإبعاد الحامل عن مسار المشي']],
+['e6',2,['Fall-risk wristband and sign; bed or chair exit alarm on','سوار وإشارة خطر السقوط، وتفعيل منبه السرير أو الكرسي']],
+['e7',2,['Close observation, room near the nurses station, and medicine review with the doctor or pharmacist','مراقبة قريبة، وغرفة قريبة من محطة التمريض، ومراجعة الأدوية مع الطبيب أو الصيدلي']]];
 
 Object.assign(TXT,{
  homeT:['Home','الرئيسية'],homeQ:['Return to the home screen?','العودة إلى الشاشة الرئيسية؟'],
@@ -742,7 +747,7 @@ Object.assign(TXT,{
  gateBtn:['Start the test','ابدأ الاختبار'],gateWait:['Please read... {n} s','يرجى القراءة... {n} ث'],
  ivT:['Interventions','التدخلات'],ivS:['Select all the interventions you would apply for this patient and this risk level. This part is not scored.','اختر كل التدخلات التي ستطبقها لهذا المريض ولهذا المستوى من الخطر. هذا الجزء بدون درجات.'],
  ivNeed:['Select at least one intervention to continue.','اختر تدخلًا واحدًا على الأقل للمتابعة.'],ivRec:['Recommended actions for this risk level','الإجراءات الموصى بها لهذا المستوى من الخطر'],
- unitOther:['Unit name (capital letters)','اسم القسم (بحروف كبيرة)'],admIv:['Expected interventions chosen least often','التدخلات المتوقعة الأقل اختيارًا'],admUnit:['All units','كل الأقسام'],
+ unitOther:['Write your unit name (capital letters)','اكتب اسم قسمك (بحروف كبيرة)'],admIv:['Expected interventions chosen least often','التدخلات المتوقعة الأقل اختيارًا'],admUnit:['All units','كل الأقسام'],
  mBody:['You have finished the 6 required cases. Finish now to get your results, and your certificate if every item was correct (100%). You can also continue up to 13 cases for more practice. This is optional.','أنهيت الحالات الست المطلوبة. أنهِ الآن لتحصل على نتيجتك، وعلى شهادتك إن كانت كل البنود صحيحة (100%). ويمكنك المتابعة حتى 13 حالة لمزيد من التدريب. هذا اختياري.'],
  mTime:['Time: {A} minutes for 6 cases. If you continue, the total becomes {B} minutes.','الوقت: {A} دقيقة لـ 6 حالات. إن تابعت يصبح المجموع {B} دقيقة.']
 });
@@ -800,7 +805,7 @@ const setPanel=()=>{const sg=(k,v,l)=>`<button data-act="pref" data-k="${k}" dat
   <div><h3>${esc(t('colL'))}</h3><div class="seg">${cols.map(c=>`<button class="sw" style="background:${c[1]}" data-act="pref" data-k="accent" data-v="${c[0]}" aria-pressed="${PREF.accent===c[0]}" aria-label="${esc(t(c[2]))}" title="${esc(t(c[2]))}"></button>`).join('')}</div></div>
   <div><h3>${esc(t('fsL'))}</h3><div class="seg">${sg('fs',0,'A')}${sg('fs',1,'A+')}${sg('fs',2,'A++')}</div></div></section>`;};
 const foot=()=>`<footer class="foot">${esc(t('by'))}<br>${esc(t('disc'))}${SHEET_URL&&!IS_OWNER?`<br><button class="linkbtn" data-act="admin">${esc(t('sup'))}</button>`:''}</footer>`;
-const UNITS=[['MMSW',['Male Medical Surgical Ward','جناح الباطنة والجراحة للرجال']],['FMSW',['Female Medical Surgical Ward','جناح الباطنة والجراحة للنساء']],['PW',['','']],['OTHER',['Other','أخرى']]];
+const UNITS=[['MMSW',['Male Medical Surgical Ward','جناح الباطنة والجراحة للرجال']],['FMSW',['Female Medical Surgical Ward','جناح الباطنة والجراحة للنساء']],['PW',['','']],['OTHER',['Others','أخرى']]];
 const UALIAS={'MALE WARD':'MMSW','MAL WORD':'MMSW','MALE MEDICAL SURGICAL WARD':'MMSW','FEMALE WARD':'FMSW','FEMALE MEDICAL SURGICAL WARD':'FMSW'};
 const normUnit=u=>{const x=String(u||'').trim().toUpperCase().replace(/\s+/g,' ');return UALIAS[x]||x;};
 const who=()=>`<div class="who"><span>${esc(S.name)}</span><span>ID ${esc(S.hid)}</span><span>${esc(S.unit)}</span></div>`;
@@ -1040,22 +1045,14 @@ function vStart(){
   if(S.uSel===undefined)S.uSel=S.unit?(UNITS.some(u=>u[0]===S.unit&&u[0]!=='OTHER')?S.unit:'OTHER'):'';
   if(S.uSel==='OTHER'&&S.uOther===undefined)S.uOther=S.unit==='OTHER'?'':S.unit;
   const ready=S.name.trim()&&S.hid.trim()&&S.unit.trim(),started=S.order.length>0;
-  return resumeBox()+`<section class="panel intro"><h2>${esc(t('iTitle'))}</h2><p>${esc(t('iP'))}</p>
-  <div class="sign" role="note"><svg class="sign-ic" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="7" width="30" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><rect x="17" y="3" width="14" height="8" rx="2.5" fill="currentColor"/><path d="M16 26l6 6 11-13" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-   <div><h3>${esc(t('signT'))}</h3><p class="sign-s">${esc(t('signS'))}</p><ul class="act">${INTRO.sign.map(x=>`<li>${esc(p(x))}</li>`).join('')}</ul></div></div>
-  <h3>${esc(t('iHow'))}</h3><ol class="act">${INTRO.how.map(x=>`<li>${esc(tm(p(x)))}</li>`).join('')}</ol>
-  <div class="row" style="margin-block-start:16px"><button class="btn" data-act="how">${esc(t('howBtn'))}</button></div>
-  <div class="note" style="margin-block-start:16px">${esc(t('iCal'))}</div></section>
-  ${VIDEO_EMBED?`<section class="panel"><h3>${esc(t('vidTitle'))}</h3><div class="vid"><iframe src="${esc(VIDEO_EMBED)}" title="${esc(t('vidTitle'))}" allowfullscreen loading="lazy"></iframe></div></section>`:VIDEO_FILE?`<section class="panel"><h3>${esc(t('vidTitle'))}</h3><video controls preload="metadata" playsinline style="width:100%;border-radius:10px;background:#000"><source src="${esc(VIDEO_FILE)}" type="video/mp4"></video></section>`:''}
-  <section class="panel"><p class="muted" style="margin:0 0 14px">${esc(t('need'))}</p>
+  return resumeBox()+`  <section class="panel"><div class="row" style="justify-content:space-between;margin-block-end:12px"><h2 style="margin:0">${esc(t('signIn'))}</h2><button class="btn ghost" data-act="how">${esc(t('howShort'))}</button></div><p class="muted" style="margin:0 0 14px">${esc(t('need'))}</p>
   <div class="grid3" style="margin-block-end:18px">
    <div><label class="f" for="in-name">${esc(t('name'))}</label><input id="in-name" type="text" autocomplete="off" value="${esc(S.name)}"></div>
    <div><label class="f" for="in-hid">${esc(t('hid'))}</label><input id="in-hid" type="text" inputmode="numeric" dir="ltr" autocomplete="off" value="${esc(S.hid)}"></div>
-   <div><label class="f" for="in-unit">${esc(t('unit'))}</label><select id="in-unit" style="width:100%"><option value="" ${S.uSel?'':'selected'} disabled>${esc(t('unitPh'))}</option>${UNITS.map(u=>`<option value="${u[0]}" ${S.uSel===u[0]?'selected':''}>${u[0]}${u[1][0]?' · '+esc(p(u[1])):''}</option>`).join('')}</select>${S.uSel==='OTHER'?`<input id="in-uo" type="text" dir="ltr" autocomplete="off" style="margin-block-start:8px;text-transform:uppercase" placeholder="${esc(t('unitOther'))}" value="${esc(S.uOther||'')}">`:''}</div>
+   <div><label class="f" for="in-unit">${esc(t('unit'))}</label><select id="in-unit" style="width:100%"><option value="" ${S.uSel?'':'selected'} disabled>${esc(t('unitPh'))}</option>${UNITS.map(u=>`<option value="${u[0]}" ${S.uSel===u[0]?'selected':''}>${u[0]==='OTHER'?esc(p(u[1])):u[0]+(u[1][0]?' · '+esc(p(u[1])):'')}</option>`).join('')}</select>${S.uSel==='OTHER'?`<input id="in-uo" type="text" dir="ltr" autocomplete="off" style="margin-block-start:8px;text-transform:uppercase" placeholder="${esc(t('unitOther'))}" value="${esc(S.uOther||'')}">`:''}</div>
   </div>
   <button class="btn" id="go" data-act="go" ${ready?'':'disabled'}>${esc(started?t('resume'):t('start'))}</button></section>
-  <section class="panel"><div class="row" style="justify-content:space-between"><div><h3 style="margin:0">${esc(t('pracT'))}</h3><p class="muted" style="margin:4px 0 0">${esc(t('pracS'))}</p></div><button class="btn ghost" id="prbtn" data-act="prac" ${ready?'':'disabled'}>${esc(t('pracBtn'))}</button></div></section>
-  <section class="panel"><h3>${esc(t('guide'))}</h3>${legend()}</section>`;
+  <section class="panel"><div class="row" style="justify-content:space-between"><div><h3 style="margin:0">${esc(t('pracT'))}</h3><p class="muted" style="margin:4px 0 0">${esc(t('pracS'))}</p></div><button class="btn ghost" id="prbtn" data-act="prac" ${ready?'':'disabled'}>${esc(t('pracBtn'))}</button></div></section>`;
 }
 
 const FAQ=[
@@ -1071,8 +1068,9 @@ const FAQ=[
 ];
 function vHow(gate){
   const total=scoreOf(EXAMPLE.a),rk=RISK[riskIdx(total)],ord=i=>ITEMS[i].disp||ITEMS[i].o.map((_,k)=>k);
-  let h=`<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('howTitle'))}</h2>${gate?'':`<button class="btn ghost" data-act="howback">${esc(t('howBack'))}</button>`}</div>
-  <p style="margin:10px 0 0">${esc(t('howSub'))}</p>${gate?`<div class="note" style="margin-block-start:12px"><b>${esc(t('gateT'))}</b><br>${esc(tm(t('gateS')))}</div>`:''}</section>`;
+  let h=gate?`<section class="panel gatebar"><b>${esc(t('gateT'))}</b><button class="btn" id="gate-btn" data-act="gatego" disabled>${esc(t('gateWait').replace('{n}',GATE_SEC))}</button></section>`:'';
+  h+=`<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('howTitle'))}</h2>${gate?'':`<button class="btn ghost" data-act="howback">${esc(t('howBack'))}</button>`}</div>
+  <p style="margin:10px 0 0">${esc(t('howIntro'))}</p><div class="legend" style="margin-block-start:10px">${RISK.map(r=>`<div>${r.r[0]===51?'≥51':r.r[0]+' - '+r.r[1]}: ${esc(p(r.n))}</div>`).join('')}</div><ol class="act" style="margin-block-start:12px">${INTRO.how.map(x=>`<li>${esc(tm(p(x)))}</li>`).join('')}</ol></section>`;
   HOW.forEach((x,i)=>{
     h+=`<section class="panel hcard"><h3><span class="hn">${num(i+1)}</span>${esc(p(ITEMS[i].q))}</h3>
     <div class="hrow"><b>${esc(t('howLook'))}</b><span>${esc(p(x.see))}</span></div>
@@ -1088,8 +1086,8 @@ function vHow(gate){
   <div class="result risk-${riskIdx(total)}" style="margin-block-start:14px"><small>${esc(t('howTot'))}</small><div class="big">${num(total)} / 125</div><b>${esc(p(rk.n))}</b></div>
   <p style="margin:12px 0 4px"><b>${esc(t('howNext'))}</b></p><ul class="act">${ACT[riskIdx(total)].map(a=>`<li>${esc(p(a))}</li>`).join('')}</ul>
   ${gate?'':`<div class="row" style="margin-block-start:16px"><button class="btn" data-act="howback">${esc(t('howBack'))}</button></div>`}</section>`;
-  h+=`<section class="panel"><h2>${esc(t('faqT'))}</h2>${FAQ.map(x=>`<details class="gl faq"><summary>${esc(p(x[0]))}</summary><p>${esc(p(x[1]))}</p></details>`).join('')}</section>`;
-  if(gate)h+=`<section class="panel"><button class="btn" id="gate-btn" data-act="gatego" disabled>${esc(t('gateWait').replace('{n}',GATE_SEC))}</button></section>`;
+  h+=`<section class="panel"><h2>${esc(t('faqT'))}</h2>${[0,2,5,8].map(i=>FAQ[i]).map(x=>`<details class="gl faq"><summary>${esc(p(x[0]))}</summary><p>${esc(p(x[1]))}</p></details>`).join('')}</section>`;
+  h+=`<section class="panel"><div class="note">${esc(t('iCal'))}</div></section>`;
   return h;
 }
 function vHub(){
@@ -1142,7 +1140,7 @@ function vPlay(){
     h+=`<section class="panel" id="fbk"><div class="cheer" role="status" dir="ltr" lang="en">${esc(cheer(sc,r))}</div><div class="grid2"><div class="result risk-${riskIdx(r.us)}"><small>${esc(t('yourTotal'))}</small><div class="big">${num(r.us)} / 125</div><b>${esc(p(uk.n))}</b></div>
     <div class="result risk-${riskIdx(r.ts)}"><small>${esc(t('trueTotal'))}</small><div class="big">${num(r.ts)} / 125</div><b>${esc(p(rk.n))}</b></div></div>
     <p><b><bdi dir="ltr">${num(r.ok)}/${num(6)}</bdi></b> ${esc(t('items'))}</p>${errHtml(sc,r)}<div class="note" style="margin-block-start:12px">${esc(p(sc.nt))}</div>${ratHtml(sc,r)}
-    <h3 style="margin-block-start:16px">${esc(t('ivT'))}</h3><p class="muted" style="margin:0 0 8px">${esc(t('ivS'))}</p><div class="ivs">${IVL.map(x=>`<label class="chk"><input type="checkbox" data-iv value="${x[0]}" ${(r.iv||[]).includes(x[0])?'checked':''}><span>${esc(p(x[2]))}</span></label>`).join('')}</div><p class="muted" id="ivneed" ${ivOk?'hidden':''}>${esc(t('ivNeed'))}</p>
+    <h3 style="margin-block-start:16px">${esc(t('ivT'))}</h3><p class="muted" style="margin:0 0 8px">${esc(t('ivS'))}</p><div class="ivs">${IVL.map(x=>`<label class="chk"><input type="checkbox" data-iv value="${x[0]}" ${(r.iv||[]).includes(x[0])?'checked':''}><span><b>${esc(p(x[2]))}</b>${x[3]?`<ul class="ivd">${x[3].map(d=>`<li>${esc(p(d))}</li>`).join('')}</ul>`:''}</span></label>`).join('')}</div><p class="muted" id="ivneed" ${ivOk?'hidden':''}>${esc(t('ivNeed'))}</p>
     <div id="actsbox" ${ivOk?'':'hidden'}><h3 style="margin-block-start:16px">${esc(t('ivRec'))} (${esc(p(rk.n))})</h3><ul class="act">${ACT[riskIdx(r.ts)].map(a=>`<li>${esc(p(a))}</li>`).join('')}</ul></div>
     ${pendRe?`<div class="note" style="margin-block-start:12px">${esc(t('reNote'))}</div>`:''}
     <div class="row" style="margin-block-start:18px">${nextBtn}${finBtn}${!P&&!can?`<span class="muted"><bdi dir="ltr">${num(doneCount())}/${num(REQ)}</bdi></span>`:''}</div></section>`;
