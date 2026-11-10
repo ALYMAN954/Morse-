@@ -291,56 +291,130 @@ const ACT=[
 
 const SC=[
 {id:'e1',lv:'easy',ti:['Day 1 after appendectomy','اليوم الأول بعد استئصال الزائدة'],
- st:['Mr. A, 45, is on day 1 after a laparoscopic appendectomy. The chart lists one diagnosis: acute appendicitis. He walks to the bathroom alone with a steady gait and no aid. His IV was removed this morning. He has never fallen. He is alert and follows instructions.','السيد أ، 45 سنة، في اليوم الأول بعد استئصال الزائدة بالمنظار. السجل يذكر تشخيصًا واحدًا: التهاب الزائدة الحاد. يمشي إلى الحمام وحده بخطوات ثابتة ودون وسيلة مساعدة. تم سحب القسطرة الوريدية هذا الصباح. لم يسقط من قبل. واعٍ ويتبع التعليمات.'],
+ in:['Mr. A, 45, is on day 1 after a laparoscopic appendectomy.','السيد أ، 45 سنة، في اليوم الأول بعد استئصال الزائدة بالمنظار.'],
+ pt:[['He has never fallen.','لم يسقط من قبل.'],
+  ['The chart lists one diagnosis: acute appendicitis.','يذكر السجل تشخيصًا واحدًا: التهاب الزائدة الحاد.'],
+  ['He uses no cane, walker or furniture to move, and no one helps him walk.','لا يستخدم عصا أو مشاية أو أثاثًا للتنقل، ولا يساعده أحد في المشي.'],
+  ['His IV was removed this morning and no line remains.','تم سحب القسطرة الوريدية هذا الصباح ولا توجد قسطرة الآن.'],
+  ['When he walks to the bathroom, his gait is steady and normal.','عندما يمشي إلى الحمام تكون مشيته ثابتة وطبيعية.'],
+  ['The nursing order allows him to go to the bathroom alone. Asked "Can you go to the bathroom alone?", he answers "Yes, I can go alone", which matches the order.','أمر التمريض يسمح له بالذهاب إلى الحمام وحده. وعند سؤاله «هل تستطيع الذهاب إلى الحمام وحدك؟» أجاب: «نعم، أستطيع وحدي»، وهذا يتفق مع الأمر.']],
  a:[0,0,0,0,0,0],nt:['When every item scores 0, the total is 0: low risk. Basic safety care is enough.','عندما تكون كل البنود صفرًا يكون المجموع صفرًا: خطر منخفض. تكفي إجراءات السلامة الأساسية.'],
  sc:{pose:'stand',props:['bed','nurse']}},
 {id:'e2',lv:'easy',ti:['Heart failure with a walker','قصور القلب مع مشاية'],
- st:['Mrs. B, 78, is admitted with heart failure. The chart also lists hypertension and type 2 diabetes. Her daughter says she fell in the bathroom last week during a dizzy spell. She walks slowly with a walker, taking short weak steps. A saline lock is in her right forearm. She knows she needs help.','السيدة ب، 78 سنة، دخلت بسبب قصور القلب. السجل يذكر أيضًا ارتفاع ضغط الدم والسكري من النوع الثاني. تقول ابنتها إنها سقطت في الحمام الأسبوع الماضي أثناء نوبة دوخة. تمشي ببطء بمشاية بخطوات قصيرة وضعيفة. يوجد saline lock في الساعد الأيمن. وهي تدرك أنها تحتاج إلى مساعدة.'],
+ in:['Mrs. B, 78, is admitted with heart failure.','السيدة ب، 78 سنة، دخلت بسبب قصور القلب.'],
+ pt:[['Her daughter says she fell in the bathroom last week during a dizzy spell.','تقول ابنتها إنها سقطت في الحمام الأسبوع الماضي أثناء نوبة دوخة.'],
+  ['The chart lists heart failure, hypertension and type 2 diabetes.','يذكر السجل قصور القلب وارتفاع ضغط الدم والسكري من النوع الثاني.'],
+  ['She walks with a walker.','تمشي باستخدام مشاية.'],
+  ['A saline lock is in her right forearm, with no fluid running.','يوجد saline lock في ساعدها الأيمن ولا يوجد محلول جارٍ.'],
+  ['Her steps are short and weak, but she stays steady and keeps her balance.','خطواتها قصيرة وضعيفة، لكنها تبقى ثابتة وتحافظ على توازنها.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", she answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤالها «هل تستطيعين الذهاب إلى الحمام وحدك؟» أجابت: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[1,1,2,1,1,0],nt:['A walker scores 15. A saline lock counts as IV access even when no fluid is running.','المشاية تعطي 15 درجة. وsaline lock يُحسب كقسطرة وريدية حتى لو لم يكن هناك محلول جارٍ.'],
  sc:{pose:'stand',props:['walker','lock','fallbubble']}},
 {id:'e3',lv:'easy',ti:['Pneumonia on bed rest','التهاب رئوي مع راحة بالفراش'],
- st:['Mr. C, 60, has pneumonia and COPD in his chart. He is on strict bed rest with IV fluids running. He has never fallen. He is oriented and understands that he must stay in bed.','السيد ج، 60 سنة، لديه التهاب رئوي وانسداد رئوي مزمن في السجل. هو على راحة تامة بالفراش مع محلول وريدي جارٍ. لم يسقط من قبل. مدرك ويفهم أنه يجب أن يبقى في السرير.'],
+ in:['Mr. C, 60, is admitted with pneumonia.','السيد ج، 60 سنة، دخل بسبب التهاب رئوي.'],
+ pt:[['He has never fallen.','لم يسقط من قبل.'],
+  ['The chart lists pneumonia and COPD.','يذكر السجل التهابًا رئويًا وانسدادًا رئويًا مزمنًا.'],
+  ['He is on strict bed rest and uses no walking aid.','هو على راحة تامة بالفراش ولا يستخدم وسيلة مشي.'],
+  ['IV fluids are running.','المحلول الوريدي جارٍ.'],
+  ['He is not walking at present because of the bed rest.','لا يمشي حاليًا بسبب الراحة بالفراش.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", he answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤاله «هل تستطيع الذهاب إلى الحمام وحدك؟» أجاب: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[0,1,1,1,0,0],nt:['Bed rest scores 0 for both ambulatory aid and gait.','الراحة بالفراش تعطي صفرًا لوسيلة المشي ولطريقة المشي.'],
  sc:{pose:'lie',props:['iv']}},
 {id:'e4',lv:'easy',ti:['Cellulitis with a saline lock','التهاب النسيج الخلوي مع saline lock'],
- st:['Ms. D, 55, is admitted for cellulitis of the leg. It is her only diagnosis. She has a saline lock for IV antibiotics. She has not fallen. She walks without aid, with a normal gait, and is oriented.','الآنسة د، 55 سنة، دخلت بسبب التهاب النسيج الخلوي في الساق وهو تشخيصها الوحيد. لديها saline lock لإعطاء المضاد الحيوي. لم تسقط. تمشي دون وسيلة مساعدة بمشية طبيعية وهي مدركة.'],
+ in:['Ms. D, 55, is admitted for cellulitis of the leg.','الآنسة د، 55 سنة، دخلت بسبب التهاب النسيج الخلوي في الساق.'],
+ pt:[['She has not fallen.','لم تسقط من قبل.'],
+  ['The chart lists one diagnosis: cellulitis of the leg.','يذكر السجل تشخيصًا واحدًا: التهاب النسيج الخلوي في الساق.'],
+  ['She walks without any aid.','تمشي دون أي وسيلة مساعدة.'],
+  ['A saline lock is in place for IV antibiotics.','يوجد saline lock لإعطاء المضاد الحيوي الوريدي.'],
+  ['Her gait is normal.','مشيتها طبيعية.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", she answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤالها «هل تستطيعين الذهاب إلى الحمام وحدك؟» أجابت: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[0,0,0,1,0,0],nt:['Only the IV access scores here: 20, low risk. Do not add points for the leg problem itself.','بند القسطرة الوريدية فقط يحصل على درجة: 20، خطر منخفض. لا تضف درجات لمشكلة الساق نفسها.'],
  sc:{pose:'stand',props:['lock','nurse']}},
 
 {id:'m1',lv:'medium',ti:['Hip fracture repair, day 1','إصلاح كسر الورك، اليوم الأول'],
- st:['Mrs. E, 82, is on day 1 after hip fracture repair. The chart lists hip fracture, osteoporosis and hypertension. She fell at home two months ago because her legs gave way. Today she stands with a walker, pushes up with her arms, and is unsteady. A PCA pump runs through her IV. She asks for help every time.','السيدة هـ، 82 سنة، في اليوم الأول بعد إصلاح كسر الورك. السجل يذكر كسر الورك وهشاشة العظام وارتفاع الضغط. سقطت في المنزل قبل شهرين بسبب ضعف في ساقيها. اليوم تقف بمشاية، وتدفع نفسها بذراعيها، وهي غير ثابتة. مضخة PCA موصولة بالقسطرة الوريدية. وتطلب المساعدة في كل مرة.'],
+ in:['Mrs. E, 82, is on day 1 after hip fracture repair.','السيدة هـ، 82 سنة، في اليوم الأول بعد إصلاح كسر الورك.'],
+ pt:[['She fell at home two months ago because her legs gave way.','سقطت في المنزل قبل شهرين بسبب ضعف في ساقيها.'],
+  ['The chart lists hip fracture, osteoporosis and hypertension.','يذكر السجل كسر الورك وهشاشة العظام وارتفاع الضغط.'],
+  ['She stands up with a walker.','تقف باستخدام مشاية.'],
+  ['A PCA pump runs through her IV line.','مضخة PCA موصولة بالقسطرة الوريدية.'],
+  ['She struggles to rise from the chair, pushes up with her arms and is unsteady.','تجد صعوبة في النهوض من الكرسي، وتدفع نفسها بذراعيها، وهي غير ثابتة.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", she answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤالها «هل تستطيعين الذهاب إلى الحمام وحدك؟» أجابت: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[1,1,2,1,2,0],nt:['A fall two months ago is inside the 3-month window. Struggling to rise and being unsteady is impaired gait: 20.','السقوط قبل شهرين ضمن فترة الثلاثة أشهر. صعوبة النهوض وعدم الثبات يعني مشية مختلة: 20 درجة.'],
  sc:{pose:'stand',props:['walker','iv','nurse','fallbubble']}},
 {id:'m2',lv:'medium',ti:['Holding on to the furniture','التمسك بالأثاث'],
- st:['Mr. F, 68, has heart failure and diabetes. His last fall was eight months ago. He has no cane or walker. He moves by holding the bed rail, the bedside table and the wall. He rises slowly from the chair and is unsteady. IV furosemide is running. He says: "I am fine, I will go to the toilet myself", although the nursing order says to call for help.','السيد ف، 68 سنة، لديه قصور القلب والسكري. آخر سقوط له كان قبل ثمانية أشهر. ليس لديه عصا أو مشاية. يتنقل ممسكًا بحاجز السرير والطاولة الجانبية والحائط. ينهض ببطء من الكرسي وهو غير ثابت. يُعطى فوروسيمايد وريديًا. يقول: «أنا بخير، سأذهب إلى الحمام بنفسي» رغم أن أمر التمريض هو أن ينادي طلبًا للمساعدة.'],
+ in:['Mr. F, 68, is admitted to the medical-surgical ward.','السيد ف، 68 سنة، منوّم في قسم الباطنة والجراحة.'],
+ pt:[['His last fall was eight months ago.','آخر سقوط له كان قبل ثمانية أشهر.'],
+  ['The chart lists heart failure and diabetes.','يذكر السجل قصور القلب والسكري.'],
+  ['He has no cane or walker and moves by holding the bed rail, the bedside table and the wall.','ليس لديه عصا أو مشاية، ويتنقل ممسكًا بحاجز السرير والطاولة الجانبية والحائط.'],
+  ['IV furosemide is running.','يُعطى فوروسيمايد وريديًا.'],
+  ['He struggles to rise from the chair, pushes up with his arms and is unsteady.','يجد صعوبة في النهوض من الكرسي، ويدفع نفسه بذراعيه، وهو غير ثابت.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", he answers "I am fine, I will go to the toilet myself", which does not match the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤاله «هل تستطيع الذهاب إلى الحمام وحدك؟» أجاب: «أنا بخير، سأذهب إلى الحمام بنفسي»، وهذا لا يتفق مع الأمر.']],
  a:[0,1,3,1,2,1],nt:['Eight months ago is outside the window. Holding furniture is 30, the highest aid score. Refusing to call for help shows he forgets his limits.','ثمانية أشهر خارج الفترة. التمسك بالأثاث 30 درجة وهي أعلى درجة لوسيلة المشي. ورفضه طلب المساعدة يدل على أنه ينسى محدوداته.'],
  sc:{pose:'stand',props:['furn','iv','bubbleX']}},
 {id:'m3',lv:'medium',ti:['Wheelchair after bariatric surgery','كرسي متحرك بعد جراحة السمنة'],
- st:['Ms. G, 50, is on day 2 after gastric sleeve surgery. Morbid obesity is the only active diagnosis in the chart. She moves by wheelchair and a nurse assists every transfer. IV fluids are running. She has never fallen and is oriented.','الآنسة غ، 50 سنة، في اليوم الثاني بعد عملية تكميم المعدة. السمنة المفرطة هي التشخيص الفعّال الوحيد في السجل. تتنقل بكرسي متحرك وتساعدها الممرضة في كل انتقال. المحلول الوريدي جارٍ. لم تسقط من قبل وهي مدركة.'],
+ in:['Ms. G, 50, is on day 2 after gastric sleeve surgery.','الآنسة غ، 50 سنة، في اليوم الثاني بعد عملية تكميم المعدة.'],
+ pt:[['She has never fallen.','لم تسقط من قبل.'],
+  ['The chart lists one diagnosis: morbid obesity.','يذكر السجل تشخيصًا واحدًا: السمنة المفرطة.'],
+  ['She moves by wheelchair and a nurse assists every transfer.','تتنقل بكرسي متحرك وتساعدها الممرضة في كل انتقال.'],
+  ['IV fluids are running.','المحلول الوريدي جارٍ.'],
+  ['She does not walk on her own at present.','لا تمشي بمفردها حاليًا.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", she answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤالها «هل تستطيعين الذهاب إلى الحمام وحدك؟» أجابت: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[0,0,1,1,0,0],nt:['A wheelchair with nurse assistance scores 0 for aid and 0 for gait. It is not "furniture".','الكرسي المتحرك مع مساعدة التمريض يعطي صفرًا لوسيلة المشي وصفرًا لطريقة المشي. وهو ليس «أثاثًا».'],
  sc:{pose:'wc',props:['iv','nurse']}},
 {id:'m4',lv:'medium',ti:['Fall in the emergency room','سقوط في الطوارئ'],
- st:['Mr. H, 74, has pneumonia and COPD. He slipped on a wet floor in the ER last night on the way to the toilet. He now walks without aid with a steady gait. IV antibiotics are running. He is oriented and careful.','السيد ح، 74 سنة، لديه التهاب رئوي وانسداد رئوي مزمن. انزلق على أرضية مبللة في الطوارئ الليلة الماضية وهو في طريقه إلى الحمام. يمشي الآن دون وسيلة مساعدة بمشية ثابتة. المضاد الحيوي يُعطى وريديًا. هو مدرك وحذر.'],
+ in:['Mr. H, 74, is admitted with pneumonia.','السيد ح، 74 سنة، دخل بسبب التهاب رئوي.'],
+ pt:[['He slipped on a wet floor in the ER last night on the way to the toilet and fell.','انزلق على أرضية مبللة في الطوارئ الليلة الماضية وهو في طريقه إلى الحمام وسقط.'],
+  ['The chart lists pneumonia and COPD.','يذكر السجل التهابًا رئويًا وانسدادًا رئويًا مزمنًا.'],
+  ['He now walks without any aid.','يمشي الآن دون أي وسيلة مساعدة.'],
+  ['IV antibiotics are running.','المضاد الحيوي يُعطى وريديًا.'],
+  ['His gait is steady and normal.','مشيته ثابتة وطبيعية.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", he answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤاله «هل تستطيع الذهاب إلى الحمام وحدك؟» أجاب: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[1,1,0,1,0,0],nt:['A fall during the current episode of care counts as a history of falling: 25.','السقوط أثناء نفس فترة الرعاية الحالية يُحسب كتاريخ سقوط: 25 درجة.'],
  sc:{pose:'stand',props:['iv','wet','fallbubble']}},
 
 {id:'h1',lv:'hard',ti:['Stroke with confusion','سكتة دماغية مع ارتباك'],
- st:['Mr. I, 88, has an ischemic stroke, atrial fibrillation and diabetes. He fell on the ward at 06:00 today. He has left-sided weakness, uses a cane in his right hand, drags his left foot and loses balance when turning. A heparin infusion runs through his IV. He is confused and keeps trying to leave the bed "to go to work".','السيد ع، 88 سنة، لديه سكتة دماغية إقفارية ورجفان أذيني وسكري. سقط في القسم الساعة 06:00 اليوم. لديه ضعف في الجانب الأيسر، ويستخدم عصا في يده اليمنى، ويجر قدمه اليسرى ويفقد توازنه عند الالتفاف. يُعطى هيبارين عبر القسطرة الوريدية. هو مرتبك ويحاول مرارًا مغادرة السرير «ليذهب إلى العمل».'],
+ in:['Mr. I, 88, is admitted with an ischemic stroke.','السيد ع، 88 سنة، دخل بسبب سكتة دماغية إقفارية.'],
+ pt:[['He fell on the ward at 06:00 today.','سقط في القسم الساعة 06:00 اليوم.'],
+  ['The chart lists ischemic stroke, atrial fibrillation and diabetes.','يذكر السجل سكتة دماغية إقفارية ورجفانًا أذينيًا وسكري.'],
+  ['Because of left-sided weakness, he uses a cane in his right hand.','بسبب ضعف الجانب الأيسر يستخدم عصا في يده اليمنى.'],
+  ['A heparin infusion runs through his IV.','يُعطى هيبارين عبر القسطرة الوريدية.'],
+  ['He drags his left foot and loses his balance when turning.','يجر قدمه اليسرى ويفقد توازنه عند الالتفاف.'],
+  ['He is confused and keeps trying to leave the bed "to go to work", although the nursing order is to call for help.','هو مرتبك ويحاول مرارًا مغادرة السرير «ليذهب إلى العمل»، مع أن أمر التمريض هو طلب المساعدة.']],
  a:[1,1,2,1,2,1],nt:['Every positive answer applies: 110 of 125. Confusion about his limits is the key driver of this risk.','كل الإجابات الإيجابية تنطبق: 110 من 125. الارتباك بشأن محدوداته هو المحرك الرئيسي لهذا الخطر.'],
  sc:{pose:'stand',props:['cane','iv','bubbleQ','fallbubble']}},
 {id:'h2',lv:'hard',ti:['One point below the cut-off','قبل حد الخطر المرتفع بدرجة واحدة'],
- st:['Mrs. J, 66, is admitted with cellulitis. Her chart also lists type 2 diabetes. She fell at home six weeks ago when her legs gave way. Her IV antibiotics are finished and the line was removed. She walks only with a nurse holding her arm. Her steps are short and weak but steady. She is oriented and understands her limits.','السيدة ي، 66 سنة، دخلت بسبب التهاب النسيج الخلوي. السجل يذكر أيضًا السكري من النوع الثاني. سقطت في المنزل قبل ستة أسابيع عندما خانتها ساقاها. انتهى المضاد الحيوي الوريدي وتم سحب القسطرة. تمشي فقط والممرضة تمسك بذراعها. خطواتها قصيرة وضعيفة لكنها ثابتة. هي مدركة وتفهم حدود قدرتها.'],
+ in:['Mrs. J, 66, is admitted with cellulitis.','السيدة ي، 66 سنة، دخلت بسبب التهاب النسيج الخلوي.'],
+ pt:[['She fell at home six weeks ago when her legs gave way.','سقطت في المنزل قبل ستة أسابيع عندما خانتها ساقاها.'],
+  ['The chart lists cellulitis and type 2 diabetes.','يذكر السجل التهاب النسيج الخلوي والسكري من النوع الثاني.'],
+  ['She walks only with a nurse holding her arm.','تمشي فقط والممرضة تمسك بذراعها.'],
+  ['Her IV antibiotics are finished and the line was removed, so no line remains.','انتهى المضاد الحيوي الوريدي وتم سحب القسطرة، فلا توجد قسطرة الآن.'],
+  ['Her steps are short and weak, but she stays steady.','خطواتها قصيرة وضعيفة لكنها تبقى ثابتة.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", she answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤالها «هل تستطيعين الذهاب إلى الحمام وحدك؟» أجابت: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[1,1,1,0,1,0],nt:['The total is 50. High risk starts at 51, so this patient is moderate risk by one point. Nurse assist and the removed IV both score 0.','المجموع 50. الخطر المرتفع يبدأ من 51 فهذه المريضة خطر متوسط بفارق درجة واحدة. مساعدة التمريض والقسطرة المسحوبة تعطيان صفرًا.'],
  sc:{pose:'stand',props:['nurse','fallbubble']}},
 {id:'h3',lv:'hard',ti:['IV removed this morning','سحب القسطرة هذا الصباح'],
- st:['Mrs. K, 62, has COPD, hypertension and osteoarthritis in her chart. She has never fallen. She walks with a cane, taking short weak steps, but she is steady. Her IV was removed at 08:00 and no access remains. She is oriented and follows instructions.','السيدة ك، 62 سنة، لديها انسداد رئوي مزمن وارتفاع ضغط وخشونة مفاصل في السجل. لم تسقط من قبل. تمشي بعصا بخطوات قصيرة وضعيفة لكنها ثابتة. تم سحب القسطرة الوريدية الساعة 08:00 ولا توجد أي قسطرة الآن. هي مدركة وتتبع التعليمات.'],
+ in:['Mrs. K, 62, is admitted with COPD.','السيدة ك، 62 سنة، دخلت بسبب انسداد رئوي مزمن.'],
+ pt:[['She has never fallen.','لم تسقط من قبل.'],
+  ['The chart lists COPD, hypertension and osteoarthritis.','يذكر السجل انسدادًا رئويًا مزمنًا وارتفاع ضغط وخشونة مفاصل.'],
+  ['She walks with a cane.','تمشي بعصا.'],
+  ['Her IV was removed at 08:00 and no line remains.','تم سحب القسطرة الوريدية الساعة 08:00 ولا توجد قسطرة الآن.'],
+  ['She takes short, weak steps, but she is steady.','تخطو خطوات قصيرة وضعيفة لكنها ثابتة.'],
+  ['The nursing order is to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", she answers "No, I need help", which matches the order.','أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤالها «هل تستطيعين الذهاب إلى الحمام وحدك؟» أجابت: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.']],
  a:[0,1,2,0,1,0],nt:['Score only what is present now. No IV access means 0 for item 4. Total 40 is moderate risk.','احسب فقط ما هو موجود الآن. لا توجد قسطرة وريدية فالبند الرابع صفر. المجموع 40 خطر متوسط.'],
  sc:{pose:'stand',props:['cane']}},
 {id:'h4',lv:'hard',ti:['Night wandering with dementia','التجوال الليلي مع الخرف'],
- st:['Mrs. L, 79, has advanced dementia, hypertension and a urinary infection. She fell in her nursing home two days ago. At night she walks the corridor without any aid, with a normal steady gait. She does not realise she is in hospital and looks for her home. IV antibiotics are running.','السيدة ل، 79 سنة، لديها خرف متقدم وارتفاع ضغط والتهاب بولي. سقطت في دار الرعاية قبل يومين. في الليل تمشي في الممر دون أي وسيلة مساعدة بمشية طبيعية وثابتة. لا تدرك أنها في المستشفى وتبحث عن بيتها. المضاد الحيوي يُعطى وريديًا.'],
+ in:['Mrs. L, 79, is admitted with a urinary infection.','السيدة ل، 79 سنة، دخلت بسبب التهاب بولي.'],
+ pt:[['She fell in her nursing home two days ago.','سقطت في دار الرعاية قبل يومين.'],
+  ['The chart lists advanced dementia, hypertension and a urinary infection.','يذكر السجل خرفًا متقدمًا وارتفاع ضغط والتهابًا بوليًا.'],
+  ['At night she walks the corridor without any aid.','في الليل تمشي في الممر دون أي وسيلة مساعدة.'],
+  ['IV antibiotics are running.','المضاد الحيوي يُعطى وريديًا.'],
+  ['Her gait is normal and steady.','مشيتها طبيعية وثابتة.'],
+  ['She does not realise she is in hospital and looks for her home, although the nursing order is to call for help to go to the bathroom.','لا تدرك أنها في المستشفى وتبحث عن بيتها، مع أن أمر التمريض هو طلب المساعدة للذهاب إلى الحمام.']],
  a:[1,1,0,1,0,1],nt:['A steady gait scores 0, yet the total is 75. Mental status adds 15 and she needs constant supervision.','المشية الثابتة تعطي صفرًا ومع ذلك المجموع 75. الحالة الذهنية تضيف 15 وتحتاج إلى إشراف مستمر.'],
  sc:{pose:'stand',props:['iv','bubbleQ','fallbubble','wet']}}
 ];
+const composeSt=c=>{c.parts=c.pt;c.st=[[c.in[0]].concat(c.pt.map(x=>x[0])).join(' '),[c.in[1]].concat(c.pt.map(x=>x[1])).join(' ')];};
+SC.forEach(c=>{if(c.pt)composeSt(c);});
 
 const TXT={
  title:['Morse Fall Scale Trainer','مدرّب مقياس موريس للسقوط'],
@@ -665,6 +739,7 @@ function buildCase(lv,force){
   // 5 gait
   if(a[4]===0){
     if(mode==='none'||mode===''||mode==='assist')pcs.push([`When ${he} walks, the gait is steady and normal.`,`عندما ${ar('يمشي','تمشي')} تكون مشيته${ar('','ا')} ثابتة وطبيعية.`]);
+    else pcs.push([mode==='bed'?`${He} is not walking at present because of the bed rest.`:`${He} does not walk on ${his} own at present.`,mode==='bed'?`${ar('لا يمشي','لا تمشي')} حاليًا بسبب الراحة بالفراش.`:`${ar('لا يمشي','لا تمشي')} ${ar('بمفرده','بمفردها')} حاليًا.`]);
     R6.push(mode==='bed'?['Bed rest scores 0 for gait.','الراحة بالفراش تعطي صفرًا لطريقة المشي.']:mode==='wc'?['Wheelchair scores 0 for gait.','الكرسي المتحرك يعطي صفرًا لطريقة المشي.']:GR[4][0]);
   }else if(a[4]===1){
     pcs.push([`Walking, ${he} takes short, weak steps but stays steady.`,`عند المشي ${ar('يخطو','تخطو')} خطوات قصيرة وضعيفة لكن ${ar('يبقى ثابتًا','تبقى ثابتة')}.`]);R6.push(GR[4][1]);
@@ -683,10 +758,11 @@ function buildCase(lv,force){
   a[2]=aidIdx;
   const n=++gid,title=m?`Mr. ${nm[0]}`:`Ms. ${nm[0]}`,titleAr=m?`السيد ${nm[1]}`:`السيدة ${nm[1]}`;
   const intro=[`${title}, ${age}, is admitted to the medical-surgical ward.`,`${titleAr}، ${age} سنة، ${ar('منوّم','منوّمة')} في قسم الباطنة والجراحة.`];
-  const body=lv==='easy'?pcs:shuffle(pcs);
+  const body=pcs;
   const nt=traps.length?[traps.map(x=>x[0]).join(' '),traps.map(x=>x[1]).join(' ')]:['Score each item only from what the case states now.','قيّم كل بند فقط بحسب ما تذكره الحالة الآن.'];
   return {id:'g'+n,lv,gen:true,g:g,ti:[`Case ${n}: ${dxs[0][0]}`,`حالة ${n}: ${dxs[0][1]}`],
     st:[[intro[0]].concat(body.map(x=>x[0])).join(' '),[intro[1]].concat(body.map(x=>x[1])).join(' ')],
+    in:intro,parts:body,
     a,nt,rat:R6,sc:{pose,props}};
 }
 
@@ -826,7 +902,7 @@ const shuf=shuffle;
 /* ---------- reassessment: the patient's condition changes, so the nurse scores again ---------- */
 const genderOf=c=>c.g||(/^\s*(Mrs\.|Ms\.|She\b)/.test(c.st[0])?'f':'m');
 function makeReassess(c){
-  const m=genderOf(c)==='m',he=m?'he':'she',He=m?'He':'She',his=m?'his':'her',him=m?'him':'her',ar=(x,y)=>m?x:y;
+  const m=genderOf(c)==='m',His=h=>h==='he'?'His':'Her',he=m?'he':'she',He=m?'He':'She',his=m?'his':'her',him=m?'him':'her',ar=(x,y)=>m?x:y;
   const a=c.a,stand=c.sc.pose==='stand',pr=c.sc.props,hasAid=pr.includes('walker')||pr.includes('cane');
   const M=[];
   if(a[0]===0)M.push({it:[0],f:b=>{b[0]=1;},add:['fallbubble'],rm:[],
@@ -848,9 +924,11 @@ function makeReassess(c){
     ev:[`The confusion cleared after treatment. Asked about the bathroom, ${he} now answers "No, I need help", which matches the order.`,`زال الارتباك بعد العلاج. عند السؤال عن الحمام ${ar('أجاب','أجابت')} الآن: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.`],
     why:{5:['The answer now matches the order: oriented to own ability: 0.','الإجابة تتفق الآن مع الأمر: مدرك لقدرته: 0.']}});
   if(stand&&a[2]<2&&!hasAid)M.push({it:[2,4],f:b=>{b[2]=2;b[4]=Math.max(b[4],1);},add:['walker'],rm:[],
+    ei:{2:[`After a weak spell, physiotherapy gave ${him} a walker, and ${he} now walks with it.`,`بعد فترة ضعف، ${ar('أعطاه','أعطاها')} أخصائي العلاج الطبيعي مشاية، و${ar('يمشي','تمشي')} بها الآن.`],4:[`${He} takes short steps but keeps balance.`,`${ar('يخطو','تخطو')} خطوات قصيرة مع الحفاظ على التوازن.`]},
     ev:[`After a weak spell, physiotherapy gave ${him} a walker. ${He} now walks with it, taking short steps but keeping balance.`,`بعد فترة ضعف، أعطاه أخصائي العلاج الطبيعي مشاية. ${ar('يمشي','تمشي')} بها الآن بخطوات قصيرة مع الحفاظ على التوازن.`.replace('أعطاه',ar('أعطاه','أعطاها'))],
     why:{2:['A walker scores 15.','المشاية تعطي 15.'],4:['Short weak steps with balance kept: 10.','خطوات قصيرة ضعيفة مع الحفاظ على التوازن: 10.']}});
   if(stand&&a[2]===2&&hasAid)M.push({it:[2,4],f:b=>{b[2]=0;b[4]=0;},add:[],rm:['walker','cane'],
+    ei:{2:[`After physiotherapy ${he} has recovered and now walks without any aid.`,`بعد العلاج الطبيعي تعافى${ar('','ت')} و${ar('يمشي','تمشي')} الآن دون أي وسيلة.`],4:[`${His(he)} gait is steady and normal.`,`مشي${ar('ته','تها')} الآن ثابتة وطبيعية.`]},
     ev:[`After physiotherapy ${he} has recovered and now walks without any aid, with a steady gait.`,`بعد العلاج الطبيعي تعافى${ar('','ت')} و${ar('يمشي','تمشي')} الآن دون أي وسيلة وبمشية ثابتة.`],
     why:{2:['No aid is used now: 0.','لا تُستخدم وسيلة مشي الآن: 0.'],4:['Steady, normal gait now: 0.','مشية ثابتة وطبيعية الآن: 0.']}});
   if(stand&&a[4]<2&&a[2]!==3)M.push({it:[4],f:b=>{b[4]=2;},add:[],rm:[],
@@ -863,7 +941,9 @@ function makeReassess(c){
   const first=pick(M),chosen=[first];
   if(Math.random()<.4){const rest=M.filter(x=>!x.it.some(i=>first.it.includes(i)));if(rest.length)chosen.push(pick(rest));}
   const b=a.slice(),props=pr.slice();let ev0='',ev1='',why={};
+  const np=c.parts?c.parts.map(x=>x.slice()):null;
   chosen.forEach(x=>{x.f(b);ev0+=(ev0?' ':'')+x.ev[0];ev1+=(ev1?' ':'')+x.ev[1];Object.assign(why,x.why);x.add.forEach(k=>{if(!props.includes(k))props.push(k);});});
+  chosen.forEach(x=>{if(!np)return;if(x.ei)Object.keys(x.ei).forEach(k=>{np[k]=x.ei[k];});else np[x.it[0]]=x.ev;});
   chosen.forEach(x=>x.rm.forEach(k=>{let i;while((i=props.indexOf(k))>-1)props.splice(i,1);}));
   const ch=ITEMS.map((_,i)=>i).filter(i=>!same(i,a[i],b[i]));
   if(!ch.length)return null;
@@ -871,7 +951,8 @@ function makeReassess(c){
   const lst=l=>ch.map(i=>`${ITEMS[i].q[l]}: ${ITEMS[i].o[a[i]][l]} (${ITEMS[i].p[a[i]]}) → ${ITEMS[i].o[b[i]][l]} (${ITEMS[i].p[b[i]]})`).join(l?'؛ ':'; ');
   return {id:c.id+'#2',base:c.id,re:true,gen:true,lv:c.lv,g:genderOf(c),
     ti:['Reassessment: '+c.ti[0],'إعادة التقييم: '+c.ti[1]],
-    st:['Update: '+ev0+' Reassess the patient with this new information. Anything not mentioned has not changed.','تحديث: '+ev1+' أعد تقييم المريض بهذه المعلومات الجديدة. كل ما لم يُذكر لم يتغير.'],
+    st:np&&c.in?[ 'Update: the condition has changed since the last assessment. Reassess using the current details. '+[c.in[0]].concat(np.map(x=>x[0])).join(' '),'تحديث: تغيّرت الحالة منذ التقييم السابق. أعد التقييم بحسب التفاصيل الحالية. '+[c.in[1]].concat(np.map(x=>x[1])).join(' ')]:['Update: '+ev0+' Reassess the patient with this new information. Anything not mentioned has not changed.','تحديث: '+ev1+' أعد تقييم المريض بهذه المعلومات الجديدة. كل ما لم يُذكر لم يتغير.'],
+    in:c.in,parts:np,
     prev:c.st,a:b,
     nt:['What changed: '+lst(0)+'. Total: '+t1+' → '+t2+'. When the condition changes, score again and update the precautions.','ما الذي تغيّر: '+lst(1)+'. المجموع: '+t1+' ← '+t2+'. عندما تتغير الحالة، أعد التقييم وحدّث الاحتياطات.'],
     rat:ITEMS.map((_,i)=>why[i]||(c.rat?c.rat[i]:GR[i][b[i]])),
