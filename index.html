@@ -340,7 +340,7 @@ const TXT={
  title:['Morse Fall Scale Trainer','مدرّب مقياس موريس للسقوط'],
  sub:['Medical-surgical ward competency simulation','محاكاة كفاءة لأقسام الباطنة والجراحة'],
  name:['Full name','الاسم الكامل'],hid:['Employee ID','الرقم الوظيفي'],unit:['Unit / ward','الوحدة / القسم'],
- unitPh:['e.g. Medical-Surgical Ward 5A','مثال: جناح الباطنة والجراحة 5A'],
+ unitPh:['Select your unit','اختر قسمك'],
  start:['Start training','ابدأ التدريب'],need:['Enter your name, employee ID and unit to begin.','أدخل الاسم والرقم الوظيفي والوحدة للبدء.'],
  iTitle:['Why accurate fall-risk scoring matters','لماذا يهم تقييم خطر السقوط بدقة'],
  iP:['Falls are one of the most common safety events on a medical-surgical ward, and many of them can be prevented. The Morse Fall Scale (MFS) is a rapid and simple method of assessing an adult patient\'s likelihood of falling. It has six items and a score from 0 to 125.','السقوط من أكثر حوادث السلامة شيوعًا في أقسام الباطنة والجراحة، وكثير منها يمكن منعه. مقياس موريس للسقوط (MFS) طريقة سريعة وبسيطة لتقدير احتمال سقوط المريض البالغ. يتكون من ستة بنود ومجموع من 0 إلى 125.'],
@@ -780,6 +780,7 @@ const setPanel=()=>{const sg=(k,v,l)=>`<button data-act="pref" data-k="${k}" dat
   <div><h3>${esc(t('colL'))}</h3><div class="seg">${cols.map(c=>`<button class="sw" style="background:${c[1]}" data-act="pref" data-k="accent" data-v="${c[0]}" aria-pressed="${PREF.accent===c[0]}" aria-label="${esc(t(c[2]))}" title="${esc(t(c[2]))}"></button>`).join('')}</div></div>
   <div><h3>${esc(t('fsL'))}</h3><div class="seg">${sg('fs',0,'A')}${sg('fs',1,'A+')}${sg('fs',2,'A++')}</div></div></section>`;};
 const foot=()=>`<footer class="foot">${esc(t('by'))}<br>${esc(t('disc'))}${SHEET_URL&&!IS_OWNER?`<br><button class="linkbtn" data-act="admin">${esc(t('sup'))}</button>`:''}</footer>`;
+const UNITS=[['MMSW',['Male Medical Surgical Ward','جناح الباطنة والجراحة للرجال']],['FMSW',['Female Medical Surgical Ward','جناح الباطنة والجراحة للنساء']]];
 const who=()=>`<div class="who"><span>${esc(S.name)}</span><span>ID ${esc(S.hid)}</span><span>${esc(S.unit)}</span></div>`;
 const legend=()=>`<div class="legend"><div>${RISK.map(r=>`<div>${r.r[0]===51?'≥51':r.r[0]+' - '+r.r[1]}: ${esc(p(r.n))}</div>`).join('')}</div><div class="muted">${esc(t('formNote'))}</div></div>`;
 
@@ -993,6 +994,7 @@ function vTimeup(){
   return `<section class="panel"><h2>${esc(t('tuT'))}</h2><p>${esc(t('tuB'))}</p><div class="row"><button class="btn" data-act="retake">${esc(t('retake'))}</button><button class="btn ghost" data-act="home">${esc(t('howBack'))}</button></div></section>`;
 }
 function vStart(){
+  if(!UNITS.some(u=>u[0]===S.unit))S.unit='';
   const ready=S.name.trim()&&S.hid.trim()&&S.unit.trim(),started=S.order.length>0;
   return resumeBox()+`<section class="panel intro"><h2>${esc(t('iTitle'))}</h2><p>${esc(t('iP'))}</p>
   <div class="sign" role="note"><svg class="sign-ic" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="7" width="30" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><rect x="17" y="3" width="14" height="8" rx="2.5" fill="currentColor"/><path d="M16 26l6 6 11-13" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1005,7 +1007,7 @@ function vStart(){
   <div class="grid3" style="margin-block-end:18px">
    <div><label class="f" for="in-name">${esc(t('name'))}</label><input id="in-name" type="text" autocomplete="off" value="${esc(S.name)}"></div>
    <div><label class="f" for="in-hid">${esc(t('hid'))}</label><input id="in-hid" type="text" inputmode="numeric" dir="ltr" autocomplete="off" value="${esc(S.hid)}"></div>
-   <div><label class="f" for="in-unit">${esc(t('unit'))}</label><input id="in-unit" type="text" autocomplete="off" placeholder="${esc(t('unitPh'))}" value="${esc(S.unit)}"></div>
+   <div><label class="f" for="in-unit">${esc(t('unit'))}</label><select id="in-unit" style="width:100%"><option value="" ${S.unit?'':'selected'} disabled>${esc(t('unitPh'))}</option>${UNITS.map(u=>`<option value="${u[0]}" ${S.unit===u[0]?'selected':''}>${u[0]} · ${esc(p(u[1]))}</option>`).join('')}</select></div>
   </div>
   <button class="btn" id="go" data-act="go" ${ready?'':'disabled'}>${esc(started?t('next'):t('start'))}</button></section>
   <section class="panel"><div class="row" style="justify-content:space-between"><div><h3 style="margin:0">${esc(t('pracT'))}</h3><p class="muted" style="margin:4px 0 0">${esc(t('pracS'))}</p></div><button class="btn ghost" data-act="prac">${esc(t('pracBtn'))}</button></div></section>
@@ -1360,7 +1362,7 @@ function persist(){
 function resumeSaved(){
   const d=SAVED;if(!d)return;
   (d.cases||[]).forEach(c=>{if(!SC.find(x=>x.id===c.id)){SC.push(c);const n=+String(baseOf(c.id)).slice(1);if(n>gid)gid=n;}});
-  Object.assign(S,{name:d.name||'',hid:d.hid||'',unit:d.unit||'',res:d.res||{},order:d.order||[],plan:d.plan||null,chgPlan:d.chgPlan||null,pair:d.pair||{},t0:d.t0||d.at||Date.now(),ext:!!d.ext,expired:false,seen6:!!d.seen6,sid:d.sid||'',cur:null,draft:[]});
+  Object.assign(S,{name:d.name||'',hid:d.hid||'',unit:UNITS.some(u=>u[0]===d.unit)?d.unit:'',res:d.res||{},order:d.order||[],plan:d.plan||null,chgPlan:d.chgPlan||null,pair:d.pair||{},t0:d.t0||d.at||Date.now(),ext:!!d.ext,expired:false,seen6:!!d.seen6,sid:d.sid||'',cur:null,draft:[]});
   SAVED=null;if(deadline()<=Date.now()){timeUp();return;}go('hub');
 }
 function render(){
