@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e6a65">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>if(/[?&]admin\b/.test(location.search)){document.addEventListener("DOMContentLoaded",function(){var m=document.querySelector("link[rel=manifest]"),a=document.querySelector("link[rel=apple-touch-icon]"),c=document.querySelector("link[rel=icon]");m.href="manifest-admin.json";a.href="apple-touch-icon-admin.png";c.href="icon-admin-192.png";});}</script>
 <title>Morse Fall Scale Trainer</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -29,7 +36,7 @@
   --sv-wall:#1d3036; --sv-floor:#142428; --sv-win:#27485a; --sv-line:#5d7a84; --sv-skin:#c99a74; --sv-gown:#4d8aa3; --sv-leg:#3f6a7a;
   --sv-scrub:#27a89a; --sv-metal:#6f858d; --sv-bed:#2b434b; --sv-bubble:#223b43; --sv-ink:#e5eef0; --sv-hair:#8b7868; --sv-pants:#4d6975; --sv-slip:#8aa0a8; --sv-wood:#8a6a4a; --sv-blanket:#3d6f80; --sv-shadow:rgba(0,0,0,.38); --sv-rail:#4b6770; --sv-wall2:#183037; --sv-curtain:#7d5a45; --sv-scrub2:#1d7d72; color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:calc(16px*var(--fs,1));line-height:1.55;
   padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
 #app[dir="rtl"]{font-family:var(--f-ar)}
 .wrap{max-width:880px;margin-inline:auto}
@@ -121,6 +128,35 @@ ol.act{margin:8px 0 0;padding-inline-start:22px}
 @media (max-width:640px){.frow{grid-template-columns:1fr}.legend{grid-template-columns:1fr}}
 .tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:start;vertical-align:top}.tbl th{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .linkbtn{border:0;background:none;color:var(--muted);font-size:12.5px;text-decoration:underline;cursor:pointer;margin-block-start:8px}
+.vid{position:relative;aspect-ratio:16/9;max-width:100%}.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:10px}
+.pgs{display:flex;flex-direction:column;gap:16px;align-items:center;overflow-x:hidden}
+.pg{width:794px;height:1123px;background:#fff;color:#14262d;border:1px solid #cfd9dd;position:relative;overflow:hidden;font-family:var(--f-body);font-size:13px;line-height:1.45;flex:none}
+.pg[dir=rtl]{font-family:var(--f-ar)}
+.pg .num{font-family:var(--f-mono)}
+.pg-in{padding:32px 40px 60px}
+.pg-ft{position:absolute;inset-inline:40px;bottom:18px;display:flex;justify-content:space-between;font-size:11px;color:#5a6e77;border-top:1px solid #d9e3e6;padding-top:8px}
+.rh{display:flex;justify-content:space-between;align-items:center;background:#0e6a65;color:#fff;border-radius:10px;padding:16px 22px;margin-bottom:6px}
+.rh-t{font-size:22px;font-weight:700;line-height:1.2}.rh-s{font-size:12.5px;opacity:.85}
+.rh-m{font-family:var(--f-mono);font-weight:600;font-size:20px;border:2px solid rgba(255,255,255,.6);border-radius:8px;padding:6px 10px}
+.pg h4{font-size:14px;margin:14px 0 8px;color:#0e6a65;border-bottom:2px solid #dcefed;padding-bottom:4px}
+.kv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 12px}
+.kv{background:#f3f7f8;border-radius:8px;padding:7px 10px;min-width:0}.kv .k{font-size:11px;color:#5a6e77}.kv .v{font-weight:700;font-size:13.5px;overflow-wrap:anywhere}
+.verd{display:flex;align-items:center;justify-content:space-between;border-radius:10px;padding:12px 18px;margin-top:12px;border:2px solid}
+.verd.pass{background:#dff3e8;border-color:#1d7a4b;color:#14532d}.verd.fail{background:#fbe1de;border-color:#b3261e;color:#7f1d1d}
+.verd .vt{font-size:24px;font-weight:800;line-height:1.2}.verd .vn{font-family:var(--f-mono);font-size:30px;font-weight:700}
+.tiles,.safe{display:grid;gap:10px;margin-top:10px}.tiles{grid-template-columns:repeat(4,1fr)}.safe{grid-template-columns:repeat(3,1fr);margin-top:0}
+.tile{border:1px solid #d2dde1;border-radius:8px;padding:8px 11px}.tile .n{font-family:var(--f-mono);font-size:19px;font-weight:600}.tile .l{font-size:11px;color:#5a6e77;line-height:1.3}
+.dom{display:grid;grid-template-columns:1.5fr 1fr 104px 104px 66px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #e6edef;font-size:12px}
+.dom .num{white-space:nowrap}
+.dom.hd{font-size:10.5px;color:#5a6e77;letter-spacing:.03em;border-bottom:1px solid #cfd9dd}
+.bar2{height:9px;background:#e6edef;border-radius:99px;overflow:hidden}.bar2 i{display:block;height:100%;background:#0e6a65}.bar2 i.weak{background:#c27b00}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;text-align:center}
+.chip.ok{background:#dff3e8;color:#14532d}.chip.no{background:#fbe1de;color:#7f1d1d}.chip.mid{background:#fbefd2;color:#7a4b00}
+.rt{width:100%;border-collapse:collapse;font-size:12px}.rt th{background:#e8f0f1;padding:6px 4px;border:1px solid #cfd9dd;font-size:11px}
+.rt td{padding:6px 4px;border:1px solid #d9e3e6;vertical-align:middle;text-align:center}.rt td.l{text-align:start}
+.yes{color:#1d7a4b;font-weight:800}.nop{color:#b3261e;font-weight:800}
+.tip{border:1px solid #e0cf9f;background:#fff9e8;border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:12.5px}
+.sigs{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:34px}.sigs div{border-top:1px solid #14262d;padding-top:5px;font-size:11.5px;color:#5a6e77}
 .foot{text-align:center;color:var(--muted);font-size:13px;padding-block:20px 6px}
 .paper-wrap{overflow-x:auto}
 /* The report is a printed sheet: fixed light colors so the PDF matches the screen in any theme. */
@@ -142,6 +178,64 @@ ol.act{margin:8px 0 0;padding-inline-start:22px}
 .paper .sig{margin-top:18px;border-top:1px solid #cfd9dd;padding-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#566b74}
 @media (max-width:560px){.paper{padding:22px 16px}.paper table{font-size:12px}}
 @media (prefers-reduced-motion:no-preference){.panel{animation:in .25s ease}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+
+.hosp{text-align:center;background:#fff;border-radius:16px;padding:14px 16px 12px;margin-block-end:14px;border:1px solid var(--line)}
+.hosp img{display:block;margin:0 auto 8px;max-width:78%;height:auto}
+.hosp .h1{color:#1FA9AD;font-weight:800;letter-spacing:.06em;font-size:clamp(12px,3.4vw,17px);line-height:1.3}
+.hosp .h2{color:#B38A3E;font-weight:800;letter-spacing:.14em;font-size:clamp(11px,3vw,15px);margin-block-start:3px}
+.sign{display:flex;gap:14px;align-items:flex-start;background:var(--accent-soft);border:2px solid var(--accent);border-radius:14px;padding:14px 16px;margin-block:14px}
+.sign-ic{width:46px;height:46px;flex:none;color:var(--accent)}.sign h3{margin:0 0 2px;font-size:19px}.sign-s{margin:0 0 8px;font-weight:600}
+.dots{display:flex;gap:5px;flex-wrap:wrap}.dots i{width:14px;height:14px;border-radius:50%;background:var(--line);display:block}
+.dots i.done{background:var(--good)}.dots i.cur{outline:2px solid var(--accent);outline-offset:2px}.dots i.o2{opacity:.55}
+.mdl{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.mdl .box{background:var(--surface,var(--bg));color:inherit;border-radius:16px;max-width:480px;width:100%;padding:22px;border:1px solid var(--line);max-height:90vh;overflow:auto}
+.mdl h2{margin:0 0 10px}
+.hcard h3{display:flex;gap:10px;align-items:center}.hn{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.hrow{display:grid;grid-template-columns:110px 1fr;gap:10px;margin-block:6px}.hrow b{color:var(--muted);font-size:13.5px}
+@media(max-width:560px){.hrow{grid-template-columns:1fr;gap:2px}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-block:10px}.oc{border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:14px}.oc b{display:inline-block;background:var(--accent-soft);border-radius:6px;padding:0 7px;margin-inline-end:7px}
+.mist{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:9px 12px;font-size:14px}
+:root[data-accent="blue"]{--accent:#1d4f91;--accent-soft:#dbe6f6}
+:root[data-accent="green"]{--accent:#2e7d32;--accent-soft:#def0df}
+:root[data-accent="purple"]{--accent:#6a3fa0;--accent-soft:#eae0f6}
+:root[data-accent="gold"]{--accent:#8a6212;--accent-soft:#f6ecd3}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"])[data-accent="blue"]{--accent:#7db2f0;--accent-soft:#1a2f4a;--accent-ink:#07182e}}
+:root[data-theme="dark"][data-accent="blue"]{--accent:#7db2f0;--accent-soft:#1a2f4a;--accent-ink:#07182e}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"])[data-accent="green"]{--accent:#7bd389;--accent-soft:#17331b;--accent-ink:#06200a}}
+:root[data-theme="dark"][data-accent="green"]{--accent:#7bd389;--accent-soft:#17331b;--accent-ink:#06200a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"])[data-accent="purple"]{--accent:#bb9cf0;--accent-soft:#2c1f47;--accent-ink:#170a2e}}
+:root[data-theme="dark"][data-accent="purple"]{--accent:#bb9cf0;--accent-soft:#2c1f47;--accent-ink:#170a2e}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"])[data-accent="gold"]{--accent:#e3b955;--accent-soft:#3a2f12;--accent-ink:#271a02}}
+:root[data-theme="dark"][data-accent="gold"]{--accent:#e3b955;--accent-soft:#3a2f12;--accent-ink:#271a02}
+
+.setb{border:1px solid var(--line);background:var(--surface);border-radius:10px;width:40px;height:40px;font-size:19px;cursor:pointer;line-height:1}
+.setp{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-block-end:14px;display:grid;gap:12px}
+.setp h3{margin:0 0 6px;font-size:15px}.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--line);background:var(--bg);border-radius:10px;padding:6px 14px;cursor:pointer;font-size:14.5px}
+.seg button[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.sw{width:34px;height:34px;border-radius:50%!important;padding:0!important;border:3px solid var(--surface)!important;box-shadow:0 0 0 1.5px var(--line)}
+.sw[aria-pressed=true]{box-shadow:0 0 0 3px var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-block:12px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg)}.kpi small{color:var(--muted);display:block;font-size:12.5px}.kpi b{font-size:24px}
+.ib{display:grid;grid-template-columns:minmax(120px,1.4fr) 2fr 52px;gap:10px;align-items:center;margin-block:7px;font-size:14px}
+.ib .tr{height:10px;border-radius:99px;background:var(--line);overflow:hidden}.ib i{display:block;height:100%;background:var(--accent)}.ib i.w{background:var(--bad)}.ib i.m{background:var(--warn)}
+@media(max-width:560px){.ib{grid-template-columns:1fr 52px}.ib .tr{grid-column:1/3;order:3}}
+
+.tmr{font-weight:700;font-variant-numeric:tabular-nums;background:var(--accent-soft);border-radius:99px;padding:3px 12px;white-space:nowrap}
+.tmr.low{background:var(--bad-soft);color:var(--bad)}
+.cheer{background:var(--good-soft);color:var(--good);border-radius:10px;padding:11px 14px;font-weight:600;margin-block-end:12px}
+.errc{border:1px solid var(--line);border-inline-start:4px solid var(--bad);border-radius:10px;padding:9px 12px;margin-block:8px;font-size:14.5px}
+.errc .bad{color:var(--bad);font-weight:600}.errc .goodt{color:var(--good);font-weight:600}
+select{font:inherit;color:inherit;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;min-width:180px}
+details.faq{border-top:1px solid var(--line);padding-block:8px}details.faq summary{font-weight:600;cursor:pointer}
+.cert{width:1123px;height:794px;background:#fff;padding:26px;font-family:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif;color:#14262d}
+.cert-in{height:100%;border:6px double #b38a3e;border-radius:6px;padding:26px 60px;text-align:center;position:relative;display:flex;flex-direction:column;align-items:center}
+.cert-logo{width:300px;height:auto}.cert-org{color:#1fa9ad;font-weight:800;letter-spacing:.08em;font-size:19px;margin-top:6px}.cert-org2{color:#b38a3e;font-weight:800;letter-spacing:.16em;font-size:16px}
+.cert h1{font-size:40px;margin:22px 0 8px;color:#0e6a65}.cert .c1{font-size:19px;margin:6px 0;color:#38505a}.cert .c2{font-size:20px;margin:12px 0;max-width:780px}
+.cert .cname{font-size:44px;font-weight:700;margin:8px 0;color:#14262d;border-bottom:2px solid #b38a3e;padding:0 40px 4px}
+.csig{display:flex;justify-content:space-between;gap:80px;width:100%;margin-top:auto;font-size:15px;color:#38505a}.csig>div{flex:1}.csig .ln{border-top:1.5px solid #38505a;margin-bottom:6px}
+.cfoot{font-size:12px;color:#6b7f87;margin-top:14px}
+details.svc{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--surface)}details.svc summary{cursor:pointer;font-size:16px}
 </style>
 
 <style>[hidden]{display:none!important}img{max-width:100%}</style>
@@ -156,6 +250,9 @@ ol.act{margin:8px 0 0;padding-inline-start:22px}
 "use strict";
 /* Paste your Google Apps Script web app URL (ends with /exec) between the quotes to send results to a Google Sheet. */
 let SHEET_URL='https://script.google.com/macros/s/AKfycbzjHLvA28eitIE7Oj9Q05q9gA94aY0QkoNBKAgki4YTX_F0kV6H_aI-WJDMKHDKPTYRsg/exec';
+/* Intro video: put an MP4 named intro.mp4 next to index.html, or paste a YouTube embed link (https://www.youtube.com/embed/VIDEO_ID) in VIDEO_EMBED. */
+const VIDEO_FILE='intro.mp4';
+const VIDEO_EMBED='';
 /* ---------- data: hospital Morse Fall Scale form ---------- */
 const ITEMS=[
 {q:['History of falling; immediate or within 3 months','تاريخ السقوط؛ فوري أو خلال 3 أشهر'],
@@ -277,19 +374,16 @@ const TXT={
  noRows:['No results recorded yet.','لا توجد نتائج مسجلة بعد.'],recOk:['Your result was recorded for your supervisor.','تم تسجيل نتيجتك لدى المشرف.'],
  recNo:['Your result could not be recorded for your supervisor. Save your Excel file and send it instead.','تعذر تسجيل نتيجتك لدى المشرف. احفظ ملف Excel وأرسله بدلًا من ذلك.'],
  recWait:['Recording your result…','جاري تسجيل نتيجتك…'],attempts:['Attempts','المحاولات'],last:['Last update','آخر تحديث'],exportAll:['Export all to Excel','تصدير الكل إلى Excel'],
- loading:['Loading…','جاري التحميل…'],admErr:['Could not load results. Check the admin key.','تعذر تحميل النتائج. تحقق من مفتاح المشرف.'],recUnc:['Your result was sent. If your supervisor does not see it, send your Excel file as well.','تم إرسال نتيجتك. إن لم يجدها المشرف فأرسل له ملف Excel أيضًا.'],adminKey:['Admin key','مفتاح المشرف'],openBtn:['Open','فتح'],sup:['Supervisor','المشرف'],refresh:['Refresh','تحديث'],staff:['Staff','الموظفون']
-};
-const INTRO={
- gain:[
-  ['The right patient gets the right precautions: bed alarm, scheduled toileting and close supervision go to the patients who need them.','المريض المناسب يحصل على الاحتياطات المناسبة: منبه السرير وجدول الحمام والإشراف القريب لمن يحتاجها.'],
-  ['Fewer injuries, less fear and shorter hospital stays for your patients.','إصابات أقل وخوف أقل وإقامة أقصر لمرضاك.'],
-  ['No missed high-risk patient (under-scoring) and no wasted effort on patients who are safe (over-scoring).','لا يفوتك مريض عالي الخطورة (تقييم أقل من الحقيقة) ولا يضيع الجهد على مرضى آمنين (تقييم أعلى من الحقيقة).'],
-  ['One shared language at handover, so the next nurse knows the risk at once.','لغة موحدة عند التسليم، فتعرف الممرضة التالية الخطر فورًا.']],
- how:[
-  ['Enter your name, employee ID and unit.','أدخل اسمك ورقمك الوظيفي ووحدتك.'],
-  ['Read each patient case and fill in the six items of the hospital form.','اقرأ كل حالة واملأ البنود الستة في نموذج المستشفى.'],
-  ['After each case, read the short rationale for the correct score. Complete at least 3 different cases.','بعد كل حالة اقرأ التعليل المختصر للدرجة الصحيحة. أكمل 3 حالات مختلفة على الأقل.'],
-  ['Download your results as an Excel file with your pass or fail result.','نزّل نتائجك كملف Excel مع نتيجة النجاح أو عدمه.']]
+ loading:['Loading…','جاري التحميل…'],admErr:['Could not load results. Check the admin key.','تعذر تحميل النتائج. تحقق من مفتاح المشرف.'],recUnc:['Your result was sent. If your supervisor does not see it, send your Excel file as well.','تم إرسال نتيجتك. إن لم يجدها المشرف فأرسل له ملف Excel أيضًا.'],adminKey:['Admin key','مفتاح المشرف'],openBtn:['Open','فتح'],sup:['Supervisor','المشرف'],vidTitle:['Watch the introduction video','شاهد فيديو المقدمة'],
+ rTitle:['Morse Fall Scale · Competency Report','مقياس موريس للسقوط · تقرير الكفاءة'],rSub:['Medical-surgical ward training assessment','تقييم تدريبي لأقسام الباطنة والجراحة'],
+ rStaff:['Staff details','بيانات الموظف'],rWhen:['Completed on','وقت الإنجاز'],rActive:['Active test time','مدة الاختبار الفعلية'],rMin:['min','دقيقة'],
+ rItemsT:['Items correct','البنود الصحيحة'],rAgree:['Risk level matched','تطابق مستوى الخطر'],rAvg:['Average per scenario','متوسط زمن الحالة'],rWeakN:['Domains to review','محاور للمراجعة'],
+ rDom:['Performance by domain','الأداء حسب المحور'],rAcc:['Accuracy','الدقة'],rPts:['Points: yours / expected','الدرجات: درجتك / المتوقعة'],rStrong:['Strong','متمكن'],rReview:['Review','مراجعة'],
+ rSafety:['Patient-safety check','فحص سلامة المرضى'],rUnder:['Risk level under-estimated','مستوى خطر أقل من الحقيقي'],rOver:['Risk level over-estimated','مستوى خطر أعلى من الحقيقي'],rDiff:['Average score difference','متوسط فرق الدرجة'],
+ rUnderNote:['Under-estimating risk can leave a high-risk patient without precautions.','تقدير الخطر بأقل من الحقيقة قد يترك مريضًا عالي الخطورة بلا احتياطات.'],
+ rBreak:['Scenario breakdown','تفصيل السيناريوهات'],rScoreYC:['Score (yours / correct)','الدرجة (لك / الصحيحة)'],rTime:['Time','الزمن'],rCorrectIs:['correct','الصحيح'],
+ rFocus:['Areas to review','نقاط تحتاج مراجعة'],rNone:['No weak domains: every domain is at 80% or above.','لا توجد محاور ضعيفة: كل المحاور 80% فأكثر.'],
+ rSign1:['Nurse signature','توقيع الممرض'],rSign2:['Supervisor signature','توقيع المشرف'],rPage:['Page','صفحة'],rGuide:['Scoring guide (Morse Fall Scale, total 0–125)','دليل التفسير (مقياس موريس، المجموع 0–125)'],refresh:['Refresh','تحديث'],staff:['Staff','الموظفون']
 };
 
 /* ---------- scene images ---------- */
@@ -414,13 +508,101 @@ const GR=[
 const NM=[['K','ك'],['M','م'],['A','أ'],['R','ر'],['S','س'],['N','ن'],['T','ت'],['H','ح'],['L','ل'],['D','د'],['Y','ي'],['F','ف']];
 const DX=[['pneumonia','التهاب رئوي'],['COPD','انسداد رئوي مزمن'],['heart failure','قصور القلب'],['type 2 diabetes','السكري من النوع الثاني'],['hypertension','ارتفاع ضغط الدم'],['cellulitis','التهاب النسيج الخلوي'],['acute cholecystitis','التهاب المرارة الحاد'],['urinary tract infection','التهاب المسالك البولية'],['chronic kidney disease','مرض الكلى المزمن'],['knee replacement surgery','جراحة استبدال الركبة'],['bowel obstruction','انسداد الأمعاء'],['pancreatitis','التهاب البنكرياس'],['atrial fibrillation','رجفان أذيني'],['anemia','فقر الدم']];
 let gid=0;
+/* ---------- new texts (intro, how-to, guided flow) ---------- */
+Object.assign(TXT,{
+ iTitle:['Fill the Morse Fall Scale accurately','عبّئ مقياس موريس للسقوط بدقة'],
+ iP:['The Morse Fall Scale (MFS) is a quick way to check how likely an adult patient is to fall. It has six items. Each answer carries points, and the total (0 to 125) gives a risk level: low, moderate or high. Everyone who fills this form, from any department, uses the same six items, so every nurse reaches the same score for the same patient. Use this training to practise on patient cases and see at once why each score is correct.','مقياس موريس للسقوط (MFS) طريقة سريعة لمعرفة مدى احتمال سقوط المريض البالغ. يتكون من ستة بنود، ولكل إجابة درجة، ومجموعها (من 0 إلى 125) يحدد مستوى الخطر: منخفض أو متوسط أو مرتفع. كل من يعبّئ هذا الفورم، من أي قسم، يستخدم البنود الستة نفسها، فتصل كل ممرضة إلى الدرجة نفسها للمريض نفسه. استخدم هذا التدريب لتتمرن على حالات مرضى وترى فورًا لماذا كانت كل درجة صحيحة.'],
+ signT:['Accurate form, fewer errors','فورم دقيق، أخطاء أقل'],
+ signS:['Same patient, same score, whoever fills the form.','المريض نفسه، الدرجة نفسها، أيًّا كان من يعبّئ الفورم.'],
+ iHow:['How this training works','كيف يعمل هذا التدريب'],
+ howBtn:['How to fill the form (with an example)','كيف أعبّئ الفورم؟ (مع مثال)'],howShort:['How to fill','كيفية التعبئة'],
+ howTitle:['How to fill the Morse Fall Scale','كيف تعبّئ مقياس موريس للسقوط'],
+ howSub:['Choose one answer for each of the 6 items, add the points, then read the risk level. Score only what is true for the patient now.','اختر إجابة واحدة لكل بند من البنود الستة، ثم اجمع الدرجات واقرأ مستوى الخطر. قيّم فقط ما هو صحيح للمريض الآن.'],
+ howLook:['Where to look','أين أنظر'],howRule:['How to score','كيف أعطي الدرجة'],howMist:['Common mistake','خطأ شائع'],
+ howEx:['Worked example','مثال محلول'],howExNote:['Read the case, then see how each item is ticked and why.','اقرأ الحالة ثم شاهد كيف يُعبَّأ كل بند ولماذا.'],
+ howSee:['What we see','ما نلاحظه'],howTick:['Tick','الخيار'],howPts:['Points','الدرجة'],howTot:['Total','المجموع'],
+ howNext:['Then follow your unit\'s precautions for this risk level:','بعد ذلك اتبع احتياطات وحدتك لهذا المستوى من الخطر:'],
+ howBack:['Back','رجوع'],
+ caseN:['Case','الحالة'],reqOf:['of 6 required','من 6 مطلوبة'],optNote:['optional, up to 13','اختيارية، حتى 13'],
+ next:['Next case','الحالة التالية'],cont:['Continue','متابعة'],startNow:['Start the first case','ابدأ الحالة الأولى'],
+ mTitle:['Well done: 6 cases completed','أحسنت: أكملت 6 حالات'],
+ mBody:['You have finished the 6 required cases, so you can finish now and get your results. If you can, please continue up to 13 cases. More practice makes your scoring more accurate and more consistent. This is optional.','أنهيت الحالات الست المطلوبة، ويمكنك الآن إنهاء الاختبار والحصول على نتيجتك. وإذا استطعت، فأكمل حتى 13 حالة؛ فالتدريب الأكثر يجعل تقييمك أدق وأكثر ثباتًا. هذا اختياري.'],
+ mCont:['Continue to more cases','أكمل المزيد من الحالات'],mFin:['Finish and get my results','أنهِ واحصل على نتيجتي'],
+ retake:['Retake the test','أعد الاختبار'],
+ passTxt:['Pass mark: 100% of items correct (at least 6 cases).','حد النجاح: 100% من البنود صحيحة (في 6 حالات على الأقل).'],
+ moreTxt:['You did not reach 100%. Read the rationale of each case, then retake the test. Your result has been recorded.','لم تصل إلى 100%. اقرأ تعليل كل حالة ثم أعد الاختبار. تم تسجيل نتيجتك.'],
+ reqLv:['Complete the 6 required cases to get your results.','أكمل الحالات الست المطلوبة للحصول على نتائجك.'],
+ prog:['cases completed (6 required)','حالات مكتملة (المطلوب 6)'],
+ rNone:['No weak domains: every domain is at 100%.','لا توجد محاور ضعيفة: كل المحاور 100%.'],
+ yourCases:['Your cases','حالاتك']
+});
+const INTRO={
+ sign:[
+  ['Read the chart first: diagnoses, orders and IV lines.','اقرأ ملف المريض أولًا: التشخيصات والأوامر والقسطرة الوريدية.'],
+  ['Look at the patient: how he or she walks, what is used, how he or she gets up.','راقب المريض: كيف يمشي، وماذا يستخدم، وكيف ينهض.'],
+  ['Ask the bathroom question and compare the answer with the nursing order.','اسأل سؤال الحمام وقارن الإجابة بأمر التمريض.'],
+  ['Tick all 6 items, add the points, then check the risk level.','علّم البنود الستة، اجمع الدرجات، ثم راجع مستوى الخطر.']],
+ how:[
+  ['Enter your name, employee ID and unit.','أدخل اسمك ورقمك الوظيفي ووحدتك.'],
+  ['Complete 6 patient cases within 60 minutes. The first six are two low, two moderate and two high risk. You can close the page and resume later inside this time.','أكمل 6 حالات مرضى خلال 60 دقيقة. الحالات الست الأولى: اثنتان خطر منخفض، واثنتان متوسط، واثنتان مرتفع. يمكنك إغلاق الصفحة والمتابعة لاحقًا ضمن هذا الوقت.'],
+  ['In some cases the patient\'s condition changes. You will assess the same patient again.','في بعض الحالات تتغير حالة المريض. ستقيّم المريض نفسه مرة ثانية.'],
+  ['After each case, read why the score is correct and what to fix.','بعد كل حالة، اقرأ لماذا كانت الدرجة صحيحة وما الذي يجب تصحيحه.'],
+  ['After 6 cases you may continue up to 13 cases. This is optional and the time extends to 2 hours in total.','بعد 6 حالات يمكنك المتابعة حتى 13 حالة. هذا اختياري ويمتد الوقت إلى ساعتين في المجموع.'],
+  ['To pass, every item must be correct (100%). If not, you can retake the test.','للنجاح يجب أن تكون كل البنود صحيحة (100%). وإن لم تنجح يمكنك إعادة الاختبار.'],
+  ['When you pass you can download a certificate. Your results are issued as an Excel file and a PDF report.','عند النجاح يمكنك تنزيل شهادة. وتصدر نتائجك كملف Excel وتقرير PDF.']]
+};
+const HOW=[
+ {see:['Ask the patient or family, and check the chart: did the patient fall during this admission, or recently before admission?','اسأل المريض أو أهله وراجع الملف: هل سقط المريض خلال هذه الإقامة أو مؤخرًا قبل الدخول؟'],
+  rule:['Yes (25): a fall during this admission, or a recent fall caused by the body, such as a seizure or an unsteady gait (immediate or within 3 months). If a patient falls for the first time in hospital, add 25 at once.','نعم (25): سقوط خلال هذه الإقامة، أو سقوط حديث سببه الجسم مثل التشنج أو عدم ثبات المشي (فوري أو خلال 3 أشهر). وإذا سقط المريض لأول مرة في المستشفى أضف 25 فورًا.'],
+  mist:['Counting an old fall from many months ago. Older than 3 months scores No (0).','احتساب سقوط قديم من أشهر طويلة. الأقدم من 3 أشهر يعني لا (0).']},
+ {see:['Open the chart and count the medical diagnoses that are listed.','افتح الملف وعدّ التشخيصات الطبية المسجلة.'],
+  rule:['Two or more diagnoses = Yes (15). One diagnosis = No (0).','تشخيصان أو أكثر = نعم (15). تشخيص واحد = لا (0).'],
+  mist:['Counting something that is not listed in the chart.','احتساب شيء غير مسجل في الملف.']},
+ {see:['Watch what the patient actually uses to move.','لاحظ ما يستخدمه المريض فعليًا للتنقل.'],
+  rule:['No aid, bed rest, wheelchair or a nurse helping = 0. Crutches, cane or walker = 15. Holding on to furniture to walk = 30.','لا وسيلة، أو راحة بالفراش، أو كرسي متحرك، أو مساعدة ممرضة = 0. عكازات أو عصا أو مشاية = 15. التمسك بالأثاث أثناء المشي = 30.'],
+  mist:['Scoring a wheelchair or a nurse\'s help as an aid. Both score 0.','احتساب الكرسي المتحرك أو مساعدة الممرضة كوسيلة مشي. كلاهما 0.']},
+ {see:['Look at the patient\'s arm and the chart: is there a drip, an IV line or a heparin/saline lock in place right now?','انظر إلى ذراع المريض والملف: هل يوجد محلول أو قسطرة وريدية أو heparin/saline lock الآن؟'],
+  rule:['Yes (20) if any IV line or lock is in place. No (0) if there is none.','نعم (20) إذا وُجدت أي قسطرة وريدية أو قفل. لا (0) إذا لم توجد.'],
+  mist:['Counting an IV that has already been removed.','احتساب قسطرة سُحبت بالفعل.']},
+ {see:['Watch the patient walk and stand up from the chair.','راقب المريض وهو يمشي وينهض من الكرسي.'],
+  rule:['Normal (0): head up, arms swing freely, steady steps. Also bed rest or immobile. Weak (10): stooped but able to lift the head, short steps, may shuffle, keeps balance. Impaired (20): struggles to rise, head down, poor balance, grabs furniture or a person.','طبيعية (0): رأس مرفوع، ذراعان تتحركان بحرية، خطوات ثابتة. وكذلك الراحة بالفراش أو عدم الحركة. ضعيفة (10): انحناء مع القدرة على رفع الرأس، خطوات قصيرة، قد يجرّ قدميه، ويحافظ على توازنه. مختلة (20): صعوبة في النهوض، رأس منخفض، توازن ضعيف، يتمسك بالأثاث أو بشخص.'],
+  mist:['Choosing Weak when the patient must hold furniture or a person to walk. That is Impaired.','اختيار ضعيفة عندما يحتاج المريض إلى التمسك بالأثاث أو بشخص ليمشي. هذه مختلة.']},
+ {see:['Ask: "Can you go to the bathroom alone, or do you need help?" Then compare the answer with the nursing order on the Kardex.','اسأل: «هل تستطيع الذهاب إلى الحمام وحدك أم تحتاج إلى مساعدة؟» ثم قارن الإجابة بأمر التمريض في الكاردكس.'],
+  rule:['Answer matches the order = Oriented to own ability (0). Answer does not match the order, or is unrealistic = Forgets limitations (15).','الإجابة تتفق مع الأمر = مدرك لقدرته (0). الإجابة لا تتفق مع الأمر أو غير واقعية = ينسى محدوداته (15).'],
+  mist:['Scoring only from how alert the patient looks. Always compare the answer with the order.','التقييم فقط حسب يقظة المريض. قارن الإجابة دائمًا بالأمر.']}
+];
+const EXAMPLE={
+ ti:['Mr. A, 68 years, pneumonia','السيد أ، 68 سنة، التهاب رئوي'],
+ st:['Mr. A is admitted with pneumonia. The chart lists pneumonia and COPD. He has not fallen. He walks with a walker. IV antibiotics are running. His steps are short and weak but steady. The nursing order says to call for help to go to the bathroom. Asked "Can you go to the bathroom alone?", he answers "Yes, I can go alone."','السيد أ منوّم بسبب التهاب رئوي. يذكر الملف التهابًا رئويًا وانسدادًا رئويًا مزمنًا. لم يسقط من قبل. يمشي بمشاية. المضاد الحيوي يُعطى وريديًا. خطواته قصيرة وضعيفة لكنها ثابتة. أمر التمريض هو طلب المساعدة للذهاب إلى الحمام. وعند سؤاله «هل تستطيع الذهاب إلى الحمام وحدك؟» أجاب: «نعم، أستطيع وحدي».'],
+ a:[0,1,2,1,1,1],
+ see:[['No fall in this admission or the last 3 months','لا سقوط في هذه الإقامة ولا في آخر 3 أشهر'],['Pneumonia and COPD on the chart (two diagnoses)','التهاب رئوي وانسداد رئوي مزمن في الملف (تشخيصان)'],['Walks with a walker','يمشي بمشاية'],['IV antibiotics running','المضاد الحيوي الوريدي جارٍ'],['Short, weak steps but steady','خطوات قصيرة وضعيفة لكن ثابتة'],['Says he can go alone, but the order says call for help','يقول إنه يستطيع وحده، لكن الأمر هو طلب المساعدة']],
+ sc:{pose:'stand',props:['walker','iv','bubbleX']}
+};
+
+
+Object.assign(TXT,{
+ setBtn:['Display settings','إعدادات العرض'],setT:['Display settings','إعدادات العرض'],
+ thL:['Theme','المظهر'],thAuto:['Auto','تلقائي'],thLight:['Light','نهاري'],thDark:['Dark','ليلي'],
+ colL:['Interface colour','لون الواجهة'],fsL:['Text size','حجم الخط'],
+ cTeal:['Teal','كرتوازي'],cBlue:['Blue','أزرق'],cGreen:['Green','أخضر'],cPurple:['Purple','بنفسجي'],cGold:['Gold','ذهبي'],
+ welcome:['Welcome back','أهلًا بعودتك'],welcomeS:['You have an unfinished session. Continue where you stopped?','لديك جلسة غير مكتملة. هل تتابع من حيث توقفت؟'],
+ resume:['Continue my session','تابع جلستي'],startOver:['Start over','ابدأ من جديد'],done:['cases done','حالات منجزة'],
+ sumT:['Summary','الملخص'],pToday:['Today','اليوم'],p7:['7 days','7 أيام'],p30:['30 days','30 يومًا'],pAll:['All','الكل'],
+ kStaff:['Staff tested','عدد المختبَرين'],kPass:['Passed','نجحوا'],kFail:['Not yet passed','لم ينجحوا بعد'],kRate:['Pass rate','نسبة النجاح'],kAvg:['Average score','متوسط الدرجة'],kTry:['Avg. attempts to pass','متوسط المحاولات حتى النجاح'],
+ wkItems:['Accuracy by form item (lowest first)','الدقة حسب بند الفورم (الأدنى أولًا)'],noItemData:['No item data for this period yet.','لا توجد بيانات للبنود في هذه الفترة بعد.'],
+ failList:['Not yet passed','لم ينجحوا بعد'],noneYet:['None','لا أحد'],noPeriod:['No results in this period.','لا نتائج في هذه الفترة.'],
+ wa:['Share on WhatsApp','شارك عبر واتساب'],cp:['Copy summary','انسخ الملخص'],copied:['Summary copied.','تم نسخ الملخص.'],
+ admOut:['Sign out','تسجيل الخروج'],
+ waHead:['Morse Fall Scale training: summary','تدريب مقياس موريس للسقوط: ملخص'],waAcc:['Weakest items','أضعف البنود']
+});
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const pickW=(v,w)=>{let x=Math.random(),i=0;for(;i<w.length-1;i++){if(x<w[i])break;x-=w[i];}return v[i];};
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;};
-function genCase(){
-  const lv=pick(['easy','medium','hard']);
-  for(let k=0;k<400;k++){const c=buildCase(lv);if(c)return c;}
+function genCase(cls,lvp){
+  if(cls===undefined){const lv=pick(['easy','medium','hard']);for(let k=0;k<400;k++){const c=buildCase(lv);if(c)return c;}return buildCase('easy',true);}
+  const lvs=[lvp||['easy','medium','hard'][cls],'easy','medium','hard'];
+  for(let k=0;k<1500;k++){const c=buildCase(lvs[k<900?0:1+k%3]);if(c&&riskIdx(scoreOf(c.a))===cls)return c;}
   return buildCase('easy',true);
 }
 function buildCase(lv,force){
@@ -505,33 +687,78 @@ function buildCase(lv,force){
   const intro=[`${title}, ${age}, is admitted to the medical-surgical ward.`,`${titleAr}، ${age} سنة، ${ar('منوّم','منوّمة')} في قسم الباطنة والجراحة.`];
   const body=lv==='easy'?pcs:shuffle(pcs);
   const nt=traps.length?[traps.map(x=>x[0]).join(' '),traps.map(x=>x[1]).join(' ')]:['Score each item only from what the case states now.','قيّم كل بند فقط بحسب ما تذكره الحالة الآن.'];
-  return {id:'g'+n,lv,gen:true,ti:[`Case ${n}: ${dxs[0][0]}`,`حالة ${n}: ${dxs[0][1]}`],
+  return {id:'g'+n,lv,gen:true,g:g,ti:[`Case ${n}: ${dxs[0][0]}`,`حالة ${n}: ${dxs[0][1]}`],
     st:[[intro[0]].concat(body.map(x=>x[0])).join(' '),[intro[1]].concat(body.map(x=>x[1])).join(' ')],
     a,nt,rat:R6,sc:{pose,props}};
 }
 
+const TIP=[
+ ['Score 25 for a fall in this admission or a recent physiological fall (seizure, dizziness, impaired gait). Falls older than 3 months do not count.','أعطِ 25 للسقوط في هذه الإقامة أو سقوط فسيولوجي حديث (تشنج، دوخة، اضطراب مشي). السقوط الأقدم من 3 أشهر لا يُحسب.'],
+ ['Count the medical diagnoses on the chart. More than one scores 15; only one scores 0.','عدّ التشخيصات الطبية في الملف. أكثر من تشخيص يعطي 15، وتشخيص واحد يعطي 0.'],
+ ['Wheelchair, bed rest and nurse assist score 0. Cane, crutches or walker 15. Holding furniture to move scores 30.','الكرسي المتحرك والراحة بالفراش ومساعدة التمريض: 0. العصا أو العكازات أو المشاية: 15. التمسك بالأثاث للتنقل: 30.'],
+ ['Score 20 for an IV or heparin/saline lock in place now. If the line was removed, score 0.','أعطِ 20 عند وجود قسطرة وريدية أو heparin/saline lock الآن. إذا سُحبت القسطرة فالدرجة 0.'],
+ ['Observe the patient walk or rise. Short weak steps but steady is 10. Struggling to rise or grasping furniture is 20.','لاحظ مشي المريض أو نهوضه. الخطوات القصيرة الضعيفة مع الثبات 10، وصعوبة النهوض أو التمسك بالأثاث 20.'],
+ ['Ask: "Can you go to the bathroom alone?" Compare the answer with the nursing order. A mismatch scores 15.','اسأل: «هل تستطيع الذهاب إلى الحمام وحدك؟» وقارن الإجابة بأمر التمريض. عدم التطابق يعطي 15.']
+];
+const LOGO='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwMDAgQDAwMEBAQFBgoGBgUFBgwICQcKDgwPDg4MDQ0PERYTDxAVEQ0NExoTFRcYGRkZDxIbHRsYHRYYGRj/2wBDAQQEBAYFBgsGBgsYEA0QGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBj/wAARCADXAjADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7+ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKhmuILeMyTzJGg6s7ACpTnHvXEeI/Bdtrc7XGs+IbuMfwxK4WNR9O9Y16jhH3UXCKk7M6WHX9Gnn8mHU7V3JwFEgya0Cy+XuyMYzmvAfEPw9uNIha90i+ivoI/mPlsBJGPXjrTtI+I+qWHhe70m6d7h2j2287H5kz6+teX/ajjJwqxsdjwV1em7nq/hPxPF4hn1VEYE2tyY1H+x2/UGugub20s4vNurmOFP7zsAK+dvB3iebwpq8t48MkkM0ZV1wQGbqD+efzpk914g8deIdskpkd+QhbbHEtRDNrU0rXkW8Debd7I+g7fXNIu5fLttRtpW/uq4zV8HJryPSfhbpKKjXfiFvtHraSBcH616Xounz6bYC1l1CS9ReEkm5fHue9ehhsROp8ascdanCPws06KB0orsuYhRRRTAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACkJwKWmvnYdvXtmkwOC8b+OLnTLwaF4fga61SQZbau4RD8O9cJeeEvGeoxNqGv6ilsh5zdT4AH07fSvQrpNK8B6Le6/f8A+kahcuWeVuXlY/dUegHFeaLbeK/iHqcl1NIUtFJyznEMI9AO9eBjLuXLO7b6L9T0sM1FXWnmcxeQtpt88EGoJOAOZbdztavRPCHhjStJ8IyeL/EcAlATzIomGQq9jj1NeearbWdpqctrp939rhTC+dt2hj3wPSvYvI/4Sr4GxW2mMGnWBR5YP8S9VNcWDgnOTerS0R1YmTUYpbM4K++IV9eTlV0jTlsz/wAu7xA5HbJ/wrmr66glvnnsLdrOKQZaJXyAfb2qvLFLDMYJo2jkU4ZHGCD6VevNIm0/Rra9u2EUtycxwN97Z/eI7CuKcqst0dEFCNrM0NF8L3GsxLJYa1ZJct/yxklKvXT2mp+PPAs6NqlvNeacD84zvwPUN2+lc5pHhSXXNHa90O9WS+g/11o3yuPQqe9dZ4H8b3ceoL4Y8UBnVj5Uck4+ZW/utnr9a78Lo022n0OWu97WaPVNI1S01nSINRspN0Mq7h6j2NX6wtC0FNCuryOzcCxnfzY4B/yzY/ex7VuY5r6ek24+9uePK19NhaKKK0JCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigApD0paQ9KTA8n8cWt14r+J+n+GoZGFtBH5szL0XJ5P1x/Ok+JOq2/h3w7a+F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';
+
+Object.assign(TXT,{
+ pracBtn:['Practice (not graded)','تدريب (بدون تقييم)'],pracT:['Practice','تدريب'],
+ pracS:['Practise as many cases as you like. Nothing is recorded and nothing is sent to the supervisor.','تدرّب على أي عدد من الحالات. لا يُسجَّل شيء ولا يُرسل شيء إلى المشرف.'],
+ pLevel:['Level','المستوى'],pLv0:['Beginner','مبتدئ'],pLv1:['Intermediate','متوسط'],pLv2:['Advanced','متقدم'],
+ pLvD0:['Clear cases: each item has an obvious answer.','حالات واضحة: لكل بند إجابة ظاهرة.'],
+ pLvD1:['Mixed cases: some items need careful reading.','حالات متنوعة: بعض البنود تحتاج قراءة منتبهة.'],
+ pLvD2:['Tricky cases: wheelchairs, nurse assistance, old falls, removed IV lines and mismatched answers.','حالات مربكة: كراسٍ متحركة، ومساعدة تمريض، وسقوط قديم، وقسطرة مسحوبة، وإجابات لا تتفق مع الأمر.'],
+ pRisk:['Risk level of the cases','مستوى خطر الحالات'],pR0:['Low risk','خطر منخفض'],pR1:['Moderate risk','خطر متوسط'],pR2:['High risk','خطر مرتفع'],pAll:['Select all','اختر الكل'],
+ pCount:['Number of cases','عدد الحالات'],pOpen:['Open (no limit)','مفتوح (بلا حد)'],pNote:['At least 3 cases. About one in three cases changes and needs a second assessment.','3 حالات على الأقل. حالة من كل ثلاث تقريبًا تتغير وتحتاج إلى تقييم ثانٍ.'],
+ pStart:['Start practice','ابدأ التدريب'],pExit:['Exit practice','الخروج من التدريب'],pFinish:['Finish practice','أنهِ التدريب'],
+ pDone:['Practice complete','اكتمل التدريب'],pNoRec:['This practice was not recorded.','لم يُسجَّل هذا التدريب.'],pAgain:['Practise again','تدرّب مرة أخرى'],
+ reTag:['Reassessment','إعادة تقييم'],reBtn:['Next: reassess the patient','التالي: أعد تقييم المريض'],
+ reNote:['The patient\'s condition changed. Next, assess the same patient again.','تغيّرت حالة المريض. بعد ذلك ستقيّم المريض نفسه مرة ثانية.'],
+ prevD:['Earlier details of this patient','التفاصيل السابقة لهذا المريض'],
+ noErr:['No errors. Every item was right.','لا أخطاء. كل البنود صحيحة.'],errT:['What to fix','ما يجب تصحيحه'],whyT:['Why','السبب'],
+ timeLeft:['Time left','الوقت المتبقي'],mTime:['Time: 60 minutes for 6 cases. If you continue, the total becomes 2 hours.','الوقت: 60 دقيقة لـ 6 حالات. إن تابعت يصبح المجموع ساعتين.'],
+ tuT:['Time is up','انتهى الوقت'],tuB:['The time for this test has ended before 6 cases were completed. You can start the test again.','انتهى وقت الاختبار قبل إكمال 6 حالات. يمكنك بدء الاختبار من جديد.'],
+ certBtn:['Download certificate (PDF)','نزّل الشهادة (PDF)'],certT:['Certificate of Completion','شهادة إتمام'],
+ certA:['This certifies that','تشهد الإدارة بأن'],
+ certB:['has successfully completed the Morse Fall Scale assessment training with 100% accuracy.','قد أكمل بنجاح تدريب تقييم مخاطر السقوط بمقياس موريس بدقة 100%.'],
+ certC:['Nursing Education & Staff Development','التعليم التمريضي وتطوير الموظفين'],certD:['Cases completed','الحالات المنجزة'],certE:['Date','التاريخ'],certF:['Signature','التوقيع'],
+ commonErr:['Most common mistakes','أكثر الأخطاء شيوعًا'],noErrData:['No mistake details yet.','لا توجد تفاصيل أخطاء بعد.'],chose:['chose','اختاروا'],instead:['instead of','بدل'],
+ faqT:['Common questions','أسئلة شائعة']
+});
 /* ---------- state ---------- */
-const S={lang:'en',view:'start',name:'',hid:'',unit:'',cur:null,draft:[],res:{},msg:''};
+const PK='mfs_prefs',SK='mfs_state',AK='mfs_admkey';
+const ls={get:k=>{try{return localStorage.getItem(k);}catch(e){return null;}},set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}},del:k=>{try{localStorage.removeItem(k);}catch(e){}}};
+const PREF=Object.assign({theme:'auto',accent:'teal',fs:0,lang:'en'},(()=>{try{return JSON.parse(ls.get(PK)||'{}')||{};}catch(e){return {};}})());
+function applyPrefs(){
+  const r=document.documentElement;
+  if(PREF.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',PREF.theme);
+  if(PREF.accent==='teal')r.removeAttribute('data-accent');else r.setAttribute('data-accent',PREF.accent);
+  r.style.setProperty('--fs',[1,1.15,1.3][PREF.fs]||1);
+}
+const savePref=()=>ls.set(PK,JSON.stringify(PREF));
+applyPrefs();
+let SAVED=(()=>{try{const j=JSON.parse(ls.get(SK)||'null');return j&&j.order&&j.order.length?j:null;}catch(e){return null;}})();
+const QS=new URLSearchParams(location.search),ADMIN_LINK=QS.has('admin');
+const S={lang:PREF.lang==='ar'?'ar':'en',view:'start',name:'',hid:'',unit:'',cur:null,draft:[],res:{},msg:'',order:[],plan:null,seen6:false,modal:false,set:false,admP:1,sid:'',pair:{},t0:0,ext:false,expired:false,prac:null,ex:null,chgPlan:null};
 const L=()=>S.lang==='ar'?1:0;
 const t=k=>TXT[k][L()];
 const p=a=>a[L()];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const riskIdx=n=>n>=51?2:n>=25?1:0;
-const num=n=>S.lang==='ar'?String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]):String(n);
+const num=n=>S.lang==='ar'&&!S.latin?String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]):String(n);
 const $=id=>document.getElementById(id);
 const scoreOf=a=>a.reduce((s,v,i)=>s+ITEMS[i].p[v],0);
 const same=(i,x,y)=>ITEMS[i].p[x]===ITEMS[i].p[y];
-const doneCount=()=>Object.keys(S.res).length;
-const canReport=()=>doneCount()>=3;
 function submitCur(){
   const sc=SC.find(x=>x.id===S.cur),ans=S.draft.slice();
   const ok=ans.filter((v,i)=>same(i,v,sc.a[i])).length,us=scoreOf(ans),ts=scoreOf(sc.a);
-  S.res[sc.id]={ans,ok,us,ts,riskOk:riskIdx(us)===riskIdx(ts)};
+  S.res[sc.id]={ans,ok,us,ts,riskOk:riskIdx(us)===riskIdx(ts),sec:Math.min(1800,Math.round((Date.now()-(S.openAt||Date.now()))/1000)),at:new Date().toISOString()};
 }
 function stats(){
-  const rows=SC.filter(s=>S.res[s.id]),tot=rows.length*6,ok=rows.reduce((a,s)=>a+S.res[s.id].ok,0);
+  const rows=S.order.map(id=>SC.find(x=>x.id===id)).filter(s=>s&&S.res[s.id]),tot=rows.length*6,ok=rows.reduce((a,s)=>a+S.res[s.id].ok,0);
   const pct=tot?Math.round(ok/tot*100):0;
-  return {rows,tot,ok,pct,pass:rows.length>=3&&pct>=80};
+  return {rows,tot,ok,pct,pass:rows.filter(s=>!isRe(s.id)).length>=6&&pct>=100};
 }
 const fmtDate=()=>new Date().toLocaleDateString(S.lang==='ar'?'ar-SA-u-nu-latn':'en-GB',{year:'numeric',month:'long',day:'numeric'});
 function ratHtml(sc,r){
@@ -543,48 +770,305 @@ function ratHtml(sc,r){
 
 /* ---------- views ---------- */
 function topBar(){
-  return `<header class="top"><div class="brand"><div class="mark">MFS</div><div><h1>${esc(t('title'))}</h1><small>${esc(t('sub'))}</small></div></div>
-  <div class="row">${IS_OWNER?`<button class="btn ghost" data-act="admin">${esc(t('admin'))}</button>`:''}<div class="lang" role="group" aria-label="${esc(t('lang'))}"><button data-act="lang" data-v="en" aria-pressed="${S.lang==='en'}">English</button><button data-act="lang" data-v="ar" aria-pressed="${S.lang==='ar'}">العربية</button></div></div></header>`;
+  return `<div class="hosp"><img src="${LOGO}" alt="Security Forces Hospital - Dammam | مستشفى قوى الأمن - الدمام" width="280"><div class="h1">NURSING EDUCATION &amp; STAFF DEVELOPMENT</div><div class="h2">NURSING DEPARTMENT</div></div><header class="top"><div class="brand"><div class="mark">MFS</div><div><h1>${esc(t('title'))}</h1><small>${esc(t('sub'))}</small></div></div>
+  <div class="row">${IS_OWNER?`<button class="btn ghost" data-act="admin">${esc(t('admin'))}</button>`:''}<button class="setb" data-act="set" aria-label="${esc(t('setBtn'))}" aria-expanded="${!!S.set}">⚙</button><div class="lang" role="group" aria-label="${esc(t('lang'))}"><button data-act="lang" data-v="en" aria-pressed="${S.lang==='en'}">English</button><button data-act="lang" data-v="ar" aria-pressed="${S.lang==='ar'}">العربية</button></div></div></header>${S.set?setPanel():''}`;
 }
+
+const setPanel=()=>{const sg=(k,v,l)=>`<button data-act="pref" data-k="${k}" data-v="${v}" aria-pressed="${String(PREF[k])===String(v)}">${esc(l)}</button>`;
+  const cols=[['teal','#0e6a65','cTeal'],['blue','#1d4f91','cBlue'],['green','#2e7d32','cGreen'],['purple','#6a3fa0','cPurple'],['gold','#b8860b','cGold']];
+  return `<section class="setp"><div><h3>${esc(t('thL'))}</h3><div class="seg">${sg('theme','auto',t('thAuto'))}${sg('theme','light',t('thLight'))}${sg('theme','dark',t('thDark'))}</div></div>
+  <div><h3>${esc(t('colL'))}</h3><div class="seg">${cols.map(c=>`<button class="sw" style="background:${c[1]}" data-act="pref" data-k="accent" data-v="${c[0]}" aria-pressed="${PREF.accent===c[0]}" aria-label="${esc(t(c[2]))}" title="${esc(t(c[2]))}"></button>`).join('')}</div></div>
+  <div><h3>${esc(t('fsL'))}</h3><div class="seg">${sg('fs',0,'A')}${sg('fs',1,'A+')}${sg('fs',2,'A++')}</div></div></section>`;};
 const foot=()=>`<footer class="foot">${esc(t('by'))}<br>${esc(t('disc'))}${SHEET_URL&&!IS_OWNER?`<br><button class="linkbtn" data-act="admin">${esc(t('sup'))}</button>`:''}</footer>`;
 const who=()=>`<div class="who"><span>${esc(S.name)}</span><span>ID ${esc(S.hid)}</span><span>${esc(S.unit)}</span></div>`;
 const legend=()=>`<div class="legend"><div>${RISK.map(r=>`<div>${r.r[0]===51?'≥51':r.r[0]+' - '+r.r[1]}: ${esc(p(r.n))}</div>`).join('')}</div><div class="muted">${esc(t('formNote'))}</div></div>`;
 
+/* ---------- guided flow: 6 required cases (2 low, 2 moderate, 2 high), then mixed, up to 13 ---------- */
+const REQ=6,MAXC=13;
+const riskOfCase=s=>riskIdx(scoreOf(s.a));
+const isRe=id=>String(id).indexOf('#')>-1;
+const baseOf=id=>String(id).split('#')[0];
+const bases=()=>S.order.filter(id=>!isRe(id));
+const baseCount=()=>bases().length;
+const fullDone=id=>!!S.res[id]&&(!S.pair[id]||!!S.res[S.pair[id]]);
+const doneCount=()=>bases().filter(fullDone).length;
+const canReport=()=>doneCount()>=REQ;
+const addSC=c=>{const i=SC.findIndex(x=>x.id===c.id);if(i>-1)SC.splice(i,1);SC.push(c);};
+const shuf=shuffle;
+/* ---------- reassessment: the patient's condition changes, so the nurse scores again ---------- */
+const genderOf=c=>c.g||(/^\s*(Mrs\.|Ms\.|She\b)/.test(c.st[0])?'f':'m');
+function makeReassess(c){
+  const m=genderOf(c)==='m',he=m?'he':'she',He=m?'He':'She',his=m?'his':'her',him=m?'him':'her',ar=(x,y)=>m?x:y;
+  const a=c.a,stand=c.sc.pose==='stand',pr=c.sc.props,hasAid=pr.includes('walker')||pr.includes('cane');
+  const M=[];
+  if(a[0]===0)M.push({it:[0],f:b=>{b[0]=1;},add:['fallbubble'],rm:[],
+    ev:[`During the night ${he} slipped on the way to the bathroom and fell. No serious injury was found.`,`خلال الليل ${ar('انزلق','انزلقت')} في طريقه${ar('','ا')} إلى الحمام و${ar('سقط','سقطت')}. لم تُكتشف إصابة خطيرة.`],
+    why:{0:['A fall during this admission scores 25, even when there is no injury.','السقوط خلال هذه الإقامة يعطي 25 حتى لو لم تحدث إصابة.']}});
+  if(a[1]===0)M.push({it:[1],f:b=>{b[1]=1;},add:[],rm:[],
+    ev:['A new diagnosis, a chest infection, was added to the chart. There are now two diagnoses.','أُضيف تشخيص جديد وهو التهاب في الصدر إلى الملف. أصبح هناك تشخيصان.'],
+    why:{1:['Two diagnoses are listed now: 15.','يوجد الآن تشخيصان في الملف: 15.']}});
+  if(a[3]===0)M.push({it:[3],f:b=>{b[3]=1;},add:['iv'],rm:[],
+    ev:[`The doctor started IV antibiotics and a new IV line was placed in ${his} forearm.`,`بدأ الطبيب مضادًا حيويًا وريديًا وتم تركيب قسطرة وريدية جديدة في ${ar('ساعده','ساعدها')}.`],
+    why:{3:['A new IV line is in place now: 20.','توجد الآن قسطرة وريدية جديدة: 20.']}});
+  if(a[3]===1)M.push({it:[3],f:b=>{b[3]=0;},add:[],rm:['iv','lock'],
+    ev:['The IV course is complete and the line was removed this morning. No access remains.','انتهت الجرعات الوريدية وسُحبت القسطرة هذا الصباح. لا توجد قسطرة الآن.'],
+    why:{3:['The IV was removed, so there is no access now: 0.','سُحبت القسطرة فلا توجد قسطرة الآن: 0.']}});
+  if(a[5]===0)M.push({it:[5],f:b=>{b[5]=1;},add:['bubbleX'],rm:[],
+    ev:[`Overnight ${he} became confused. Asked "Can you go to the bathroom alone?", ${he} answers "Yes, I can go alone", but the nursing order says to call for help.`,`خلال الليل ${ar('أصبح مرتبكًا','أصبحت مرتبكة')}. عند سؤال${ar('ه','ها')} «هل تستطيع الذهاب إلى الحمام وحدك؟» ${ar('أجاب','أجابت')}: «نعم، أستطيع وحدي»، بينما أمر التمريض هو طلب المساعدة.`],
+    why:{5:['The answer does not match the order: forgets limitations: 15.','الإجابة لا تتفق مع الأمر: ينسى محدوداته: 15.']}});
+  if(a[5]===1)M.push({it:[5],f:b=>{b[5]=0;},add:[],rm:['bubbleX'],
+    ev:[`The confusion cleared after treatment. Asked about the bathroom, ${he} now answers "No, I need help", which matches the order.`,`زال الارتباك بعد العلاج. عند السؤال عن الحمام ${ar('أجاب','أجابت')} الآن: «لا، أحتاج إلى مساعدة»، وهذا يتفق مع الأمر.`],
+    why:{5:['The answer now matches the order: oriented to own ability: 0.','الإجابة تتفق الآن مع الأمر: مدرك لقدرته: 0.']}});
+  if(stand&&a[2]<2&&!hasAid)M.push({it:[2,4],f:b=>{b[2]=2;b[4]=Math.max(b[4],1);},add:['walker'],rm:[],
+    ev:[`After a weak spell, physiotherapy gave ${him} a walker. ${He} now walks with it, taking short steps but keeping balance.`,`بعد فترة ضعف، أعطاه أخصائي العلاج الطبيعي مشاية. ${ar('يمشي','تمشي')} بها الآن بخطوات قصيرة مع الحفاظ على التوازن.`.replace('أعطاه',ar('أعطاه','أعطاها'))],
+    why:{2:['A walker scores 15.','المشاية تعطي 15.'],4:['Short weak steps with balance kept: 10.','خطوات قصيرة ضعيفة مع الحفاظ على التوازن: 10.']}});
+  if(stand&&a[2]===2&&hasAid)M.push({it:[2,4],f:b=>{b[2]=0;b[4]=0;},add:[],rm:['walker','cane'],
+    ev:[`After physiotherapy ${he} has recovered and now walks without any aid, with a steady gait.`,`بعد العلاج الطبيعي تعافى${ar('','ت')} و${ar('يمشي','تمشي')} الآن دون أي وسيلة وبمشية ثابتة.`],
+    why:{2:['No aid is used now: 0.','لا تُستخدم وسيلة مشي الآن: 0.'],4:['Steady, normal gait now: 0.','مشية ثابتة وطبيعية الآن: 0.']}});
+  if(stand&&a[4]<2&&a[2]!==3)M.push({it:[4],f:b=>{b[4]=2;},add:[],rm:[],
+    ev:[`After a sedating medicine ${he} is drowsy. ${He} struggles to rise from the chair, pushes up with ${his} arms and is unsteady.`,`بعد دواء مهدّئ ${ar('أصبح','أصبحت')} ${ar('ناعسًا','ناعسة')}. ${ar('يجد','تجد')} صعوبة في النهوض من الكرسي و${ar('يدفع','تدفع')} نفسه${ar('','ا')} بذراعي${ar('ه','ها')} وتوازن${ar('ه','ها')} ضعيف.`],
+    why:{4:['Struggling to rise and unsteady: impaired gait: 20.','صعوبة في النهوض وعدم ثبات: مشية مختلة: 20.']}});
+  if(stand&&a[4]===2&&a[2]!==3)M.push({it:[4],f:b=>{b[4]=1;},add:[],rm:[],
+    ev:[`After physiotherapy ${his} steps are steadier. ${He} now takes short steps and keeps balance.`,`بعد العلاج الطبيعي أصبحت خطوات${ar('ه','ها')} أثبت. ${ar('يخطو','تخطو')} الآن خطوات قصيرة مع الحفاظ على التوازن.`],
+    why:{4:['Short weak steps but balance kept: 10.','خطوات قصيرة ضعيفة مع الحفاظ على التوازن: 10.']}});
+  if(!M.length)return null;
+  const first=pick(M),chosen=[first];
+  if(Math.random()<.4){const rest=M.filter(x=>!x.it.some(i=>first.it.includes(i)));if(rest.length)chosen.push(pick(rest));}
+  const b=a.slice(),props=pr.slice();let ev0='',ev1='',why={};
+  chosen.forEach(x=>{x.f(b);ev0+=(ev0?' ':'')+x.ev[0];ev1+=(ev1?' ':'')+x.ev[1];Object.assign(why,x.why);x.add.forEach(k=>{if(!props.includes(k))props.push(k);});});
+  chosen.forEach(x=>x.rm.forEach(k=>{let i;while((i=props.indexOf(k))>-1)props.splice(i,1);}));
+  const ch=ITEMS.map((_,i)=>i).filter(i=>!same(i,a[i],b[i]));
+  if(!ch.length)return null;
+  const t1=scoreOf(a),t2=scoreOf(b);
+  const lst=l=>ch.map(i=>`${ITEMS[i].q[l]}: ${ITEMS[i].o[a[i]][l]} (${ITEMS[i].p[a[i]]}) → ${ITEMS[i].o[b[i]][l]} (${ITEMS[i].p[b[i]]})`).join(l?'؛ ':'; ');
+  return {id:c.id+'#2',base:c.id,re:true,gen:true,lv:c.lv,g:genderOf(c),
+    ti:['Reassessment: '+c.ti[0],'إعادة التقييم: '+c.ti[1]],
+    st:['Update: '+ev0+' Reassess the patient with this new information. Anything not mentioned has not changed.','تحديث: '+ev1+' أعد تقييم المريض بهذه المعلومات الجديدة. كل ما لم يُذكر لم يتغير.'],
+    prev:c.st,a:b,
+    nt:['What changed: '+lst(0)+'. Total: '+t1+' → '+t2+'. When the condition changes, score again and update the precautions.','ما الذي تغيّر: '+lst(1)+'. المجموع: '+t1+' ← '+t2+'. عندما تتغير الحالة، أعد التقييم وحدّث الاحتياطات.'],
+    rat:ITEMS.map((_,i)=>why[i]||(c.rat?c.rat[i]:GR[i][b[i]])),
+    sc:{pose:c.sc.pose,props}};
+}
+function attachReassess(c,flag){
+  if(!flag||isRe(c.id))return;
+  const r=makeReassess(c);
+  if(r){addSC(r);S.pair[c.id]=r.id;}
+}
+const chgPlanFor=n=>{const k=Math.round(n/3),o=[];for(let i=0;i<n;i++)o.push(i<k?1:0);return shuffle(o);};
+/* ---------- encouragement (English) and error explanations ---------- */
+const CHEER={
+ top:['Excellent work! Every item was right. Accurate scoring like this keeps patients safe.','Perfect score! Keep that sharp eye on every patient.','Spot on! Careful assessments like this prevent falls.','Brilliant! You read this patient exactly right.','Great job. Your attention to detail makes patients safer.','Flawless! You are building a great habit, keep going.'],
+ good:['Very good! Just a small slip. Check the note below and you will nail the next one.','Nice work, you are nearly there. One more look at the explanation and it will stick.','Good progress! Mistakes are how we learn, and you are learning fast.','Strong effort. Accuracy grows with every case, keep going.'],
+ low:['Keep going! Every nurse learns this scale one case at a time.','Do not be discouraged. Read the explanation below and the next case will feel easier.','You are building a valuable skill. Practice makes it second nature.','Well done for staying with it. Your patients will benefit from your effort.'],
+ re:['Well done for rechecking the patient. Reassessment protects patients when their condition changes.','Good thinking: a change in condition means a new assessment.']
+};
+function cheer(sc,r){
+  let pool=r.ok===6?CHEER.top:r.ok>=4?CHEER.good:CHEER.low;
+  if(sc.re&&r.ok===6)pool=pool.concat(CHEER.re);
+  return pick(pool);
+}
+function errHtml(sc,r){
+  const bad=ITEMS.map((_,i)=>i).filter(i=>!same(i,r.ans[i],sc.a[i]));
+  if(!bad.length)return `<div class="note" style="margin-block-start:12px">${esc(t('noErr'))}</div>`;
+  return `<h3 style="margin-block-start:16px">${esc(t('errT'))}</h3>`+bad.map(i=>{const it=ITEMS[i],j=sc.a[i],why=sc.rat?sc.rat[i]:GR[i][j];
+   return `<div class="errc"><b>${num(i+1)}. ${esc(p(it.q))}</b><div>${esc(t('yourAns'))}: <span class="bad">${esc(p(it.o[r.ans[i]]))} (${num(it.p[r.ans[i]])})</span></div><div>${esc(t('corrAns'))}: <span class="goodt">${esc(p(it.o[j]))} (${num(it.p[j])})</span></div><div class="muted">${esc(t('whyT'))}: ${esc(p(why))}</div></div>`;}).join('');
+}
+/* ---------- exam clock: 60 min for 6 cases, 120 min if the staff continues to 13 ---------- */
+const deadline=()=>S.t0?S.t0+(S.ext?120:60)*60000:0;
+const fmtLeft=ms=>{ms=Math.max(0,ms);const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60,P=n=>String(n).padStart(2,'0');return (h?h+':':'')+P(m)+':'+P(x);};
+const tmrHtml=()=>{if(S.prac||!S.t0)return '';const left=deadline()-Date.now();return `<span class="tmr ${left<5*60000?'low':''}" id="tmr" role="timer" aria-label="${esc(t('timeLeft'))}">⏱ <bdi dir="ltr">${fmtLeft(left)}</bdi></span>`;};
+function timeUp(){
+  S.expired=true;S.modal=false;
+  if(canReport()){go('report');recordResult();}else go('timeup');
+}
+setInterval(()=>{
+  if(S.prac||!S.t0||!S.order.length||S.expired||!['hub','play'].includes(S.view))return;
+  const left=deadline()-Date.now();
+  if(left<=0){timeUp();return;}
+  const e=$('tmr');if(e){e.firstElementChild.textContent=fmtLeft(left);e.classList.toggle('low',left<5*60000);}
+},1000);
+/* ---------- guided exam flow ---------- */
+function newPlan(){S.plan=shuffle([0,0,1,1,2,2]);S.chgPlan=shuffle([1,1,0,0,0,0]);S.sid=Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function pickCase(k){
+  const used=new Set(S.order),curated=SC.filter(s=>!s.gen&&!used.has(s.id));
+  if(k<REQ){
+    const pool=curated.filter(s=>riskOfCase(s)===S.plan[k]);
+    return pool.length&&Math.random()<.6?pick(pool):genCase(S.plan[k]);
+  }
+  return curated.length&&Math.random()<.4?pick(curated):genCase();
+}
+function queued(){
+  const pend=S.order.find(id=>!S.res[id]);if(pend)return SC.find(x=>x.id===pend);
+  for(const id of bases()){const q=S.pair[id];if(q&&S.res[id]&&!S.res[q]){const c=SC.find(x=>x.id===q);if(c)return c;}}
+  return null;
+}
+function nextCase(){
+  let sc=queued();
+  if(sc){if(!S.order.includes(sc.id))S.order.push(sc.id);}
+  else{
+    if(baseCount()>=MAXC){go('hub');return;}
+    if(!S.plan)newPlan();
+    const k=baseCount();
+    sc=pickCase(k);addSC(sc);S.order.push(sc.id);
+    attachReassess(sc,k<REQ?(S.chgPlan||[])[k]===1:Math.random()<1/3);
+  }
+  if(S.cur!==sc.id||S.res[sc.id])S.draft=[];
+  S.cur=sc.id;S.openAt=Date.now();go('play');
+}
+function advance(){
+  if(doneCount()===REQ&&!S.seen6&&!queued()){S.modal=true;render();return;}
+  nextCase();
+}
+function startTest(){
+  if(!(S.name.trim()&&S.hid.trim()&&S.unit.trim()))return;
+  if(S.order.length)go('hub');else{S.t0=Date.now();S.ext=false;S.expired=false;newPlan();nextCase();}
+}
+function retakeTest(){
+  S.res={};S.order=[];S.pair={};S.plan=null;S.seen6=false;S.modal=false;S.rec='';S.recN=-1;S.cur=null;S.draft=[];S.msg='';
+  S.t0=Date.now();S.ext=false;S.expired=false;newPlan();nextCase();
+}
+const modalHtml=()=>`<div class="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-t"><div class="box"><h2 id="mdl-t">${esc(t('mTitle'))}</h2><p>${esc(t('mBody'))}</p>
+  <div class="bar" aria-hidden="true"><i style="width:${Math.round(REQ/MAXC*100)}%"></i></div><p class="muted" style="margin:0 0 6px"><bdi dir="ltr">${num(REQ)} / ${num(MAXC)}</bdi></p>
+  <p class="muted" style="margin:0 0 14px;font-size:14px">${esc(t('mTime'))}</p>
+  <div class="row"><button class="btn" id="m-cont" data-act="mcont">${esc(t('mCont'))}</button><button class="btn ghost" data-act="mfin">${esc(t('mFin'))}</button></div></div></div>`;
+function progDots(k){
+  const b=bases();let h='<div class="dots" aria-hidden="true">';
+  for(let i=1;i<=MAXC;i++){const id=b[i-1],done=id&&fullDone(id);h+=`<i class="${done?'done':''}${i===k?' cur':''}${i>REQ?' o2':''}"></i>`;}
+  return h+'</div>';
+}
+function resumeBox(){
+  if(!SAVED||S.order.length)return '';
+  const n=(SAVED.order||[]).filter(id=>!isRe(id)&&(SAVED.res||{})[id]).length;
+  return `<section class="panel sign" style="margin:0 0 14px"><div><h3>${esc(t('welcome'))}${SAVED.name?', '+esc(SAVED.name):''}</h3><p class="sign-s">${esc(t('welcomeS'))} (<bdi dir="ltr">${num(n)}</bdi> ${esc(t('done'))})</p>
+  <div class="row"><button class="btn" data-act="resume">${esc(t('resume'))}</button><button class="btn ghost" data-act="fresh">${esc(t('startOver'))}</button></div></div></section>`;
+}
+/* ---------- practice mode ---------- */
+const PCFG={lv:0,risks:[0,1,2],n:5};
+const LVN=['easy','medium','hard'];
+function enterPrac(){
+  S.ex={res:S.res,order:S.order,plan:S.plan,chgPlan:S.chgPlan,seen6:S.seen6,cur:S.cur,draft:S.draft,pair:S.pair,modal:S.modal,rec:S.rec,recN:S.recN};
+  Object.assign(S,{res:{},order:[],plan:null,seen6:true,cur:null,draft:[],pair:{},modal:false});
+  S.prac={cfg:{lv:PCFG.lv,risks:PCFG.risks.slice(),n:PCFG.n},chg:chgPlanFor(PCFG.n||13)};
+  nextPrac();
+}
+function leavePrac(v){
+  if(S.ex){Object.assign(S,S.ex);S.ex=null;}
+  S.prac=null;S.recN=S.recN;go(v||'start');
+}
+function pracFinished(){const P=S.prac;return P.cfg.n>0&&doneCount()>=P.cfg.n&&!queued();}
+function nextPrac(){
+  const P=S.prac;let sc=queued();
+  if(sc){if(!S.order.includes(sc.id))S.order.push(sc.id);}
+  else{
+    if(pracFinished()){go('pracend');return;}
+    const k=baseCount();
+    sc=genCase(pick(P.cfg.risks),LVN[P.cfg.lv]);addSC(sc);S.order.push(sc.id);
+    attachReassess(sc,P.cfg.n?P.chg[k]===1:Math.random()<1/3);
+  }
+  S.draft=[];S.cur=sc.id;S.openAt=Date.now();go('play');
+}
+function vPrac(){
+  const sg=(on,act,v,l)=>`<button data-act="${act}" data-v="${v}" aria-pressed="${on}">${esc(l)}</button>`;
+  const lv=['pLv0','pLv1','pLv2'],rk=['pR0','pR1','pR2'];
+  return `<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('pracT'))}</h2><button class="btn ghost" data-act="home">${esc(t('howBack'))}</button></div>
+  <p style="margin:8px 0 0">${esc(t('pracS'))}</p></section>
+  <section class="panel"><h3>${esc(t('pLevel'))}</h3><div class="seg" role="group">${lv.map((k,i)=>sg(PCFG.lv===i,'plv',i,t(k))).join('')}</div>
+  <p class="muted" style="margin:8px 0 0;font-size:14px">${esc(t('pLvD'+PCFG.lv))}</p>
+  <h3 style="margin-block-start:16px">${esc(t('pRisk'))}</h3>
+  <div class="row">${rk.map((k,i)=>`<label class="chk"><input type="checkbox" data-risk="${i}" ${PCFG.risks.includes(i)?'checked':''}><span>${esc(t(k))}</span></label>`).join('')}<button class="btn ghost" data-act="pall" style="padding:6px 12px">${esc(t('pAll'))}</button></div>
+  <h3 style="margin-block-start:16px"><label for="pr-n">${esc(t('pCount'))}</label></h3>
+  <select id="pr-n">${[3,4,5,6,7,8,9,10,11,12,13].map(n=>`<option value="${n}" ${PCFG.n===n?'selected':''}>${num(n)}</option>`).join('')}<option value="0" ${PCFG.n===0?'selected':''}>${esc(t('pOpen'))}</option></select>
+  <p class="muted" style="margin:6px 0 0;font-size:14px">${esc(t('pNote'))}</p>
+  <div class="row" style="margin-block-start:18px"><button class="btn" data-act="pstart">${esc(t('pStart'))}</button></div></section>`;
+}
+function vPracEnd(){
+  const st=stats(),n=baseCount();
+  const msg=st.pct>=100?pick(CHEER.top):st.pct>=80?pick(CHEER.good):pick(CHEER.low);
+  return `<section class="panel"><h2>${esc(t('pDone'))}</h2>
+  <div class="grid2"><div class="result risk-0"><small>${esc(t('cases'))}</small><div class="big">${num(n)}</div></div><div class="result risk-${st.pct>=100?0:st.pct>=80?1:2}"><small>${esc(t('overall'))}</small><div class="big"><bdi dir="ltr">${num(st.pct)}%</bdi></div></div></div>
+  <p class="note" dir="ltr" lang="en" style="margin-block-start:14px">${esc(msg)}</p><p class="muted">${esc(t('pNoRec'))}</p>
+  <div class="row" style="margin-block-start:12px"><button class="btn" data-act="prac">${esc(t('pAgain'))}</button><button class="btn ghost" data-act="pexit">${esc(t('pExit'))}</button></div></section>`;
+}
+function vTimeup(){
+  return `<section class="panel"><h2>${esc(t('tuT'))}</h2><p>${esc(t('tuB'))}</p><div class="row"><button class="btn" data-act="retake">${esc(t('retake'))}</button><button class="btn ghost" data-act="home">${esc(t('howBack'))}</button></div></section>`;
+}
 function vStart(){
-  const ready=S.name.trim()&&S.hid.trim()&&S.unit.trim();
-  return `<section class="panel intro"><h2>${esc(t('iTitle'))}</h2><p>${esc(t('iP'))}</p>
-  <div class="grid2"><div><h3>${esc(t('iGain'))}</h3><ul class="act">${INTRO.gain.map(x=>`<li>${esc(p(x))}</li>`).join('')}</ul></div>
-  <div><h3>${esc(t('iHow'))}</h3><ol class="act">${INTRO.how.map(x=>`<li>${esc(p(x))}</li>`).join('')}</ol></div></div>
-  <div class="note" style="margin-block-start:14px">${esc(t('iCal'))}</div></section>
+  const ready=S.name.trim()&&S.hid.trim()&&S.unit.trim(),started=S.order.length>0;
+  return resumeBox()+`<section class="panel intro"><h2>${esc(t('iTitle'))}</h2><p>${esc(t('iP'))}</p>
+  <div class="sign" role="note"><svg class="sign-ic" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="7" width="30" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><rect x="17" y="3" width="14" height="8" rx="2.5" fill="currentColor"/><path d="M16 26l6 6 11-13" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+   <div><h3>${esc(t('signT'))}</h3><p class="sign-s">${esc(t('signS'))}</p><ul class="act">${INTRO.sign.map(x=>`<li>${esc(p(x))}</li>`).join('')}</ul></div></div>
+  <h3>${esc(t('iHow'))}</h3><ol class="act">${INTRO.how.map(x=>`<li>${esc(p(x))}</li>`).join('')}</ol>
+  <div class="row" style="margin-block-start:16px"><button class="btn" data-act="how">${esc(t('howBtn'))}</button></div>
+  <div class="note" style="margin-block-start:16px">${esc(t('iCal'))}</div></section>
+  ${VIDEO_EMBED?`<section class="panel"><h3>${esc(t('vidTitle'))}</h3><div class="vid"><iframe src="${esc(VIDEO_EMBED)}" title="${esc(t('vidTitle'))}" allowfullscreen loading="lazy"></iframe></div></section>`:VIDEO_FILE?`<section class="panel"><h3>${esc(t('vidTitle'))}</h3><video controls preload="metadata" playsinline style="width:100%;border-radius:10px;background:#000"><source src="${esc(VIDEO_FILE)}" type="video/mp4"></video></section>`:''}
   <section class="panel"><p class="muted" style="margin:0 0 14px">${esc(t('need'))}</p>
   <div class="grid3" style="margin-block-end:18px">
    <div><label class="f" for="in-name">${esc(t('name'))}</label><input id="in-name" type="text" autocomplete="off" value="${esc(S.name)}"></div>
    <div><label class="f" for="in-hid">${esc(t('hid'))}</label><input id="in-hid" type="text" inputmode="numeric" dir="ltr" autocomplete="off" value="${esc(S.hid)}"></div>
    <div><label class="f" for="in-unit">${esc(t('unit'))}</label><input id="in-unit" type="text" autocomplete="off" placeholder="${esc(t('unitPh'))}" value="${esc(S.unit)}"></div>
   </div>
-  <button class="btn" id="go" data-act="go" ${ready?'':'disabled'}>${esc(t('start'))}</button></section>
+  <button class="btn" id="go" data-act="go" ${ready?'':'disabled'}>${esc(started?t('next'):t('start'))}</button></section>
+  <section class="panel"><div class="row" style="justify-content:space-between"><div><h3 style="margin:0">${esc(t('pracT'))}</h3><p class="muted" style="margin:4px 0 0">${esc(t('pracS'))}</p></div><button class="btn ghost" data-act="prac">${esc(t('pracBtn'))}</button></div></section>
   <section class="panel"><h3>${esc(t('guide'))}</h3>${legend()}</section>`;
 }
+
+const FAQ=[
+ [['A nurse holds the patient\'s arm while walking. Is that an ambulatory aid?','الممرضة تمسك ذراع المريض أثناء المشي. هل تُحسب وسيلة مشي؟'],['No. Nurse assistance scores 0. Choose "Bed rest / Nurse assist".','لا. مساعدة التمريض تعطي 0. اختر «راحة بالفراش / مساعدة التمريض».']],
+ [['The patient uses a wheelchair. How is it scored?','المريض يستخدم كرسيًا متحركًا. كيف يُحسب؟'],['Ambulatory aid: 0 (bed rest / nurse assist). Gait: 0 if the patient does not walk. Score only what is true now.','وسيلة المشي: 0 (راحة بالفراش / مساعدة التمريض). طريقة المشي: 0 إذا كان لا يمشي. قيّم فقط ما هو صحيح الآن.']],
+ [['The IV was removed this morning. Do I score 20?','القسطرة الوريدية سُحبت هذا الصباح. هل أعطي 20؟'],['No. Score 0. Count an IV only when it is in place now.','لا. أعطِ 0. احسب القسطرة فقط إذا كانت موجودة الآن.']],
+ [['There is a saline lock but no fluid is running.','يوجد saline lock ولا يوجد محلول جارٍ.'],['Score 20. A capped saline or heparin lock still counts as IV access.','أعطِ 20. القفل المغلق (saline أو heparin) يُحسب كقسطرة وريدية.']],
+ [['The patient fell 6 months ago.','المريض سقط قبل 6 أشهر.'],['Score 0, because it is outside the 3-month window. A fall during this admission scores 25, even with no injury.','أعطِ 0 لأنه خارج 3 أشهر. السقوط خلال هذه الإقامة يعطي 25 حتى بلا إصابة.']],
+ [['The patient says "I can go alone" but the order says call for help.','المريض يقول «أستطيع وحدي» وأمر التمريض هو طلب المساعدة.'],['Score 15 (forgets limitations). Always compare the answer with the nursing order.','أعطِ 15 (ينسى محدوداته). قارن الإجابة دائمًا بأمر التمريض.']],
+ [['How many diagnoses count for the secondary diagnosis item?','كم تشخيصًا يُحسب في بند التشخيص الثانوي؟'],['Count only the diagnoses listed on the chart. Two or more: 15. One: 0.','احسب فقط التشخيصات المسجلة في الملف. تشخيصان أو أكثر: 15. تشخيص واحد: 0.']],
+ [['The patient uses a walker and has short weak steps.','المريض يستخدم مشاية وخطواته قصيرة وضعيفة.'],['Score each item on its own: ambulatory aid 15 and gait 10.','قيّم كل بند على حدة: وسيلة المشي 15 وطريقة المشي 10.']],
+ [['When must I assess again?','متى يجب أن أعيد التقييم؟'],['Whenever the condition changes: a fall, a new IV line, a new medicine, new confusion or a change in mobility. Score again and update the precautions.','كلما تغيرت الحالة: سقوط، أو قسطرة جديدة، أو دواء جديد، أو ارتباك جديد، أو تغيّر في الحركة. أعد التقييم وحدّث الاحتياطات.']]
+];
+function vHow(){
+  const total=scoreOf(EXAMPLE.a),rk=RISK[riskIdx(total)],ord=i=>ITEMS[i].disp||ITEMS[i].o.map((_,k)=>k);
+  let h=`<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('howTitle'))}</h2><button class="btn ghost" data-act="howback">${esc(t('howBack'))}</button></div>
+  <p style="margin:10px 0 0">${esc(t('howSub'))}</p></section>`;
+  HOW.forEach((x,i)=>{
+    h+=`<section class="panel hcard"><h3><span class="hn">${num(i+1)}</span>${esc(p(ITEMS[i].q))}</h3>
+    <div class="hrow"><b>${esc(t('howLook'))}</b><span>${esc(p(x.see))}</span></div>
+    <div class="hrow"><b>${esc(t('howRule'))}</b><span>${esc(p(x.rule))}</span></div>
+    <div class="chips">${ord(i).map(j=>`<span class="oc"><b>${num(ITEMS[i].p[j])}</b>${esc(p(ITEMS[i].o[j]))}</span>`).join('')}</div>
+    <div class="mist"><b>${esc(t('howMist'))}:</b> ${esc(p(x.mist))}</div></section>`;
+  });
+  h+=`<section class="panel"><h2>${esc(t('howEx'))}</h2><p class="muted" style="margin:0 0 12px">${esc(t('howExNote'))}</p>
+  <div class="hero">${scene(EXAMPLE.sc,p(EXAMPLE.ti))}</div><h3 style="margin-block-start:14px">${esc(p(EXAMPLE.ti))}</h3><p style="margin:0 0 14px">${esc(p(EXAMPLE.st))}</p>
+  <div class="paper-wrap"><table class="tbl exr" style="min-width:560px"><thead><tr><th>#</th><th>${esc(t('item'))}</th><th>${esc(t('howSee'))}</th><th>${esc(t('howTick'))}</th><th>${esc(t('howPts'))}</th></tr></thead><tbody>
+  ${ITEMS.map((it,i)=>`<tr><td class="num">${num(i+1)}</td><td>${esc(p(it.q))}</td><td>${esc(p(EXAMPLE.see[i]))}</td><td><b>${esc(p(it.o[EXAMPLE.a[i]]))}</b></td><td class="num"><b>${num(it.p[EXAMPLE.a[i]])}</b></td></tr>`).join('')}
+  <tr><td></td><td colspan="3"><b>${esc(t('howTot'))}</b></td><td class="num"><b><bdi dir="ltr">${num(ITEMS.map((it,i)=>it.p[EXAMPLE.a[i]]).join(' + '))} = ${num(total)}</bdi></b></td></tr></tbody></table></div>
+  <div class="result risk-${riskIdx(total)}" style="margin-block-start:14px"><small>${esc(t('howTot'))}</small><div class="big">${num(total)} / 125</div><b>${esc(p(rk.n))}</b></div>
+  <p style="margin:12px 0 4px"><b>${esc(t('howNext'))}</b></p><ul class="act">${ACT[riskIdx(total)].map(a=>`<li>${esc(p(a))}</li>`).join('')}</ul>
+  <div class="row" style="margin-block-start:16px"><button class="btn" data-act="howback">${esc(t('howBack'))}</button></div></section>`;
+  h+=`<section class="panel"><h2>${esc(t('faqT'))}</h2>${FAQ.map(x=>`<details class="gl faq"><summary>${esc(p(x[0]))}</summary><p>${esc(p(x[1]))}</p></details>`).join('')}</section>`;
+  return h;
+}
 function vHub(){
-  const n=doneCount(),ok=canReport();
-  return `<section class="panel"><div class="row" style="justify-content:space-between">${who()}</div>
-  <div class="bar" aria-hidden="true"><i style="width:${Math.min(100,n/3*100)}%"></i></div>
-  <p style="margin:0 0 4px"><b>${num(n)}</b> ${esc(t('prog'))}</p>
-  ${ok?'':`<p class="muted" style="margin:0 0 6px">${esc(t('reqLv'))}</p>`}
-  <div class="row" style="margin-block-start:10px"><button class="btn" data-act="gen">+ ${esc(t('newCase'))}</button><button class="btn ghost" data-act="report" ${ok?'':'disabled'}>${esc(t('finish'))}</button></div></section>
-  <div class="grid2">${SC.map((s,i)=>{const r=S.res[s.id];
-   return `<button class="card" data-act="open" data-v="${s.id}">${scene(s.sc,p(s.ti))}<div class="meta"><b>${num(i+1)}. ${esc(p(s.ti))}</b>
-   ${r?`<span class="tag ${r.ok===6?'ok':r.ok>=4?'mid':'no'}">${num(r.ok)}/6 ${esc(t('items'))}</span>`:`<span class="tag todo">${esc(t('todo'))}</span>`}</div></button>`}).join('')}</div>`;
+  const n=doneCount(),can=canReport(),pend=queued(),atCap=baseCount()>=MAXC&&!pend;
+  return `<section class="panel"><div class="row" style="justify-content:space-between">${who()}${tmrHtml()}</div>
+  <div class="bar" aria-hidden="true"><i style="width:${Math.min(100,n/REQ*100)}%"></i></div>
+  <p style="margin:0 0 4px"><b>${num(Math.min(n,REQ))}/${num(REQ)}</b> ${esc(t('prog').replace(/\s*\(.*\)/,''))}${n>REQ?` · +${num(n-REQ)}`:''}</p>
+  ${can?'':`<p class="muted" style="margin:0 0 6px">${esc(t('reqLv'))}</p>`}
+  <div class="row" style="margin-block-start:10px">${atCap?'':`<button class="btn" data-act="next">${esc(S.order.length?t('next'):t('startNow'))}</button>`}<button class="btn ghost" data-act="report" ${can?'':'disabled'}>${esc(t('finish'))}</button></div></section>
+  <h3 style="margin-block:4px 8px">${esc(t('yourCases'))}</h3>
+  <div class="grid2">${S.order.map(id=>{const s=SC.find(x=>x.id===id),r=S.res[id],k=bases().indexOf(baseOf(id))+1;
+   return `<button class="card" data-act="open" data-v="${s.id}">${scene(s.sc,p(s.ti))}<div class="meta"><b>${num(k)}. ${esc(p(s.ti))}</b>
+   ${s.re?`<span class="tag mid">${esc(t('reTag'))}</span> `:''}${r?`<span class="tag ${r.ok===6?'ok':r.ok>=4?'mid':'no'}">${num(r.ok)}/6 ${esc(t('items'))}</span>`:`<span class="tag todo">${esc(t('todo'))}</span>`}</div></button>`}).join('')}</div>`;
 }
 function vPlay(){
-  const sc=SC.find(x=>x.id===S.cur),r=S.res[sc.id],lock=!!r,idx=SC.indexOf(sc);
-  let h=`<section class="panel"><button class="btn ghost" data-act="hub" style="margin-block-end:14px">${esc(t('back'))}</button>
+  const sc=SC.find(x=>x.id===S.cur),r=S.res[sc.id],lock=!!r,P=S.prac,k=bases().indexOf(baseOf(sc.id))+1;
+  const caseLine=P?`${esc(t('caseN'))} ${num(k)}${P.cfg.n?' / '+num(P.cfg.n):''}`:`${esc(t('caseN'))} ${num(k)} · ${esc(k<=REQ?t('reqOf'):t('optNote'))}`;
+  let h=`<section class="panel"><div class="row" style="justify-content:space-between;margin-block-end:12px"><button class="btn ghost" data-act="${P?'pexit':'hub'}">${esc(P?t('pExit'):t('back'))}</button><div class="row">${tmrHtml()}<button class="btn ghost" data-act="how">${esc(t('howShort'))}</button></div></div>
+  ${P?'':progDots(k)}
+  <p class="muted" style="margin:8px 0 12px;font-size:13.5px"><b>${caseLine}</b>${P?` · ${esc(t('pracT'))}`:''}${sc.re?` · <span class="tag mid">${esc(t('reTag'))}</span>`:''}</p>
   <div class="hero">${scene(sc.sc,p(sc.ti))}</div>
-  <p class="muted" style="margin:14px 0 2px;font-size:13.5px">${esc(t('scen'))} ${num(idx+1)}</p>
-  <h2>${esc(p(sc.ti))}</h2><p style="margin:0">${esc(p(sc.st))}</p></section>
+  <h2 style="margin-block-start:14px">${esc(p(sc.ti))}</h2><p style="margin:0">${esc(p(sc.st))}</p>
+  ${sc.prev?`<details class="gl" style="margin-block-start:10px"><summary>${esc(t('prevD'))}</summary><p>${esc(p(sc.prev))}</p></details>`:''}</section>
   <section class="panel form ${lock?'locked':''}">`;
   ITEMS.forEach((it,i)=>{
-    const order=it.disp||it.o.map((_,k)=>k);
+    const order=it.disp||it.o.map((_,q)=>q);
     h+=`<div class="frow"><div class="flabel"><span class="req">*</span>${esc(p(it.q))}<details class="gl"><summary>${esc(t('guideline'))}</summary><p>${esc(p(it.g))}</p></details></div><div class="fopts">`;
     order.forEach(j=>{
       let cls='chk';
@@ -597,44 +1081,108 @@ function vPlay(){
   if(!lock){h+=`<div class="row" style="margin-block-start:16px"><button class="btn" id="sub" data-act="submit" disabled>${esc(t('submit'))}</button><span class="muted" id="subhint" style="font-size:14px">${esc(t('answerAll'))}</span></div>`;}
   h+=`</section>`;
   if(lock){
-    const rk=RISK[riskIdx(r.ts)],uk=RISK[riskIdx(r.us)];
-    h+=`<section class="panel" id="fbk"><div class="grid2"><div class="result risk-${riskIdx(r.us)}"><small>${esc(t('yourTotal'))}</small><div class="big">${num(r.us)} / 125</div><b>${esc(p(uk.n))}</b></div>
+    const rk=RISK[riskIdx(r.ts)],uk=RISK[riskIdx(r.us)],can=canReport(),pendRe=S.pair[sc.id]&&!S.res[S.pair[sc.id]];
+    const last=baseCount()>=MAXC&&fullDone(baseOf(sc.id))&&!queued();
+    let nextBtn='',finBtn='';
+    if(P){
+      const fin=pracFinished();
+      nextBtn=`<button class="btn" data-act="${fin?'pend':'next'}">${esc(fin?t('pFinish'):pendRe?t('reBtn'):t('next'))}</button>`;
+      if(!fin&&!P.cfg.n&&doneCount()>=1&&!pendRe)finBtn=`<button class="btn ghost" data-act="pend">${esc(t('pFinish'))}</button>`;
+    }else{
+      nextBtn=last?'':`<button class="btn" data-act="next">${esc(pendRe?t('reBtn'):(doneCount()===REQ&&!S.seen6?t('cont'):t('next')))}</button>`;
+      finBtn=can&&!pendRe?`<button class="btn ghost" data-act="report">${esc(t('finish'))}</button>`:'';
+    }
+    h+=`<section class="panel" id="fbk"><div class="cheer" role="status" dir="ltr" lang="en">${esc(cheer(sc,r))}</div><div class="grid2"><div class="result risk-${riskIdx(r.us)}"><small>${esc(t('yourTotal'))}</small><div class="big">${num(r.us)} / 125</div><b>${esc(p(uk.n))}</b></div>
     <div class="result risk-${riskIdx(r.ts)}"><small>${esc(t('trueTotal'))}</small><div class="big">${num(r.ts)} / 125</div><b>${esc(p(rk.n))}</b></div></div>
-    <p><b>${num(r.ok)}/6</b> ${esc(t('items'))}</p><div class="note">${esc(p(sc.nt))}</div>${ratHtml(sc,r)}
+    <p><b><bdi dir="ltr">${num(r.ok)}/${num(6)}</bdi></b> ${esc(t('items'))}</p>${errHtml(sc,r)}<div class="note" style="margin-block-start:12px">${esc(p(sc.nt))}</div>${ratHtml(sc,r)}
     <h3 style="margin-block-start:16px">${esc(t('acts'))} (${esc(p(rk.n))})</h3><ul class="act">${ACT[riskIdx(r.ts)].map(a=>`<li>${esc(p(a))}</li>`).join('')}</ul>
-    <div class="row" style="margin-block-start:18px"><button class="btn" data-act="gen">+ ${esc(t('newAnother'))}</button><button class="btn ghost" data-act="hub">${esc(t('back2'))}</button>${canReport()?`<button class="btn ghost" data-act="report">${esc(t('finish'))}</button>`:`<span class="muted">${num(doneCount())}/3</span>`}</div></section>`;
+    ${pendRe?`<div class="note" style="margin-block-start:12px">${esc(t('reNote'))}</div>`:''}
+    <div class="row" style="margin-block-start:18px">${nextBtn}${finBtn}${P?'':`<button class="btn ghost" data-act="hub">${esc(t('back2'))}</button>`}${!P&&!can?`<span class="muted"><bdi dir="ltr">${num(doneCount())}/${num(REQ)}</bdi></span>`:''}</div></section>`;
   }
   return h;
 }
-function vReport(){
-  const st=stats(),rows=st.rows;
-  return `<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('report'))}</h2><button class="btn ghost" data-act="hub">${esc(t('back2'))}</button></div>
-  <div class="row" style="margin-block-start:12px"><button class="btn" id="xls" data-act="xlsx">${esc(t('xlsBtn'))}</button><button class="btn ghost" id="pdf" data-act="pdf">${esc(t('pdfBtn'))}</button></div>
-  ${st.pass?'':`<p class="note" style="margin:12px 0 0">${esc(t('moreTxt'))}</p>`}
-  <p id="msg" class="muted" role="status" style="margin:10px 0 0">${esc(S.msg)}</p><p id="rec" class="muted" style="margin:6px 0 0">${esc(recMsg())}</p></section>
-  <div class="paper-wrap"><div class="paper" id="paper" dir="${S.lang==='ar'?'rtl':'ltr'}">
-   <div class="hd"><div><h2>${esc(t('title'))}</h2><small>${esc(t('report'))} · ${esc(t('sub'))}</small></div><div class="num" style="font-weight:600;color:#0e6a65">MFS</div></div>
-   <dl><dt>${esc(t('name'))}</dt><dd>${esc(S.name)}</dd><dt>${esc(t('hid'))}</dt><dd class="num" dir="ltr" style="text-align:start">${esc(S.hid)}</dd><dt>${esc(t('unit'))}</dt><dd>${esc(S.unit)}</dd><dt>${esc(t('date'))}</dt><dd>${esc(fmtDate())}</dd></dl>
-   <div class="verdict ${st.pass?'':'fail'}"><div><small class="small">${esc(t('overall'))}</small><br><b class="num">${num(st.ok)}/${num(st.tot)} · ${num(st.pct)}%</b></div><b style="color:${st.pass?'#1d7a4b':'#b3261e'}">${esc(st.pass?t('comp'):t('rev'))}</b></div>
-   <table><thead><tr><th>#</th><th>${esc(t('scen'))}</th><th>${esc(t('items'))}</th><th>${esc(t('yS'))}</th><th>${esc(t('cS'))}</th><th>${esc(t('match'))}</th></tr></thead><tbody>
-   ${rows.map((s,i)=>{const r=S.res[s.id];return `<tr><td class="num">${num(i+1)}</td><td>${esc(p(s.ti))}</td><td class="num">${num(r.ok)}/6</td><td class="num">${num(r.us)}</td><td class="num">${num(r.ts)}</td><td>${esc(p(RISK[riskIdx(r.ts)].n))} ${r.riskOk?'✓':'✗'}</td></tr>`}).join('')}</tbody></table>
-   <p class="small">${esc(t('guide'))} ${esc(t('passTxt'))}</p>
-   <div class="sig"><span>${esc(t('sign'))}: ____________________</span><span>${esc(t('by'))}</span></div>
-  </div></div>`;
+/* ---------- detailed report ---------- */
+const fmtDur=sec=>{sec=Math.max(0,Math.round(sec||0));return num(Math.floor(sec/60))+':'+num(String(sec%60).padStart(2,'0'));};
+function analysis(){
+  const st=stats(),rows=st.rows,n=rows.length||1;
+  const dom=ITEMS.map((it,i)=>{let ok=0,pu=0,pe=0;rows.forEach(s=>{const r=S.res[s.id];if(same(i,r.ans[i],s.a[i]))ok++;pu+=it.p[r.ans[i]];pe+=it.p[s.a[i]];});return {i,ok,n:rows.length,pct:Math.round(ok/n*100),pu,pe};});
+  let under=0,over=0,agree=0,diff=0,secs=0;
+  rows.forEach(s=>{const r=S.res[s.id],ru=riskIdx(r.us),rt=riskIdx(r.ts);if(ru<rt)under++;else if(ru>rt)over++;else agree++;diff+=r.us-r.ts;secs+=r.sec||0;});
+  return Object.assign({},st,{dom,under,over,agree,avgDiff:Math.round(diff/n),secs});
 }
+function reportPages(){
+  S.latin=true;try{return reportPagesInner();}finally{S.latin=false;}
+}
+function reportPagesInner(){
+  const A=analysis(),rows=A.rows,dir=S.lang==='ar'?'rtl':'ltr',inners=[];
+  const when=fmtAt(new Date().toISOString());
+  const kv=(k,v,ltr)=>`<div class="kv"><div class="k">${esc(k)}</div><div class="v"${ltr?' dir="ltr" style="text-align:start"':''}>${esc(v)}</div></div>`;
+  const weakDom=A.dom.filter(d=>d.pct<100).sort((a,b)=>a.pct-b.pct);
+  // page 1: summary
+  inners.push(`<div class="rh"><div><div class="rh-t">${esc(t('rTitle'))}</div><div class="rh-s">${esc(t('rSub'))}</div></div><div class="rh-m">MFS</div></div>
+  <h4>${esc(t('rStaff'))}</h4>
+  <div class="kv-grid">${kv(t('name'),S.name)}${kv(t('hid'),S.hid,true)}${kv(t('unit'),S.unit)}${kv(t('rWhen'),when)}${kv(t('rActive'),fmtDur(A.secs)+' '+t('rMin'))}${kv(t('cases'),num(rows.length))}</div>
+  <div class="verd ${A.pass?'pass':'fail'}"><div><div class="vt">${esc(A.pass?t('comp'):t('rev'))}</div><div style="font-size:12px">${esc(t('passTxt'))}</div></div><div class="vn"><bdi dir="ltr">${num(A.pct)}%</bdi></div></div>
+  <div class="tiles"><div class="tile"><div class="n"><bdi dir="ltr">${num(A.ok)}/${num(A.tot)}</bdi></div><div class="l">${esc(t('rItemsT'))}</div></div>
+   <div class="tile"><div class="n"><bdi dir="ltr">${num(A.agree)}/${num(rows.length)}</bdi></div><div class="l">${esc(t('rAgree'))}</div></div>
+   <div class="tile"><div class="n"><bdi dir="ltr">${fmtDur(A.secs/(rows.length||1))}</bdi></div><div class="l">${esc(t('rAvg'))}</div></div>
+   <div class="tile"><div class="n">${num(weakDom.length)}</div><div class="l">${esc(t('rWeakN'))}</div></div></div>
+  <h4>${esc(t('rDom'))}</h4>
+  <div class="dom hd"><div>${esc(t('item'))}</div><div>${esc(t('rAcc'))}</div><div>${esc(t('rItemsT'))}</div><div>${esc(t('rPts'))}</div><div></div></div>
+  ${A.dom.map(d=>`<div class="dom"><div><b>${num(d.i+1)}.</b> ${esc(p(ITEMS[d.i].q))}</div><div><div class="bar2"><i class="${d.pct<100?'weak':''}" style="width:${d.pct}%"></i></div></div><div class="num"><bdi dir="ltr">${num(d.ok)}/${num(d.n)} · ${num(d.pct)}%</bdi></div><div class="num"><bdi dir="ltr">${num(d.pu)} / ${num(d.pe)}</bdi></div><div><span class="chip ${d.pct>=100?'ok':'mid'}">${esc(d.pct>=100?t('rStrong'):t('rReview'))}</span></div></div>`).join('')}
+  <h4>${esc(t('rSafety'))}</h4>
+  <div class="safe"><div class="tile"><div class="n" style="color:${A.under?'#b3261e':'#1d7a4b'}">${num(A.under)}</div><div class="l">${esc(t('rUnder'))}</div></div><div class="tile"><div class="n">${num(A.over)}</div><div class="l">${esc(t('rOver'))}</div></div><div class="tile"><div class="n"><bdi dir="ltr">${A.avgDiff>0?'+':''}${num(A.avgDiff)}</bdi></div><div class="l">${esc(t('rDiff'))}</div></div></div>
+  <p style="font-size:11.5px;color:#5a6e77;margin:8px 0 0">${esc(t('rUnderNote'))}</p>
+  <h4>${esc(t('rGuide'))}</h4>
+  <div class="safe">${RISK.map(r=>`<div class="tile"><div class="n" style="font-size:16px"><bdi dir="ltr">${r.r[0]===51?'≥ '+num(51):num(r.r[0])+' – '+num(r.r[1])}</bdi></div><div class="l"><span class="chip ${r.c}">${esc(p(r.n))}</span></div></div>`).join('')}</div>`);
+  // matrix pages
+  const review=`<h4>${esc(t('rFocus'))}</h4>${weakDom.length?weakDom.map(d=>`<div class="tip"><b>${num(d.i+1)}. ${esc(p(ITEMS[d.i].q))}</b> <span class="num"><bdi dir="ltr">(${num(d.ok)}/${num(d.n)} · ${num(d.pct)}%)</bdi></span><br>${esc(p(TIP[d.i]))}</div>`).join(''):`<p>${esc(t('rNone'))}</p>`}
+   <div class="sigs"><div>${esc(t('rSign1'))}: ${esc(S.name)}</div><div>${esc(t('rSign2'))}</div></div>
+   <p style="font-size:11px;color:#5a6e77;margin-top:14px">${esc(t('guide'))} ${esc(t('disc'))}</p>`;
+  const rowHtml=(s,idx)=>{const r=S.res[s.id],ru=riskIdx(r.us),rt=riskIdx(r.ts),m=ru===rt;
+    return `<tr><td class="num">${num(idx+1)}</td><td class="l">${esc(p(s.ti))}</td>${ITEMS.map((_,i)=>{const g=same(i,r.ans[i],s.a[i]);return `<td class="${g?'yes':'nop'}">${g?'✓':'✗'}</td>`;}).join('')}<td class="num"><bdi dir="ltr">${num(r.us)} / ${num(r.ts)}</bdi></td><td><span class="chip ${m?'ok':(ru<rt?'no':'mid')}">${esc(p(RISK[ru].n))}</span>${m?'':`<br><small>${esc(t('rCorrectIs'))}: ${esc(p(RISK[rt].n))}</small>`}</td><td class="num"><bdi dir="ltr">${fmtDur(r.sec)}</bdi></td></tr>`;};
+  const head=`<h4>${esc(t('rBreak'))}</h4>`;
+  const legend=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 18px;font-size:11px;color:#5a6e77;margin-top:8px">${ITEMS.map((it,i)=>`<div><b>${num(i+1)}</b> ${esc(p(it.q))}</div>`).join('')}</div>`;
+  const per=9,chunks=[];for(let i=0;i<rows.length;i+=per)chunks.push(rows.slice(i,i+per));
+  chunks.forEach((c,k)=>{
+    const tbl=`<table class="rt"><thead><tr><th>#</th><th>${esc(t('scen'))}</th>${ITEMS.map((_,i)=>`<th>${num(i+1)}</th>`).join('')}<th>${esc(t('rScoreYC'))}</th><th>${esc(t('match'))}</th><th>${esc(t('rTime'))}</th></tr></thead><tbody>${c.map((s,j)=>rowHtml(s,k*per+j)).join('')}</tbody></table>`;
+    const last=k===chunks.length-1;
+    inners.push(head+tbl+legend+(last&&c.length<=6?review:''));
+    if(last&&c.length>6)inners.push(review);
+  });
+  const n=inners.length;
+  return inners.map((x,k)=>`<div class="pg" dir="${dir}"><div class="pg-in">${x}</div><div class="pg-ft"><span>${esc(t('by'))}</span><span>${esc(t('rPage'))} ${num(k+1)} / ${num(n)}</span></div></div>`).join('');
+}
+function fitPages(){
+  const root=$('root');if(!root)return;
+  const z=Math.min(1,(root.clientWidth-2)/794);
+  document.querySelectorAll('#paper .pg').forEach(pg=>{pg.style.zoom=z;});
+}
+window.addEventListener('resize',fitPages);
+function vReport(){
+  const st=stats();
+  return `<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('report'))}</h2><button class="btn ghost" data-act="hub">${esc(t('back2'))}</button></div>
+  <div class="row" style="margin-block-start:12px"><button class="btn" id="pdf" data-act="pdf">${esc(t('pdfBtn'))}</button><button class="btn ghost" id="xls" data-act="xlsx">${esc(t('xlsBtn'))}</button>${st.pass?`<button class="btn" id="cert" data-act="cert">${esc(t('certBtn'))}</button>`:''}</div>
+  ${st.pass?'':`<p class="note" style="margin:12px 0 0">${esc(t('moreTxt'))}</p><div class="row" style="margin-block-start:10px"><button class="btn" data-act="retake">${esc(t('retake'))}</button></div>`}
+  <p id="msg" class="muted" role="status" style="margin:10px 0 0">${esc(S.msg)}</p><p id="rec" class="muted" style="margin:6px 0 0">${esc(recMsg())}</p></section>
+  <div class="pgs" id="paper">${reportPages()}</div>`;
+}
+
 
 /* ---------- supervisor records (owner only can read) ---------- */
 let DB=null,USER=null,IS_OWNER=false,MYID=null;
+S.admKey=ls.get(AK)||'';
 (async()=>{
   try{USER=await window.claude?.use?.('user');}catch(e){}
   try{DB=await window.claude?.use?.('db');}catch(e){}
   try{if(USER){IS_OWNER=await USER.isOwner();MYID=await USER.id();}}catch(e){}
-  if(IS_OWNER)render();
+  if(IS_OWNER){if(ADMIN_LINK){S.view='admin';loadAdmin();}else render();}
 })();
+if(ADMIN_LINK&&SHEET_URL){S.view='admin';setTimeout(()=>{if(!IS_OWNER)loadAdmin();},0);}
 const recMsg=()=>S.rec==='unc'?t('recUnc'):S.rec==='ok'?t('recOk'):S.rec==='no'?t('recNo'):S.rec==='pending'?t('recWait'):'';
 function showRec(){const e=$('rec');if(e)e.textContent=recMsg();}
-async function postSheet(att){
-  const body=JSON.stringify({name:S.name,hid:S.hid,unit:S.unit,cases:att.cases,ok:att.ok,total:att.total,pct:att.pct,pass:att.pass,list:att.list});
+async function postSheet(att,pdf){
+  const body=JSON.stringify({pdf:pdf||'',pdfName:'MorseFall_'+String(S.hid).replace(/[^\w-]+/g,'')+'_'+att.at.slice(0,10)+'.pdf',lang:S.lang,at:att.at,name:S.name,hid:S.hid,unit:S.unit,cases:att.cases,ok:att.ok,total:att.total,pct:att.pct,pass:att.pass,list:att.list});
   try{
     const r=await fetch(SHEET_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body});
     const j=await r.json();if(!j.ok)throw new Error(j.error||'rejected');
@@ -649,7 +1197,7 @@ async function recordResult(){
   S.rec='pending';showRec();
   const st=stats(),at=new Date().toISOString();
   const att={at,cases:st.rows.length,ok:st.ok,total:st.tot,pct:st.pct,pass:st.pass,
-    list:st.rows.slice(0,25).map(s=>({t:String(s.ti[0]).slice(0,60),us:S.res[s.id].us,ts:S.res[s.id].ts,ok:S.res[s.id].ok}))};
+    list:st.rows.slice(0,24).map(s=>({t:String(s.ti[0]).slice(0,60),us:S.res[s.id].us,ts:S.res[s.id].ts,ok:S.res[s.id].ok})).concat([{dom:analysis().dom.map(d=>d.ok),mis:st.rows.reduce((o,sc)=>{const r=S.res[sc.id];ITEMS.forEach((_,i)=>{if(!same(i,r.ans[i],sc.a[i]))o.push(i+':'+r.ans[i]+'>'+sc.a[i]);});return o;},[]),n:st.rows.length,sid:S.sid||''}])};
   let res='no';
   if(DB&&MYID){
     try{
@@ -660,7 +1208,9 @@ async function recordResult(){
     }catch(e){}
   }
   if(SHEET_URL){
-    try{const r=await postSheet(att);if(res!=='ok')res=r;}catch(e){}
+    let pdf='';
+    try{pdf=b64(await buildPdf());}catch(e){}
+    try{const r=await postSheet(att,pdf);if(res!=='ok')res=r;}catch(e){}
   }
   S.rec=res;if(res!=='no')S.recN=doneCount();
   showRec();
@@ -668,7 +1218,7 @@ async function recordResult(){
 function groupRows(rows){
   const m={};
   rows.forEach(r=>{
-    const a={at:r.at,cases:r.cases,ok:r.ok,total:r.total,pct:r.pct,pass:r.pass,list:r.list||[]};
+    const a={at:r.at,cases:r.cases,ok:r.ok,total:r.total,pct:r.pct,pass:r.pass,list:r.list||[],pdf:r.pdf||''};
     const g=m[r.hid]=m[r.hid]||{id:r.hid,attempts:[]};
     g.attempts.push(a);Object.assign(g,{name:r.name,hid:r.hid,unit:r.unit,updated:r.at,cases:r.cases,ok:r.ok,total:r.total,pct:r.pct,pass:r.pass});
   });
@@ -686,9 +1236,9 @@ async function loadAdmin(){
       if(!SHEET_URL)throw new Error('nosource');
       const r=await fetch(SHEET_URL+'?key='+encodeURIComponent(S.admKey)),j=await r.json();
       if(!j.ok)throw new Error(j.error||'unauthorized');
-      S.adm={state:'ok',rows:groupRows(j.rows)};
+      S.adm={state:'ok',rows:groupRows(j.rows)};ls.set(AK,S.admKey);
     }
-  }catch(e){S.adm={state:'err',rows:[]};if(!useDb)S.admKey='';}
+  }catch(e){S.adm={state:'err',rows:[]};if(!useDb){S.admKey='';ls.del(AK);}}
   if(S.view==='admin')render();
 }
 const fmtAt=iso=>{try{return new Date(iso).toLocaleString(S.lang==='ar'?'ar-SA-u-nu-latn':'en-GB',{dateStyle:'medium',timeStyle:'short'});}catch(e){return iso||'';}};
@@ -697,14 +1247,87 @@ function admList(){
   if(!rows.length)return `<p class="muted">${esc(t('noRows'))}</p>`;
   return `<div class="paper-wrap"><table class="tbl"><thead><tr><th>${esc(t('name'))}</th><th>${esc(t('hid'))}</th><th>${esc(t('unit'))}</th><th>${esc(t('last'))}</th><th>${esc(t('cases'))}</th><th>${esc(t('overall'))}</th><th>${esc(t('result'))}</th><th>${esc(t('attempts'))}</th></tr></thead><tbody>`+
   rows.map(r=>`<tr><td>${esc(r.name||'')}</td><td dir="ltr" style="text-align:start">${esc(r.hid||'')}</td><td>${esc(r.unit||'')}</td><td>${esc(fmtAt(r.updated))}</td><td>${num(r.cases||0)}</td><td><b>${num(r.pct||0)}%</b> <small class="muted">(${num(r.ok||0)}/${num(r.total||0)})</small></td><td><span class="tag ${r.pass?'ok':'no'}">${esc(r.pass?t('comp'):t('rev'))}</span></td>
-   <td><details class="gl"><summary>${num((r.attempts||[]).length)}</summary>${(r.attempts||[]).slice().reverse().map(a=>`<p><b>${esc(fmtAt(a.at))}</b>: ${num(a.pct)}% · ${num(a.cases)} ${esc(t('scen'))}<br><small class="muted">${(a.list||[]).map(x=>esc(x.t)+' ('+num(x.us)+'/'+num(x.ts)+')').join(' · ')}</small></p>`).join('')}</details></td></tr>`).join('')+`</tbody></table></div>`;
+   <td><details class="gl"><summary>${num(sessN(r.attempts||[]))}</summary>${(r.attempts||[]).slice().reverse().map(a=>`<p><b>${esc(fmtAt(a.at))}</b>: ${num(a.pct)}% · ${num(a.cases)} ${esc(t('scen'))}${/^https:\/\//.test(a.pdf||'')?` · <a href="${esc(a.pdf)}" target="_blank" rel="noopener">PDF</a>`:''}<br><small class="muted">${(a.list||[]).filter(x=>x&&x.t!==undefined).map(x=>esc(x.t)+' ('+num(x.us)+'/'+num(x.ts)+')').join(' · ')}</small></p>`).join('')}</details></td></tr>`).join('')+`</tbody></table></div>`;
+}
+
+const sidOf=a=>{const d=(a.list||[]).find(x=>x&&x.sid!==undefined);return d&&d.sid?d.sid:'at'+a.at;};
+const sessN=l=>new Set(l.map(sidOf)).size;
+function admAtts(){const o=[];(S.adm?S.adm.rows:[]).forEach(r=>(r.attempts||[]).forEach(a=>o.push(Object.assign({},a,{name:r.name,hid:r.hid,unit:r.unit}))));return o;}
+function admSum(){
+  const P=S.admP,now=new Date(),start=P===1?new Date(now.getFullYear(),now.getMonth(),now.getDate()):P?new Date(now.getTime()-P*864e5):new Date(0);
+  const all=admAtts().sort((a,b)=>String(a.at).localeCompare(String(b.at))),at=all.filter(a=>new Date(a.at)>=start);
+  const last={};at.forEach(a=>last[a.hid]=a);
+  const staff=Object.values(last),passed=staff.filter(a=>a.pass),failed=staff.filter(a=>!a.pass);
+  const dom=ITEMS.map(()=>({ok:0,n:0}));let withDom=0;
+  at.forEach(a=>{const d=(a.list||[]).find(x=>x&&x.dom);if(d){withDom++;d.dom.forEach((o,i)=>{if(dom[i]){dom[i].ok+=o;dom[i].n+=d.n;}});}});
+  const mis={};at.forEach(a=>{const d=(a.list||[]).find(x=>x&&x.dom);if(d&&Array.isArray(d.mis))d.mis.forEach(k=>mis[k]=(mis[k]||0)+1);});
+  const topMis=Object.entries(mis).sort((x,y)=>y[1]-x[1]).slice(0,6).map(([k,n])=>{const [i,rest]=k.split(':'),[g,c]=rest.split('>');return {i:+i,g:+g,c:+c,n};});
+  const by={};all.forEach(a=>(by[a.hid]=by[a.hid]||[]).push(a));
+  const tries=[];Object.values(by).forEach(l=>{const ss=[];l.forEach(a=>{if(!ss.includes(sidOf(a)))ss.push(sidOf(a));});const k=ss.findIndex(id=>l.some(a=>sidOf(a)===id&&a.pass));if(k>=0)tries.push(k+1);});
+  return {at,staff,passed,failed,topMis,dom:dom.map((d,i)=>({i,pct:d.n?Math.round(d.ok/d.n*100):null})),withDom,
+    avgTry:tries.length?Math.round(tries.reduce((x,y)=>x+y,0)/tries.length*10)/10:null,
+    avgPct:at.length?Math.round(at.reduce((x,a)=>x+(+a.pct||0),0)/at.length):0,
+    rate:staff.length?Math.round(passed.length/staff.length*100):0};
+}
+const admPer=()=>({1:t('pToday'),7:t('p7'),30:t('p30'),0:t('pAll')}[S.admP]);
+function admText(){
+  const m=admSum(),w=m.dom.filter(d=>d.pct!==null).sort((a,b)=>a.pct-b.pct).slice(0,3);
+  let x=`*${t('waHead')}*\n${admPer()} · ${fmtDate()}\n`;
+  x+=`${t('kStaff')}: ${m.staff.length}\n${t('kPass')}: ${m.passed.length}\n${t('kFail')}: ${m.failed.length}\n${t('kRate')}: ${m.rate}%\n${t('kAvg')}: ${m.avgPct}%\n`;
+  if(w.length)x+=`\n${t('waAcc')}:\n`+w.map(d=>`- ${p(ITEMS[d.i].q)}: ${d.pct}%`).join('\n')+'\n';
+  if(m.topMis.length)x+=`\n${t('commonErr')}:\n`+m.topMis.slice(0,3).map(y=>`- ${p(ITEMS[y.i].q)}: ${p(ITEMS[y.i].o[y.g])} / ${p(ITEMS[y.i].o[y.c])} (${y.n})`).join('\n')+'\n';
+  if(m.failed.length)x+=`\n${t('kFail')}:\n`+m.failed.slice(0,15).map(a=>`- ${a.name} (${a.hid}) ${a.unit||''}: ${a.pct}%`).join('\n')+(m.failed.length>15?`\n+${m.failed.length-15}`:'')+'\n';
+  return x;
+}
+function admSumHtml(){
+  const m=admSum(),per=[[1,'pToday'],[7,'p7'],[30,'p30'],[0,'pAll']];
+  const ib=m.dom.slice().sort((a,b)=>(a.pct===null)-(b.pct===null)||a.pct-b.pct);
+  return `<div class="seg" role="group" style="margin-block:6px 0">${per.map(([v,k])=>`<button data-act="admp" data-v="${v}" aria-pressed="${S.admP===v}">${esc(t(k))}</button>`).join('')}</div>
+  ${m.at.length?`<div class="kpis"><div class="kpi"><small>${esc(t('kStaff'))}</small><b>${num(m.staff.length)}</b></div><div class="kpi"><small>${esc(t('kPass'))}</small><b style="color:var(--good)">${num(m.passed.length)}</b></div><div class="kpi"><small>${esc(t('kFail'))}</small><b style="color:var(--bad)">${num(m.failed.length)}</b></div><div class="kpi"><small>${esc(t('kRate'))}</small><b><bdi dir="ltr">${num(m.rate)}%</bdi></b></div><div class="kpi"><small>${esc(t('kAvg'))}</small><b><bdi dir="ltr">${num(m.avgPct)}%</bdi></b></div><div class="kpi"><small>${esc(t('kTry'))}</small><b>${m.avgTry===null?'-':num(m.avgTry)}</b></div></div>
+  <h3 style="margin:8px 0 4px">${esc(t('wkItems'))}</h3>${m.withDom?ib.map(d=>d.pct===null?'':`<div class="ib"><div>${num(d.i+1)}. ${esc(p(ITEMS[d.i].q))}</div><div class="tr"><i class="${d.pct<60?'w':d.pct<80?'m':''}" style="width:${d.pct}%"></i></div><div class="num"><bdi dir="ltr">${num(d.pct)}%</bdi></div></div>`).join(''):`<p class="muted">${esc(t('noItemData'))}</p>`}
+  <h3 style="margin:14px 0 4px">${esc(t('commonErr'))}</h3>${m.topMis.length?`<ul class="act">${m.topMis.map(x=>`<li><b>${num(x.i+1)}. ${esc(p(ITEMS[x.i].q))}</b>: ${esc(t('chose'))} «${esc(p(ITEMS[x.i].o[x.g]))}» ${esc(t('instead'))} «${esc(p(ITEMS[x.i].o[x.c]))}» <small class="muted">(×<bdi dir="ltr">${num(x.n)}</bdi>)</small></li>`).join('')}</ul>`:`<p class="muted">${esc(t('noErrData'))}</p>`}
+  <h3 style="margin:14px 0 4px">${esc(t('failList'))}</h3>${m.failed.length?`<ul class="act">${m.failed.map(a=>`<li>${esc(a.name||'')} <small class="muted">(${esc(a.hid||'')} · ${esc(a.unit||'')}) · <bdi dir="ltr">${num(a.pct)}%</bdi></small></li>`).join('')}</ul>`:`<p class="muted">${esc(t('noneYet'))}</p>`}
+  <div class="row" style="margin-block-start:14px"><button class="btn" data-act="wa">${esc(t('wa'))}</button><button class="btn ghost" data-act="cpy">${esc(t('cp'))}</button></div>`:`<p class="muted">${esc(t('noPeriod'))}</p>`}`;
+}
+
+const SERVICES=[
+ ['For nurses',[
+  'Sign in with name, employee ID and unit',
+  'Awareness sign and a "How to fill the form" page with a worked example and common questions',
+  'Official test: 6 required cases (2 low, 2 moderate, 2 high risk first), optional up to 13',
+  'Time limit: 60 minutes for 6 cases, 2 hours if continuing to 13, with resume later',
+  'Reassessment cases: about one in three patients changes condition and is scored again',
+  'After each case: your score vs the correct score, what to fix, rationale and recommended actions',
+  'Encouraging message after every assessment',
+  'Pass mark 100%, with a retake option',
+  'PDF report and Excel results',
+  'Certificate of completion (PDF) when passed',
+  'Practice mode: beginner, intermediate or advanced, low, moderate or high risk, 3 to 13 cases or open. Not recorded',
+  'English and Arabic, light and dark mode, colour themes and text size, saved progress',
+  'Install as an app icon on the phone home screen']],
+ ['For supervisors',[
+  'Private staff results page, opened from the admin icon (?admin) with the admin key',
+  'Summary for today, 7 days, 30 days or all: staff tested, passed, not yet passed, pass rate, average score, average attempts to pass',
+  'Accuracy by form item, from weakest to strongest',
+  'Most common mistakes',
+  'List of staff who have not passed, with unit and score',
+  'Search by name, ID or unit, with attempts history per person',
+  'Export all results to Excel',
+  'Share the summary on WhatsApp or copy it',
+  'PDF report of each result saved to Drive and emailed (Apps Script)']]
+];
+function servicesHtml(){
+  return `<details class="gl svc" dir="ltr" lang="en" style="margin-block:6px 14px"><summary><b>App services</b></summary>${SERVICES.map(g=>`<h3 style="margin:12px 0 4px">${g[0]}</h3><ul class="act">${g[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}</details>`;
 }
 function vAdmin(){
   const A=S.adm||{state:'loading',rows:[]};
   return `<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('admTitle'))}</h2><button class="btn ghost" data-act="${S.name?'hub':'home'}">${esc(t('back2'))}</button></div>
   <div class="row" style="margin-block:12px"><input id="adm-q" type="text" style="max-width:320px" placeholder="${esc(t('search'))}" value="${esc(S.admQ||'')}"><button class="btn ghost" data-act="refresh">${esc(t('refresh'))}</button><button class="btn" id="axl" data-act="axl" ${A.rows.length?'':'disabled'}>${esc(t('exportAll'))}</button></div>
   <p id="msg" class="muted" role="status" style="margin:0 0 8px">${esc(S.msg)}</p>
+  ${servicesHtml()}
+  ${A.state==='ok'?`<div style="margin-block:6px 18px"><h3 style="margin:0">${esc(t('sumT'))}</h3>${admSumHtml()}</div>`:''}
   ${(A.state==='key'||A.state==='err')&&!(IS_OWNER&&DB)?`<div class="row" style="margin-block-end:10px"><input id="adm-key" type="password" autocomplete="off" style="max-width:260px" placeholder="${esc(t('adminKey'))}"><button class="btn" data-act="admkey">${esc(t('openBtn'))}</button></div>`:''}
+  ${SHEET_URL&&!(IS_OWNER&&DB)&&A.state==='ok'?`<button class="linkbtn" data-act="admout">${esc(t('admOut'))}</button>`:''}
   <div id="adm-list">${A.state==='loading'?`<p class="muted">${esc(t('loading'))}</p>`:A.state==='err'?`<p class="muted">${esc(t('admErr'))}</p>`:A.state==='key'?'':admList()}</div></section>`;
 }
 async function saveAdmin(){
@@ -713,10 +1336,10 @@ async function saveAdmin(){
   try{
     const dl=await getSaver();
     const X=window.XLSX,wb=X.utils.book_new(),rows=S.adm.rows;
-    const a1=[[t('name'),t('hid'),t('unit'),t('last'),t('cases'),t('overall'),t('result'),t('attempts')]].concat(rows.map(r=>[r.name,r.hid,r.unit,fmtAt(r.updated),r.cases,r.pct+'%',r.pass?'PASS':'NOT YET PASSED',(r.attempts||[]).length]));
+    const a1=[[t('name'),t('hid'),t('unit'),t('last'),t('cases'),t('overall'),t('result'),t('attempts')]].concat(rows.map(r=>[r.name,r.hid,r.unit,fmtAt(r.updated),r.cases,r.pct+'%',r.pass?'PASS':'NOT YET PASSED',sessN(r.attempts||[])]));
     const w1=X.utils.aoa_to_sheet(a1);w1['!cols']=[{wch:28},{wch:14},{wch:26},{wch:22},{wch:12},{wch:12},{wch:18},{wch:10}];
     const a2=[[t('name'),t('hid'),t('unit'),t('date'),t('cases'),t('overall'),t('result'),t('scen')]];
-    rows.forEach(r=>(r.attempts||[]).forEach(a=>a2.push([r.name,r.hid,r.unit,fmtAt(a.at),a.cases,a.pct+'%',a.pass?'PASS':'NOT YET PASSED',(a.list||[]).map(x=>x.t+' ('+x.us+'/'+x.ts+')').join(' | ')])));
+    rows.forEach(r=>(r.attempts||[]).forEach(a=>a2.push([r.name,r.hid,r.unit,fmtAt(a.at),a.cases,a.pct+'%',a.pass?'PASS':'NOT YET PASSED',(a.list||[]).filter(x=>x&&x.t!==undefined).map(x=>x.t+' ('+x.us+'/'+x.ts+')').join(' | ')])));
     const w2=X.utils.aoa_to_sheet(a2);w2['!cols']=[{wch:28},{wch:14},{wch:26},{wch:22},{wch:12},{wch:12},{wch:18},{wch:80}];
     X.utils.book_append_sheet(wb,w1,t('staff'));X.utils.book_append_sheet(wb,w2,t('attempts'));
     if(S.lang==='ar')wb.Workbook={Views:[{RTL:true}]};
@@ -727,12 +1350,28 @@ async function saveAdmin(){
 }
 
 /* ---------- render + events ---------- */
+
+function persist(){
+  try{
+    ls.set(SK,JSON.stringify({name:S.name,hid:S.hid,unit:S.unit,res:S.res,order:S.order,plan:S.plan,chgPlan:S.chgPlan,pair:S.pair,t0:S.t0,ext:S.ext,seen6:S.seen6,cur:S.cur,sid:S.sid,
+      cases:S.order.concat(Object.values(S.pair)).map(id=>SC.find(x=>x.id===id)).filter(c=>c&&c.gen),at:Date.now()}));
+  }catch(e){}
+}
+function resumeSaved(){
+  const d=SAVED;if(!d)return;
+  (d.cases||[]).forEach(c=>{if(!SC.find(x=>x.id===c.id)){SC.push(c);const n=+String(baseOf(c.id)).slice(1);if(n>gid)gid=n;}});
+  Object.assign(S,{name:d.name||'',hid:d.hid||'',unit:d.unit||'',res:d.res||{},order:d.order||[],plan:d.plan||null,chgPlan:d.chgPlan||null,pair:d.pair||{},t0:d.t0||d.at||Date.now(),ext:!!d.ext,expired:false,seen6:!!d.seen6,sid:d.sid||'',cur:null,draft:[]});
+  SAVED=null;if(deadline()<=Date.now()){timeUp();return;}go('hub');
+}
 function render(){
   $('app').dir=S.lang==='ar'?'rtl':'ltr';
   document.documentElement.lang=S.lang;
-  const v=S.view==='start'?vStart():S.view==='hub'?vHub():S.view==='play'?vPlay():S.view==='admin'?vAdmin():vReport();
-  $('root').innerHTML=topBar()+v+foot();
+  const v=S.view==='start'?vStart():S.view==='how'?vHow():S.view==='prac'?vPrac():S.view==='pracend'?vPracEnd():S.view==='timeup'?vTimeup():S.view==='hub'?vHub():S.view==='play'?vPlay():S.view==='admin'?vAdmin():vReport();
+  $('root').innerHTML=topBar()+v+foot()+(S.modal?modalHtml():'');
+  if(S.modal){const mc=$('m-cont');if(mc)mc.focus();}
+  if(S.order.length&&S.view!=='admin'&&!S.prac)persist();
   if(S.view==='play'&&!S.res[S.cur])syncSubmit();
+  if(S.view==='report')fitPages();
 }
 function syncSubmit(){
   const b=$('sub');if(!b)return;
@@ -740,6 +1379,8 @@ function syncSubmit(){
   b.disabled=!full;const h=$('subhint');if(h)h.hidden=full;
 }
 function go(v){S.view=v;S.msg='';render();window.scrollTo(0,0);}
+// hide the video box when the file is missing (error events do not bubble, so listen while capturing)
+document.addEventListener('error',e=>{const el=e.target;if(el&&el.tagName==='SOURCE'){const sec=el.closest('section');if(sec)sec.hidden=true;}},true);
 document.addEventListener('input',e=>{
   const id=e.target.id;
   if(id==='adm-q'){S.admQ=e.target.value;const l=$('adm-list');if(l)l.innerHTML=admList();return;}
@@ -747,17 +1388,39 @@ document.addEventListener('input',e=>{
   const b=$('go');if(b)b.disabled=!(S.name.trim()&&S.hid.trim()&&S.unit.trim());
 });
 document.addEventListener('change',e=>{
+  if(e.target.matches('input[data-risk]')){const i=+e.target.dataset.risk,on=e.target.checked,set=new Set(PCFG.risks);if(on)set.add(i);else set.delete(i);if(!set.size)set.add(i);PCFG.risks=[...set].sort();render();return;}
+  if(e.target.id==='pr-n'){PCFG.n=+e.target.value;return;}
   if(e.target.matches('input[type=radio][data-q]')){S.draft[+e.target.dataset.q]=+e.target.value;syncSubmit();}
 });
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;
   const a=b.dataset.act,v=b.dataset.v;
-  if(a==='lang'){S.lang=v;render();}
-  else if(a==='go'){if(S.name.trim()&&S.hid.trim()&&S.unit.trim())go('hub');}
+  if(a==='lang'){S.lang=v;PREF.lang=v;savePref();render();}
+  else if(a==='set'){S.set=!S.set;render();}
+  else if(a==='pref'){const k=b.dataset.k;PREF[k]=k==='fs'?+v:v;savePref();applyPrefs();render();}
+  else if(a==='resume')resumeSaved();
+  else if(a==='fresh'){SAVED=null;ls.del(SK);S.t0=0;S.pair={};render();}
+  else if(a==='admp'){S.admP=+v;render();}
+  else if(a==='wa'){const u='https://wa.me/?text='+encodeURIComponent(admText());try{window.open(u,'_blank','noopener');}catch(err){}}
+  else if(a==='cpy'){const x=admText(),done=()=>{S.msg=t('copied');const m=$('msg');if(m)m.textContent=S.msg;};try{navigator.clipboard.writeText(x).then(done,done);}catch(err){done();}}
+  else if(a==='admout'){S.admKey='';ls.del(AK);S.adm={state:'key',rows:[]};render();}
+  else if(a==='go')startTest();
+  else if(a==='how'){S.back=S.view;go('how');}
+  else if(a==='howback')go(S.back&&S.back!=='how'?S.back:'start');
+  else if(a==='next'){if(S.prac)nextPrac();else advance();}
+  else if(a==='mcont'){S.modal=false;S.seen6=true;S.ext=true;nextCase();}
+  else if(a==='prac'){S.view='prac';render();window.scrollTo(0,0);}
+  else if(a==='plv'){PCFG.lv=+v;render();}
+  else if(a==='pall'){PCFG.risks=[0,1,2];render();}
+  else if(a==='pstart')enterPrac();
+  else if(a==='pexit')leavePrac('start');
+  else if(a==='pend')go('pracend');
+  else if(a==='cert')saveFile('cert');
+  else if(a==='mfin'){S.modal=false;S.seen6=true;go('report');recordResult();}
+  else if(a==='retake')retakeTest();
   else if(a==='hub')go('hub');
   else if(a==='home')go('start');
-  else if(a==='open'){S.cur=v;S.draft=S.res[v]?S.res[v].ans.slice():[];go('play');}
-  else if(a==='gen'){const c=genCase();SC.push(c);S.cur=c.id;S.draft=[];go('play');}
+  else if(a==='open'){S.cur=v;S.draft=S.res[v]?S.res[v].ans.slice():[];S.openAt=Date.now();go('play');}
   else if(a==='submit'){if(ITEMS.every((_,i)=>S.draft[i]!==undefined)){submitCur();render();const f=$('fbk');if(f)f.scrollIntoView({behavior:'smooth',block:'start'});}}
   else if(a==='report'){if(canReport()){go('report');recordResult();}}
   else if(a==='admin'){S.view='admin';loadAdmin();}
@@ -773,7 +1436,7 @@ function buildXlsx(){
   const st=stats(),X=window.XLSX,wb=X.utils.book_new(),ar=S.lang==='ar';
   const sum=[[t('title')],[t('by')],[],
    [t('name'),S.name],[t('hid'),S.hid],[t('unit'),S.unit],[t('date'),fmtDate()],[],
-   [t('cases'),st.rows.length],[t('items'),st.ok+' / '+st.tot],[t('overall'),st.pct+'%'],[t('passTxt')],[t('result'),st.pass?'PASS - '+t('comp'):'NOT YET PASSED - '+t('rev')]];
+   [t('cases'),st.rows.length],[t('items'),st.ok+' / '+st.tot],[t('overall'),st.pct+'%'],[t('rActive'),fmtDur(analysis().secs)+' '+t('rMin')],[t('passTxt')],[t('result'),st.pass?'PASS - '+t('comp'):'NOT YET PASSED - '+t('rev')]];
   const w1=X.utils.aoa_to_sheet(sum);w1['!cols']=[{wch:28},{wch:46}];
   const h2=['#',t('scen'),t('items'),t('yS'),t('cS'),t('match')+' ('+t('yS')+')',t('match')+' ('+t('cS')+')','Risk match'];
   const r2=st.rows.map((s,i)=>{const r=S.res[s.id];return [i+1,p(s.ti),r.ok+'/6',r.us,r.ts,p(RISK[riskIdx(r.us)].n),p(RISK[riskIdx(r.ts)].n),r.riskOk?'✓':'✗'];});
@@ -782,39 +1445,61 @@ function buildXlsx(){
   const r3=[];st.rows.forEach((s,i)=>{const r=S.res[s.id];ITEMS.forEach((it,k)=>{r3.push([i+1,p(s.ti),p(it.q),p(it.o[r.ans[k]]),p(it.o[s.a[k]]),it.p[r.ans[k]],same(k,r.ans[k],s.a[k])?'✓':'✗']);});});
   const w3=X.utils.aoa_to_sheet([h3].concat(r3));w3['!cols']=[{wch:5},{wch:36},{wch:34},{wch:30},{wch:30},{wch:9},{wch:9}];
   X.utils.book_append_sheet(wb,w1,t('sSum'));X.utils.book_append_sheet(wb,w2,t('sSc'));X.utils.book_append_sheet(wb,w3,t('sAn'));
+  const A=analysis(),w4=X.utils.aoa_to_sheet([[t('item'),t('items'),t('rAcc'),t('rPts')]].concat(A.dom.map(d=>[p(ITEMS[d.i].q),d.ok+'/'+d.n,d.pct+'%',d.pu+' / '+d.pe])));w4['!cols']=[{wch:44},{wch:12},{wch:12},{wch:22}];
+  X.utils.book_append_sheet(wb,w4,t('rDom').slice(0,31));
   if(ar)wb.Workbook={Views:[{RTL:true}]};
   return X.write(wb,{bookType:'xlsx',type:'array'});
 }
 async function buildPdf(){
   if(document.fonts&&document.fonts.ready)await document.fonts.ready;
-  const src=$('paper'),clone=src.cloneNode(true);
-  clone.removeAttribute('id');clone.style.cssText='position:fixed;left:-10000px;top:0;width:794px;max-width:794px';
-  document.body.appendChild(clone);
-  const canvas=await html2canvas(clone,{scale:2,backgroundColor:'#ffffff'});
-  clone.remove();
+  const pages=[...document.querySelectorAll('#paper .pg')];
   const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:'p'});
-  const W=210,H=297,perPage=Math.floor(canvas.width*H/W);let y=0,pg=0;
-  while(y<canvas.height){
-    const h=Math.min(perPage,canvas.height-y),c=document.createElement('canvas');
-    c.width=canvas.width;c.height=h;c.getContext('2d').drawImage(canvas,0,y,canvas.width,h,0,0,canvas.width,h);
-    if(pg)pdf.addPage();pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,W,h*W/canvas.width);y+=h;pg++;
+  for(let k=0;k<pages.length;k++){
+    const clone=pages[k].cloneNode(true);
+    clone.style.cssText='position:fixed;left:-10000px;top:0;width:794px;height:1123px;margin:0;zoom:1';
+    document.body.appendChild(clone);
+    const canvas=await html2canvas(clone,{scale:2,backgroundColor:'#ffffff'});
+    clone.remove();
+    if(k)pdf.addPage();
+    pdf.addImage(canvas.toDataURL('image/jpeg',0.88),'JPEG',0,0,210,297);
   }
   return pdf.output('arraybuffer');
 }
+
+function certHtml(){
+  S.latin=true;
+  try{
+    const st=stats(),dir=S.lang==='ar'?'rtl':'ltr';
+    return `<div class="cert" dir="${dir}"><div class="cert-in"><img src="${LOGO}" alt="" class="cert-logo"><div class="cert-org">NURSING EDUCATION &amp; STAFF DEVELOPMENT</div><div class="cert-org2">NURSING DEPARTMENT</div>
+    <h1>${esc(t('certT'))}</h1><p class="c1">${esc(t('certA'))}</p><div class="cname">${esc(S.name)}</div>
+    <p class="c1"><bdi dir="ltr">ID ${esc(S.hid)}</bdi> · ${esc(S.unit)}</p><p class="c2">${esc(t('certB')).replace('100%','<bdi dir="ltr">100%</bdi>')}</p>
+    <p class="c1">${esc(t('certD'))}: <bdi dir="ltr">${num(st.rows.length)}</bdi> · ${esc(t('overall'))}: <bdi dir="ltr">${num(st.pct)}%</bdi></p>
+    <div class="csig"><div><div class="ln"></div>${esc(t('certE'))}: ${esc(fmtDate())}</div><div><div class="ln"></div>${esc(t('certF'))} · ${esc(t('certC'))}</div></div>
+    <div class="cfoot">${esc(t('by'))}</div></div></div>`;
+  }finally{S.latin=false;}
+}
+async function buildCert(){
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  const box=document.createElement('div');box.style.cssText='position:fixed;left:-10000px;top:0;width:1123px;height:794px';box.innerHTML=certHtml();document.body.appendChild(box);
+  const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:'l'});
+  try{const canvas=await html2canvas(box.firstElementChild,{scale:2,backgroundColor:'#ffffff'});pdf.addImage(canvas.toDataURL('image/jpeg',0.92),'JPEG',0,0,297,210);}finally{box.remove();}
+  return pdf.output('arraybuffer');
+}
+function b64(buf){const u=new Uint8Array(buf);let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s);}
 async function getSaver(){
   const dl=await window.claude?.use?.('downloads');
   if(dl)return dl;
   return {save:async({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data]));a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);return {status:'saved'};}};
 }
 async function saveFile(kind){
-  const btn=$(kind==='xlsx'?'xls':'pdf'),msg=$('msg');
+  const btn=$(kind==='xlsx'?'xls':kind==='cert'?'cert':'pdf'),msg=$('msg');
   const say=m=>{S.msg=m;if(msg)msg.textContent=m;};
   btn.disabled=true;say(t('prep'));
   try{
     const dl=await getSaver();
     const safe=String(S.hid).replace(/[^\w-]+/g,'')||'staff';
-    const data=kind==='xlsx'?buildXlsx():await buildPdf();
-    await dl.save({filename:`MorseFall_Results_${safe}.${kind}`,data});
+    const data=kind==='xlsx'?buildXlsx():kind==='cert'?await buildCert():await buildPdf();
+    await dl.save({filename:kind==='cert'?`MorseFall_Certificate_${safe}.pdf`:`MorseFall_Results_${safe}.${kind}`,data});
     say(t('saved'));
   }catch(err){
     say(err&&err.code==='declined'?t('declined'):(err&&err.code==='unavailable'?t('noDl'):t('err')));
