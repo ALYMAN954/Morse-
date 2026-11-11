@@ -238,7 +238,18 @@ details.faq{border-top:1px solid var(--line);padding-block:8px}details.faq summa
 .cfoot{font-size:12px;color:#6b7f87;margin-top:14px}
 details.svc{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--surface)}details.svc summary{cursor:pointer;font-size:16px}
 .ivd{margin:4px 0 0;padding-inline-start:18px;font-size:13px;color:var(--muted)}.gatebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;display:grid;gap:8px;box-shadow:0 2px 10px rgba(0,0,0,.12)}.gatebar .btn{width:100%}
-.ivs{display:grid;gap:6px;margin-block-end:8px}.ivs .chk{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.ivs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;align-items:start;margin-block-end:8px}
+.ivcol{display:grid;gap:6px;min-width:0}
+.ivs .chk{display:flex;gap:4px;align-items:flex-start;border:1px solid var(--line);border-radius:9px;padding:6px 4px;font-size:11.5px;line-height:1.3;margin-inline-start:0;overflow-wrap:break-word;hyphens:manual}
+.ivs .chk input{width:13px;height:13px;border-width:1.5px;border-radius:3px;margin-block-start:1px}
+.ivs .chk input:checked::after{font-size:11px}
+.ivs .chk.okc{border-color:var(--good);background:var(--good-soft)}
+.ivs .chk.missc{border-color:#c98a1b;background:rgba(201,138,27,.16)}
+.ivs .chk.noc{border-color:var(--bad);background:var(--bad-soft)}
+.ivs .ivd{margin:3px 0 0;padding-inline-start:12px;font-size:10.5px}
+.ivkey{display:flex;flex-wrap:wrap;gap:6px;font-size:12px}.ivkey .k{padding:3px 9px;border-radius:99px;border:1px solid var(--line)}
+.ivkey .ok{border-color:var(--good);background:var(--good-soft)}.ivkey .miss{border-color:#c98a1b;background:rgba(201,138,27,.16)}.ivkey .no{border-color:var(--bad);background:var(--bad-soft)}
+@media(min-width:640px){.ivs{gap:10px}.ivcol{gap:8px}.ivs .chk{font-size:14px;padding:8px 9px;gap:8px}.ivs .chk input{width:18px;height:18px}.ivs .ivd{font-size:12.5px}}
 </style>
 
 <style>[hidden]{display:none!important}img{max-width:100%}</style>
@@ -284,11 +295,6 @@ const RISK=[
  {r:[0,24],n:['Low risk','خطر منخفض'],c:'ok'},
  {r:[25,50],n:['Moderate risk','خطر متوسط'],c:'mid'},
  {r:[51,125],n:['High risk','خطر مرتفع'],c:'no'}];
-const ACT=[
- [['Basic safety: call light in reach, bed low, clear walkway.','سلامة أساسية: جرس النداء في المتناول، السرير منخفض، ممر خالٍ.'],['Orient the patient to the room and bathroom.','تعريف المريض بالغرفة والحمام.'],['Reassess on any change in condition.','إعادة التقييم عند أي تغير في الحالة.']],
- [['Standard fall precautions and non-slip footwear.','احتياطات السقوط القياسية وحذاء غير قابل للانزلاق.'],['Teach patient and family to call before getting up.','تثقيف المريض والأسرة بطلب المساعدة قبل النهوض.'],['Check IV lines and tubing before mobilizing.','فحص الخطوط الوريدية والأنابيب قبل التحريك.'],['Reassess every shift.','إعادة التقييم كل وردية.']],
- [['High-risk fall precautions: wristband and door sign per policy.','احتياطات السقوط العالية: سوار وإشارة على الباب حسب السياسة.'],['Bed alarm on, bed in lowest position.','تفعيل منبه السرير وأخفض وضع للسرير.'],['Scheduled toileting and hourly rounding.','جدول لدخول الحمام وجولات كل ساعة.'],['Stay with the patient during transfers and walking.','البقاء مع المريض أثناء الانتقال والمشي.'],['Review medications with the pharmacist; reassess daily.','مراجعة الأدوية مع الصيدلي؛ إعادة التقييم يوميًا.']]];
-
 const SC=[
 {id:'e1',lv:'easy',ti:['Day 1 after appendectomy','اليوم الأول بعد استئصال الزائدة'],
  in:['Mr. A, 45, is on day 1 after a laparoscopic appendectomy.','السيد أ، 45 سنة، في اليوم الأول بعد استئصال الزائدة بالمنظار.'],
@@ -800,20 +806,7 @@ Object.assign(TXT,{
  commonErr:['Most common mistakes','أكثر الأخطاء شيوعًا'],noErrData:['No mistake details yet.','لا توجد تفاصيل أخطاء بعد.'],chose:['chose','اختاروا'],instead:['instead of','بدل'],
  faqT:['Common questions','أسئلة شائعة']
 });
-const IVL=[['e1',0,['Educate the patient and family','تثقيف المريض والأسرة'],[
- ['Call the nurse before getting up or moving. Do not move alone.','طلب الممرضة قبل النهوض أو التحرك، وعدم التحرك وحده.'],
- ['Do not play with the side rails. Keep them up.','عدم العبث بحواجز السرير، وإبقاؤها مرفوعة.'],
- ['Keep the bed in the lowest position. Do not raise it.','إبقاء السرير في أخفض وضع وعدم رفعه.'],
- ['Keep the floor dry, never wet.','إبقاء الأرضية جافة وغير مبتلة.'],
- ['Keep furniture and belongings tidy and within reach.','ترتيب الأثاث والأغراض وإبقاؤها في المتناول.'],
- ['Keep the room light on if he needs to move after calling us.','إضاءة الغرفة إذا احتاج للتحرك بعد إبلاغنا.']]],
-['e2',0,['Orient the patient to the room, bathroom and call bell','تعريف المريض بالغرفة والحمام وجرس النداء']],
-['e3',0,['Non-slip footwear and a clear, well-lit walkway','حذاء غير قابل للانزلاق وممر خالٍ وجيد الإضاءة']],
-['e4',1,['Assist with walking and toileting; keep the walking aid within reach','مساعدة المريض في المشي والحمام، وإبقاء وسيلة المشي في المتناول']],
-['e5',1,['Secure the IV tubing and keep the pole away from the walking path','تثبيت أنبوب المحلول وإبعاد الحامل عن مسار المشي']],
-['e6',2,['Fall-risk wristband and sign; bed or chair exit alarm on','سوار وإشارة خطر السقوط، وتفعيل منبه السرير أو الكرسي']],
-['e7',2,['Close observation, room near the nurses station, and medicine review with the doctor or pharmacist','مراقبة قريبة، وغرفة قريبة من محطة التمريض، ومراجعة الأدوية مع الطبيب أو الصيدلي']]];
-
+const IVL=[['L1',0,['Orient to surroundings; keep the call bell, phone and bed table within reach.','تعريف المريض بالمحيط، وإبقاء جرس النداء والهاتف والطاولة الجانبية في المتناول.']],['M2',1,['Place a lavender sticker on the patient\'s ID band.','وضع ملصق لافندر على سوار هوية المريض.']],['H6',2,['First 24 hours after surgery: accompany the patient inside the bathroom; if he or she refuses, use a commode. Never let the patient go alone.','في أول 24 ساعة بعد العملية: مرافقة المريض داخل الحمام، وعند رفضه يُستخدم كرسي الحمام. لا يُسمح له بالذهاب وحده أبدًا.']],['L8',0,['Keep the floor of the room and bathroom dry.','إبقاء أرضية الغرفة والحمام جافة.']],['M6',1,['Hourly safety checks.','فحوصات سلامة كل ساعة.']],['L3',0,['Call for assistance with ambulation, as appropriate.','طلب المساعدة عند المشي، حسب الحاجة.']],['H1',2,['As appropriate, consider raising both upper and lower side rails.','عند الاقتضاء، النظر في رفع حواجز السرير العلوية والسفلية معًا.']],['L11',0,['Use safety straps on stretchers and wheelchairs during transport.','استخدام أحزمة الأمان على النقالات والكراسي المتحركة أثناء النقل.']],['M9',1,['Set a toileting schedule for bladder and bowel.','وضع جدول للحمام للمثانة والأمعاء.']],['L12',0,['Monitor for change in falls risk.','مراقبة أي تغيّر في خطر السقوط.']],['L5',0,['Make sure the patient uses prescribed eyeglasses, if any.','التأكد أن المريض يستخدم نظارته الطبية إن وجدت.']],['H3',2,['Healthcare providers jointly review the medication regimen.','مراجعة الأدوية بشكل تعاوني بين مقدمي الرعاية الصحية.']],['L9',0,['Keep the bed in the lowest position, with the wheels of beds and chairs locked.','إبقاء السرير في أخفض وضع، وعجلات الأسرّة والكراسي مقفلة.']],['M4',1,['Evaluate for reversible causes, such as orthostatic hypotension.','تقييم الأسباب القابلة للعلاج، مثل هبوط الضغط الانتصابي.']],['L7',0,['Monitor the environment for clutter, spills or other hazards.','مراقبة البيئة من الفوضى والانسكابات وأي مخاطر أخرى.']],['H7',2,['First 24 hours after surgery: check the vital signs before the patient leaves the bed.','في أول 24 ساعة بعد العملية: فحص العلامات الحيوية قبل أن يغادر المريض السرير.']],['M8',1,['Frequently assess elimination while the patient is awake.','تقييم الإخراج بشكل متكرر أثناء يقظة المريض.']],['L2',0,['Give medication information: caution when walking after sedation or analgesia.','إعطاء معلومات عن الأدوية، والحذر عند المشي بعد المهدئات أو المسكنات.']],['L10',0,['Use chairs with arm rests.','استخدام كراسٍ لها مساند للذراعين.']],['M11',1,['Patient teaching for family and watchers','تثقيف الأسرة والمرافقين'],[['Orient to the falls prevention program.','التعريف ببرنامج الوقاية من السقوط.'],['Call for assistance with walking, or when the patient tries to climb out of bed or chair.','طلب المساعدة عند المشي، أو عند محاولة المريض النزول من السرير أو الكرسي.'],['Do not lower side rails if put up by the nurse.','عدم إنزال حواجز السرير إذا رفعتها الممرضة.'],['Notify the nurse if leaving the patient.','إبلاغ الممرضة عند ترك المريض.'],['Assess the patient after visitors leave to be sure safety measures are in place.','تقييم المريض بعد مغادرة الزوار للتأكد من بقاء إجراءات السلامة.']]],['M1',1,['Identify as falls risk on the medical record and with signage at the bedside.','تحديد المريض كمعرّض للسقوط في السجل الطبي وبإشارة عند السرير.']],['L4',0,['Make sure clothing does not interfere with mobility.','التأكد أن الملابس لا تعيق الحركة.']],['H5',2,['Start constant observation by a healthcare provider, as the patient needs.','بدء المراقبة المستمرة من مقدم رعاية صحية بحسب حاجة المريض.']],['M3',1,['Assist and/or supervise ambulation; reinforce always calling for assistance.','مساعدة المريض و/أو الإشراف على مشيه، والتأكيد على طلب المساعدة دائمًا.']],['L6',0,['Place footwear and walking aids within reach.','وضع الحذاء ووسائل المشي في المتناول.']],['H4',2,['Consult physical therapy for gait and/or strength exercises when indicated.','استشارة العلاج الطبيعي للمشي و/أو تمارين التقوية عند الحاجة.']],['M5',1,['Move the patient closer to the nursing station; leave the door open if possible.','نقل المريض قرب محطة التمريض، وترك الباب مفتوحًا إن أمكن.']],['M7',1,['Regular pain assessment.','تقييم الألم بانتظام.']],['M10',1,['Use nutritional supplements and laxatives as necessary.','استخدام المكملات الغذائية والملينات عند الحاجة.']],['H2',2,['Consider alternatives to using both upper and lower side rails.','النظر في بدائل لاستخدام حواجز السرير العلوية والسفلية معًا.']]];
 Object.assign(TXT,{
  homeT:['Home','الرئيسية'],homeQ:['Return to the home screen?','العودة إلى الشاشة الرئيسية؟'],
  homeB:['Your test progress is saved and the clock keeps running.','تقدمك في الاختبار محفوظ والوقت يستمر بالعدّ.'],
@@ -821,8 +814,8 @@ Object.assign(TXT,{
  gateT:['Read this page before you start','اقرأ هذه الصفحة قبل أن تبدأ'],
  gateS:['Please read the instructions carefully. The Start button unlocks after {G} seconds.','يرجى قراءة الإرشادات بعناية. يُفتح زر البدء بعد {G} ثانية.'],
  gateBtn:['Start the test','ابدأ الاختبار'],gateWait:['Please read... {n} s','يرجى القراءة... {n} ث'],
- ivT:['Interventions','التدخلات'],ivS:['Select all the interventions you would apply for this patient and this risk level. This part is not scored.','اختر كل التدخلات التي ستطبقها لهذا المريض ولهذا المستوى من الخطر. هذا الجزء بدون درجات.'],
- ivNeed:['Select at least one intervention to continue.','اختر تدخلًا واحدًا على الأقل للمتابعة.'],ivRec:['Recommended actions for this risk level','الإجراءات الموصى بها لهذا المستوى من الخطر'],
+ ivT:['Interventions','التدخلات'],ivS:['Select the interventions that apply to this patient and this risk level. This part is not scored.','اختر التدخلات التي تنطبق على هذا المريض ومستوى خطره. هذا الجزء بلا درجات.'],
+ ivNeed:['Select at least one intervention to continue.','اختر تدخلًا واحدًا على الأقل للمتابعة.'],ivRec:['Policy interventions for this risk level','تدخلات السياسة لمستوى الخطر هذا'],ivGot:['required interventions selected','من التدخلات المطلوبة تم اختيارها'],ivExtra:['not part of this level','ليست ضمن هذا المستوى'],ivKOk:['Selected, correct','مختار وصحيح'],ivKMiss:['Required, missed','مطلوب ولم يُختر'],ivKNo:['Not required at this level','غير مطلوب في هذا المستوى'],ivPol:['Please review the hospital policy NUR-017 (Rev-6), pages 6 and 7.','يرجى مراجعة سياسة المستشفى NUR-017 (Rev-6)، الصفحتان 6 و7.'],
  unitOther:['Write your unit name (capital letters)','اكتب اسم قسمك (بحروف كبيرة)'],admIv:['Expected interventions chosen least often','التدخلات المتوقعة الأقل اختيارًا'],admUnit:['All units','كل الأقسام'],
  mBody:['You have finished the 6 required cases. Finish now to get your results, and your certificate if every item was correct (100%). You can also continue up to 13 cases for more practice. This is optional.','أنهيت الحالات الست المطلوبة. أنهِ الآن لتحصل على نتيجتك، وعلى شهادتك إن كانت كل البنود صحيحة (100%). ويمكنك المتابعة حتى 13 حالة لمزيد من التدريب. هذا اختياري.'],
  mTime:['Time: {A} minutes for 6 cases. If you continue, the total becomes {B} minutes.','الوقت: {A} دقيقة لـ 6 حالات. إن تابعت يصبح المجموع {B} دقيقة.']
@@ -1151,7 +1144,7 @@ function vHow(gate){
   const total=scoreOf(EXAMPLE.a),rk=RISK[riskIdx(total)],ord=i=>ITEMS[i].disp||ITEMS[i].o.map((_,k)=>k);
   let h=gate?`<section class="panel gatebar"><b>${esc(t('gateT'))}</b><button class="btn" id="gate-btn" data-act="gatego" disabled>${esc(t('gateWait').replace('{n}',GATE_SEC))}</button></section>`:'';
   h+=`<section class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(t('howTitle'))}</h2>${gate?'':`<button class="btn ghost" data-act="howback">${esc(t('howBack'))}</button>`}</div>
-  <p style="margin:10px 0 0">${esc(t('howIntro'))}</p><div class="legend" style="margin-block-start:10px">${RISK.map(r=>`<div>${r.r[0]===51?'≥51':r.r[0]+' - '+r.r[1]}: ${esc(p(r.n))}</div>`).join('')}</div><ol class="act" style="margin-block-start:12px">${INTRO.how.map(x=>`<li>${esc(tm(p(x)))}</li>`).join('')}</ol></section>`;
+  <p style="margin:10px 0 0">${esc(t('howIntro'))}</p></section>`;
   HOW.forEach((x,i)=>{
     h+=`<section class="panel hcard"><h3><span class="hn">${num(i+1)}</span>${esc(p(ITEMS[i].q))}</h3>
     <div class="hrow"><b>${esc(t('howLook'))}</b><span>${esc(p(x.see))}</span></div>
@@ -1159,13 +1152,14 @@ function vHow(gate){
     <div class="chips">${ord(i).map(j=>`<span class="oc"><b>${num(ITEMS[i].p[j])}</b>${esc(p(ITEMS[i].o[j]))}</span>`).join('')}</div>
     <div class="mist"><b>${esc(t('howMist'))}:</b> ${esc(p(x.mist))}</div></section>`;
   });
+  h+=`<section class="panel"><div class="legend">${RISK.map(r=>`<div>${r.r[0]===51?'≥51':r.r[0]+' - '+r.r[1]}: ${esc(p(r.n))}</div>`).join('')}</div><ol class="act" style="margin-block-start:12px">${INTRO.how.map(x=>`<li>${esc(tm(p(x)))}</li>`).join('')}</ol></section>`;
   h+=`<section class="panel"><h2>${esc(t('howEx'))}</h2><p class="muted" style="margin:0 0 12px">${esc(t('howExNote'))}</p>
   <div class="hero">${scene(EXAMPLE.sc,p(EXAMPLE.ti))}</div><h3 style="margin-block-start:14px">${esc(p(EXAMPLE.ti))}</h3><p style="margin:0 0 14px">${esc(p(EXAMPLE.st))}</p>
   <div class="paper-wrap"><table class="tbl exr" style="min-width:560px"><thead><tr><th>#</th><th>${esc(t('item'))}</th><th>${esc(t('howSee'))}</th><th>${esc(t('howTick'))}</th><th>${esc(t('howPts'))}</th></tr></thead><tbody>
   ${ITEMS.map((it,i)=>`<tr><td class="num">${num(i+1)}</td><td>${esc(p(it.q))}</td><td>${esc(p(EXAMPLE.see[i]))}</td><td><b>${esc(p(it.o[EXAMPLE.a[i]]))}</b></td><td class="num"><b>${num(it.p[EXAMPLE.a[i]])}</b></td></tr>`).join('')}
   <tr><td></td><td colspan="3"><b>${esc(t('howTot'))}</b></td><td class="num"><b><bdi dir="ltr">${num(ITEMS.map((it,i)=>it.p[EXAMPLE.a[i]]).join(' + '))} = ${num(total)}</bdi></b></td></tr></tbody></table></div>
   <div class="result risk-${riskIdx(total)}" style="margin-block-start:14px"><small>${esc(t('howTot'))}</small><div class="big">${num(total)} / 125</div><b>${esc(p(rk.n))}</b></div>
-  <p style="margin:12px 0 4px"><b>${esc(t('howNext'))}</b></p><ul class="act">${ACT[riskIdx(total)].map(a=>`<li>${esc(p(a))}</li>`).join('')}</ul>
+  <div class="note" style="margin-block-start:12px">${esc(t('ivPol'))}</div>
   ${gate?'':`<div class="row" style="margin-block-start:16px"><button class="btn" data-act="howback">${esc(t('howBack'))}</button></div>`}</section>`;
   h+=`<section class="panel"><h2>${esc(t('faqT'))}</h2>${[0,2,5,8].map(i=>FAQ[i]).map(x=>`<details class="gl faq"><summary>${esc(p(x[0]))}</summary><p>${esc(p(x[1]))}</p></details>`).join('')}</section>`;
   h+=`<section class="panel"><div class="note">${esc(t('iCal'))}</div></section>`;
@@ -1182,6 +1176,19 @@ function vHub(){
   <div class="grid2">${S.order.map(id=>{const s=SC.find(x=>x.id===id),r=S.res[id],k=bases().indexOf(baseOf(id))+1;
    return `<button class="card" data-act="open" data-v="${s.id}">${scene(s.sc,p(s.ti))}<div class="meta"><b>${num(k)}. ${esc(p(s.ti))}</b>
    ${s.re?`<span class="tag mid">${esc(t('reTag'))}</span> `:''}${r?`<span class="tag ${r.ok===6?'ok':r.ok>=4?'mid':'no'}">${num(r.ok)}/6 ${esc(t('items'))}</span>`:`<span class="tag todo">${esc(t('todo'))}</span>`}</div></button>`}).join('')}</div>`;
+}
+const ivLv=r=>riskIdx(r.ts);
+function actsHtml(r){
+  const lv=ivLv(r),sel=new Set(r.iv||[]),need=IVL.filter(x=>x[1]<=lv),got=need.filter(x=>sel.has(x[0])).length,extra=[...sel].filter(c=>{const o=IVL.find(x=>x[0]===c);return o&&o[1]>lv;}).length;
+  return `<h3 style="margin-block-start:14px">${esc(t('ivRec'))} (${esc(p(RISK[lv].n))})</h3>
+  <p style="margin:0 0 6px"><b><bdi dir="ltr">${num(got)}/${num(need.length)}</bdi></b> ${esc(t('ivGot'))}${extra?` · <b><bdi dir="ltr">${num(extra)}</bdi></b> ${esc(t('ivExtra'))}`:''}</p>
+  <div class="ivkey"><span class="k ok">${esc(t('ivKOk'))}</span><span class="k miss">${esc(t('ivKMiss'))}</span><span class="k no">${esc(t('ivKNo'))}</span></div>
+  <div class="note" style="margin-block-start:10px">${esc(t('ivPol'))}</div>`;
+}
+function paintIv(){
+  const r=S.res[S.cur];if(!r)return;const lv=ivLv(r),sel=new Set(r.iv||[]),on=sel.size>0;
+  document.querySelectorAll('.ivs .chk').forEach(l=>{const id=l.querySelector('input').value,o=IVL.find(x=>x[0]===id),need=o[1]<=lv,ch=sel.has(id);l.classList.remove('okc','missc','noc');if(!on)return;if(need&&ch)l.classList.add('okc');else if(need)l.classList.add('missc');else if(ch)l.classList.add('noc');});
+  const ab=$('actsbox');if(ab){ab.hidden=!on;ab.innerHTML=actsHtml(r);}
 }
 function vPlay(){
   const sc=SC.find(x=>x.id===S.cur),r=S.res[sc.id],lock=!!r,P=S.prac,k=bases().indexOf(baseOf(sc.id))+1;
@@ -1221,8 +1228,8 @@ function vPlay(){
     h+=`<section class="panel" id="fbk"><div class="cheer" role="status" dir="ltr" lang="en">${esc(cheer(sc,r))}</div><div class="grid2"><div class="result risk-${riskIdx(r.us)}"><small>${esc(t('yourTotal'))}</small><div class="big">${num(r.us)} / 125</div><b>${esc(p(uk.n))}</b></div>
     <div class="result risk-${riskIdx(r.ts)}"><small>${esc(t('trueTotal'))}</small><div class="big">${num(r.ts)} / 125</div><b>${esc(p(rk.n))}</b></div></div>
     <p><b><bdi dir="ltr">${num(r.ok)}/${num(6)}</bdi></b> ${esc(t('items'))}</p>${errHtml(sc,r)}<div class="note" style="margin-block-start:12px">${esc(p(sc.nt))}</div>${ratHtml(sc,r)}
-    <h3 style="margin-block-start:16px">${esc(t('ivT'))}</h3><p class="muted" style="margin:0 0 8px">${esc(t('ivS'))}</p><div class="ivs">${IVL.map(x=>`<label class="chk"><input type="checkbox" data-iv value="${x[0]}" ${(r.iv||[]).includes(x[0])?'checked':''}><span><b>${esc(p(x[2]))}</b>${x[3]?`<ul class="ivd">${x[3].map(d=>`<li>${esc(p(d))}</li>`).join('')}</ul>`:''}</span></label>`).join('')}</div><p class="muted" id="ivneed" ${ivOk?'hidden':''}>${esc(t('ivNeed'))}</p>
-    <div id="actsbox" ${ivOk?'':'hidden'}><h3 style="margin-block-start:16px">${esc(t('ivRec'))} (${esc(p(rk.n))})</h3><ul class="act">${ACT[riskIdx(r.ts)].map(a=>`<li>${esc(p(a))}</li>`).join('')}</ul></div>
+    <h3 style="margin-block-start:16px">${esc(t('ivT'))}</h3><p class="muted" style="margin:0 0 8px">${esc(t('ivS'))}</p><div class="ivs">${[0,1,2].map(c=>`<div class="ivcol">${IVL.slice(c*10,c*10+10).map(x=>`<label class="chk"><input type="checkbox" data-iv value="${x[0]}" ${(r.iv||[]).includes(x[0])?'checked':''}><span>${esc(p(x[2]))}${x[3]?`<ul class="ivd">${x[3].map(d=>`<li>${esc(p(d))}</li>`).join('')}</ul>`:''}</span></label>`).join('')}</div>`).join('')}</div><p class="muted" id="ivneed" ${ivOk?'hidden':''}>${esc(t('ivNeed'))}</p>
+    <div id="actsbox" ${ivOk?'':'hidden'}>${actsHtml(r)}</div>
     ${pendRe?`<div class="note" style="margin-block-start:12px">${esc(t('reNote'))}</div>`:''}
     <div class="row" style="margin-block-start:18px">${nextBtn}${finBtn}${!P&&!can?`<span class="muted"><bdi dir="ltr">${num(doneCount())}/${num(REQ)}</bdi></span>`:''}</div></section>`;
   }
@@ -1503,6 +1510,7 @@ function render(){
   if(S.view==='gate')updGate();
   if(S.order.length&&S.view!=='admin'&&!S.prac)persist();
   if(S.view==='play'&&!S.res[S.cur])syncSubmit();
+  if(S.view==='play'&&S.res[S.cur])paintIv();
   if(S.view==='report')fitPages();
 }
 function syncSubmit(){
@@ -1524,7 +1532,7 @@ document.addEventListener('change',e=>{
   if(e.target.id==='pr-n'){PCFG.n=+e.target.value;return;}
   if(e.target.id==='in-unit'){S.uSel=e.target.value;S.unit=S.uSel==='OTHER'?(S.uOther||'').trim():S.uSel;render();return;}
   if(e.target.id==='adm-u'){S.admU=e.target.value;render();return;}
-  if(e.target.matches('input[data-iv]')){const r=S.res[S.cur];if(r){const set=new Set(r.iv||[]);if(e.target.checked)set.add(e.target.value);else set.delete(e.target.value);r.iv=[...set];if(!S.prac)persist();const ok=r.iv.length>0;document.querySelectorAll('[data-neediv]').forEach(b=>b.disabled=!ok);const ab=$('actsbox');if(ab)ab.hidden=!ok;const hn=$('ivneed');if(hn)hn.hidden=ok;}return;}
+  if(e.target.matches('input[data-iv]')){const r=S.res[S.cur];if(r){const set=new Set(r.iv||[]);if(e.target.checked)set.add(e.target.value);else set.delete(e.target.value);r.iv=[...set];if(!S.prac)persist();const ok=r.iv.length>0;document.querySelectorAll('[data-neediv]').forEach(b=>b.disabled=!ok);paintIv();const hn=$('ivneed');if(hn)hn.hidden=ok;}return;}
   if(e.target.matches('input[type=radio][data-q]')){S.draft[+e.target.dataset.q]=+e.target.value;syncSubmit();}
 });
 document.addEventListener('click',e=>{
